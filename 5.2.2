@@ -1,0 +1,21 @@
+#include <iostream>
+using namespace std;
+
+int main () {
+char player1, player2;
+cout<<"Nhap keo = K, bua = B, bao = O\n";
+cout<<"Nguoi choi 1 ra: ";
+cin>>player1;
+cout<<"Nguoi choi 2 ra: ";
+cin>>player2;
+
+//Kiem tra ket qua
+if(player1 == player2) {
+    cout<<"Hoa";
+}
+else if ((player1 == 'K' && player2 == 'O') || (player1 == 'B' && player2 == 'K') || (player1 == 'O' && player2 == 'B')) {
+    cout<<"Nguoi choi 1 thang"; }
+else if ((player2 == 'K' && player1 == 'O') || (player2 == 'B' && player1 == 'K') || (player2 == 'O' && player1 == 'B')) {
+    cout<<"Nguoi choi 2 thang"; }
+return 0;
+} 
