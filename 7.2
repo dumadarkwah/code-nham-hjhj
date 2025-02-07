@@ -2,19 +2,12 @@
 using namespace std; 
 
 int main () {
-    /*Viết chương trình tính lương của nhân viên dựa theo thâm niên công
-tác (TNCT) như sau:
-Lương = hệ số * lương căn bản, trong đó lương căn bản là 650000
-• Nếu TNCT < 12 tháng: hệ số = 1.92
-• Nếu 12 <= TNCT < 36 tháng: hệ số = 2.34
-• Nếu 36 <= TNCT < 60 tháng: hệ số = 3
-• Nếu TNCT >= 60 tháng: hệ số = 4.5*/
-
-int luong, luongCanBan = 650000;
+    //Khai bao bien
+int luongCanBan = 650000;
 float heSo;
 int TNCT;
 
-luong = heSo * luongCanBan;
+//Dieu kien tinh luong
 if (TNCT < 12) {
     heSo = 1.92;
 } else if (12 <= TNCT < 36) {
@@ -24,6 +17,10 @@ if (TNCT < 12) {
 } else if (TNCT >= 60) {
     heSo = 4.5; 
 }
-
+//Khai bao cong thuc
+int luong = heSo * luongCanBan;
+cout<<"Thoi gian lam viec cua nhan vien(thang): ";
+cin>>TNCT;
+cout<<"luong nhan vien la: "<<luong; 
     return 0;
 }
