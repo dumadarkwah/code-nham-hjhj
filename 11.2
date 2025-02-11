@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int startHour, endHour;
+    cout << "Nhập giờ bắt đầu (8-24): ";
+    cin >> startHour;
+    cout << "Nhập giờ kết thúc (8-24): ";
+    cin >> endHour;
+
+    if (startHour < 8 || startHour >= endHour || endHour > 24) {
+        cout << "Giờ nhập không hợp lệ!" << endl;
+        return 1;
+    }
+
+    int totalHours = endHour - startHour;
+    int cost = 0;
+
+    // Tính tiền cho 3 giờ đầu tiên
+    if (totalHours <= 3) {
+        cost = totalHours * 30000;
+    } else {
+        cost = 3 * 30000; // Tiền cho 3 giờ đầu
+        totalHours -= 3; // Giảm số giờ còn lại
+        cost += totalHours * (30000 * 0.7); // Giảm 30% cho các giờ tiếp theo
+    }
+
+    // Kiểm tra giảm giá 10%
+    if (startHour >= 8 && endHour <= 17) {
+        cost *= 0.9; // Giảm 10%
+    }
+
+    cout << "Số tiền khách hàng phải trả: " << cost << " đồng" << endl;
+    return 0;
+}
