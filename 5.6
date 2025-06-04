@@ -14,6 +14,7 @@ class CauHoiTN {
   void ghiFile(ofstream &); //Ghi câu hỏi vào file
 };
 
+//Ham de nguoi dung nhap noi dung vao
 void CauHoiTN::nhap() {
     cin.ignore(); //xoa bo dem
     cout<<"Nhap noi dung cau hoi: ";
@@ -29,9 +30,33 @@ do {
 }   while (dapAnDung != 'A' && dapAnDung != 'B');
 }
 
-int main() {
+//Ham de ghi vao file
+void CauHoiTN::ghiFile(ofstream &f) {
+    f<<noiDung<<endl;
+    f<<dapAnA<<endl;
+    f<<dapAnB<<endl;
+    f<<dapAnDung<<endl;
     
-    std::cout<<"Hello World";
+}
+
+int main() {
+    cout<<"079306013703 - Nguyễn Châu Hải My"<<endl;
+    int n;
+    cout<<"Nhap so luong cau ban muon: ";
+    cin>>n;
+    
+    CauHoiTN ds[100];
+    for(int i = 0; i <= n; i++) {
+        cout<<"Nhap noi dung cau thu "<<i+1<<": \n";
+        ds[i].nhap();
+    }
+    
+    ofstream fout("de TTN");
+    for (int i = 0; i < n; i++) {
+        ds[i].ghiFile(fout);
+    }
+    fout.close();
+    cout << "Da ghi " << n << " cau hoi vao file de.TTN thanh cong.\n";
 
     return 0;
 }
