@@ -1,0 +1,37 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+using namespace std;
+
+class CauHoiTN {
+ private:
+  string noiDung;
+  string dapAnA;
+  string dapAnB;
+  char dapAnDung;
+ public:
+  void nhap(); //Nguoi dung tu nhap cau hoi
+  void ghiFile(ofstream &); //Ghi câu hỏi vào file
+};
+
+void CauHoiTN::nhap() {
+    cin.ignore(); //xoa bo dem
+    cout<<"Nhap noi dung cau hoi: ";
+    getline(cin, noiDung);
+    cout<<"Nhap dap an A: ";
+    getline(cin, dapAnA);
+    cout<<"Nhap dap an B: ";
+    getline(cin, dapAnB);
+do {
+    cout<<"Nhap dap an dung: ";
+    cin>>dapAnDung;
+    dapAnDung = toupper(dapAnDung);
+}   while (dapAnDung != 'A' && dapAnDung != 'B');
+}
+
+int main() {
+    
+    std::cout<<"Hello World";
+
+    return 0;
+}
