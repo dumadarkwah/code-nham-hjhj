@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+class Fraction {
+private:
+ int tuSo;
+ int mauSo;
+public:
+//Viet ham de nhap gia tri phan so 
+ void input() {
+     cout<<"Nhap tu so: ";
+     cin>>tuSo;
+     cout<<"Nhap mau so: ";
+     do {
+         cin>>mauSo;
+         if (mauSo == 0) 
+             cout<<"Mau so phai khac 0. Nhap lai: ";
+        } while (mauSo == 0); 
+ };
+
+//In ra phan so
+void print() {
+    if (mauSo == 1) {
+        cout<<tuSo;
+    } else if (mauSo < 0) {
+        cout<<-tuSo<<"/"<<-mauSo;
+    } else {
+        cout<<tuSo<<"/"<<mauSo;
+    }
+}
+
+//Cong 2 phan so
+Fraction add(Fraction other) {
+    Fraction result;
+    result.tuSo = tuSo * other.mauSo + other.tuSo * mauSo;
+    result.mauSo = mauSo * other.mauSo;
+    result.simplify();
+    return result;
+}
+
+//Rut gon phan so
+void simplify() {
+    int a = abs(tuSo), b = abs(mauSo);
+    int gcd = 1; //Tim uoc chung lon nhat
+    for (int i = 1; i <= a && i <= b; i++) {
+        if (a % i == 0 && b % i == 0) {
+            gcd = i;
+        }
+    }
+        tuSo /= gcd;
+        mauSo /= gcd;
+    }
+};
+ 
+ 
+int main() {
+    Fraction f1, f2, sum;
+    
+    cout<<"Nhap phan so thu nhat: \n";
+    f1.input();
+    
+    cout<<"\nNhap phan so thu hai: \n";
+    f2.input();
+    
+    sum = f1.add(f2);
+    
+    cout<<"Tong hai phan so la: ";
+    sum.print();
+    cout<<endl;
+    
+    return 0;
+}
