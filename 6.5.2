@@ -1,0 +1,40 @@
+#include <iostream>
+using namespace std;
+
+class CRectangle {
+ private: 
+    int height, width;
+ public:
+    void setHeight(int h) {
+        height = h; }
+    void setWidth(int w) {
+        width = w; }
+    int getHeight() {
+        return height;}
+    int getWidth() {
+        return width; }
+    int area() {
+        return height * width; } 
+};
+
+int main(){
+    CRectangle rect1, *rect2; //Doi tuong la 1 con tro
+    //rect1.height = 2;
+    rect1.setHeight(3);
+    rect1.setWidth(4);
+    
+    cout<<"Height1: "<<rect1.getHeight()<<endl;
+    cout<<"Width1: "<<rect1.getWidth()<<endl;
+    cout<<"S1: "<<rect1.area()<<endl;
+    cout<<endl;
+    
+    rect2 = new CRectangle();
+    rect2->setHeight(5);
+    rect2->setWidth(4);
+    
+    cout<<"Height2: "<<rect2->getHeight()<<endl;
+    cout<<"Width2: "<<rect2->getWidth()<<endl;
+    cout<<"S2: "<<rect2->area()<<endl;
+
+    return 0;
+}
