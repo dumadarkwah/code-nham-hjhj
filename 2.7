@@ -1,0 +1,24 @@
+#include <iostream>
+using namespace std;
+
+bool kiemTra(int n) {
+    if (n < 2) return false;
+    for (int i = 2; i*i <= n; i++) {
+        if (n % i == 0) return false;
+    } return true;
+}
+
+int main () {
+    int n; 
+    cout<<"Nhap so phan tu: ";
+    cin>>n;
+    
+    int a[n], dem = 0;
+    for (int i = 0; i < n; i++) {
+        cout<<"So phan tu thu "<<i+1<<" la: ";
+        cin>>a[i];
+        if (kiemTra(a[i])) dem++;}
+    cout<<"So luong so nguyen tu la: "<<dem<<endl;
+    
+    return 0;
+}
