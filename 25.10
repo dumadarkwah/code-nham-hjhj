@@ -9,3 +9,33 @@ if ( a % 2 == 0 ) {
 cout<<"Duoc"; }
 else { cout<<"Khong"; }
 return 0; }
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;  // Đọc số lượng từ
+    
+    for(int i = 0; i < n; i++) {
+        string word;
+        cin >> word;  // Đọc từng từ
+        
+        int len = word.length();
+        if(len > 10) {
+            // Tạo viết tắt
+            string abbr = "";
+            abbr += word[0];  // Chữ cái đầu
+            abbr += to_string(len - 2);  // Số lượng chữ cái giữa
+            abbr += word[len - 1];  // Chữ cái cuối
+            cout << abbr << endl;
+        } else {
+            // Giữ nguyên từ
+            cout << word << endl;
+        }
+    }
+    
+    return 0;
+}
