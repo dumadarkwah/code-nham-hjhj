@@ -8,7 +8,133 @@ int main () {
     
     if (n % 2 == 0) {
         cout<<"Duoc";
+    } else {#include <iostream>
+using namespace std;
+
+int main () {
+    int n;
+    cout<<"So kg la: ";
+    cin>>n;
+    
+    if (n % 2 == 0) {
+        cout<<"Duoc";
     } else {
+        cout<<"Khong";
+    }
+    return 0;
+}#include <iostream>
+using namespace std;
+
+int main () {
+    int n;
+    cout<<"So kg la: ";
+    cin>>n;
+    
+    if (n % 2 == 0) {
+        cout<<"Duoc";
+    } else {
+        cout<<"Khong";
+    }
+    return 0;
+}#include <iostream>
+using namespace std;
+
+int main () {
+    int n;
+    cout<<"So kg la: ";
+    cin>>n;
+    
+    if (n % 2 == 0) {
+        cout<<"Duoc";
+    } else {
+        cout<<"Khong";
+    }
+    return 0;
+}#include <iostream>
+using namespace std;
+
+int main () {
+    int n;
+    cout<<"So kg la: ";
+    cin>>n;
+    
+    if (n % 2 == 0) {
+        cout<<"Duoc";
+    } else {
+        cout<<"Khong";
+    }
+    return 0;
+}#include <iostream>
+using namespace std;
+
+int main () {
+    int n;
+    cout<<"So kg la: ";
+    cin>>n;
+    
+    if (n % 2 == 0) {
+        cout<<"Duoc";
+    } else {
+        cout<<"Khong";
+    }
+    return 0;
+}#include <iostream>
+using namespace std;
+
+int main () {
+    int n;
+    cout<<"So kg la: ";
+    cin>>n;
+    
+    if (n % 2 == 0) {
+        cout<<"Duoc";
+    } else {
+        cout<<"Khong";
+    }
+    return 0;
+}#include <iostream>
+using namespace std;
+
+int main () {
+    int n;
+    cout<<"So kg la: ";
+    cin>>n;
+    
+    if (n % 2 == 0) {
+        cout<<"Duoc";
+    } else {
+        cout<<"Khong";
+    }
+    return 0;
+}#include <iostream>
+using namespace std;
+
+int main () {
+    int n;
+    cout<<"So kg la: ";
+    cin>>n;
+    
+    if (n % 2 == 0) {
+        cout<<"Duoc";
+    } else {
+        cout<<"Khong";
+    }
+    return 0;
+}#include <iostream>
+using namespace std;
+
+int main () {
+    int n;
+    cout<<"So kg la: ";
+    cin>>n;
+    
+    if (n % 2 == 0) {
+        cout<<"Duoc";
+    } else {
+        cout<<"Khong";
+    }
+    return 0;
+}
         cout<<"Khong";
     }
     return 0;
