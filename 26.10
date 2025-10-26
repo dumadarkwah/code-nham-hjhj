@@ -1,283 +1,71 @@
 #include <iostream>
-using namespace std;
+using namespace std; 
 
 int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {#include <iostream>
-using namespace std;
+int a, b;
+cout<<"Nhap chu so a: ";
+cin>>a;
+cout<<"Nhap chu so b: ";
+cin>>b;
+cout<<a + b<<endl;
+return 0; } 
 
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
 
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
 
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
-
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
-
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
-
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
-
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
-
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
-
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}
-        cout<<"Khong";
-    }
-    return 0;
-}
 #include <iostream>
 using namespace std;
 
 int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
+int a, b; //a la chieu rong, b la chieu dai
+cout<<"Nhap chieu rong: ";
+cin>>a; 
+cout<<"Nhap chieu dai: ";
+cin>>b;
+cout<<"Chu vi hinh chu nhat la: "<<((a+b)*2)<<endl;
+cout<<"Dien tich hinh chu nhat la: "<<a*b<<endl;
+return 0; }
 
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
 
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}
 #include <iostream>
 using namespace std;
 
 int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
+int h, m, s;
+cin>>h>>m>>s; 
+
+int pheptinh = h*3600 + m * 60 + s;
+cout<< pheptinh;
+return 0; }
+
+
+#include <iostream>
+#include <iomanip>
 using namespace std;
 
 int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
+double x;
+cin >> x;
+
+cout<<fixed<<setprecision(2)<<x<<"\n";
+cout<<fixed<<setprecision(4)<<x;
+
+return 0; }
+
+#include <iostream>
+#include <iomanip>
 using namespace std;
 
 int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
+double a, b, c;
+cin>>a>>b>>c;
 
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
+double tu = a*a + b*b + c*c + a*b + b*c + a*c;
+double mau = a + b + c;
 
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
+if (mau == 0) {
+cout<<"Khong the chia 0"; }
 
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}#include <iostream>
-using namespace std;
+else { double kq = tu/mau;
+cout<<fixed<<setprecision(5)<<kq; }
 
-int main () {
-    int n;
-    cout<<"So kg la: ";
-    cin>>n;
-    
-    if (n % 2 == 0) {
-        cout<<"Duoc";
-    } else {
-        cout<<"Khong";
-    }
-    return 0;
-}
+return 0; }
