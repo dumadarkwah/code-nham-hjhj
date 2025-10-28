@@ -45,3 +45,15 @@ int main () {
     cout<<cost;
     return 0;
 }
+
+
+#include <iostream>
+using namespace std;
+
+int main () {
+int year;
+cout<<"Nhap so nam: ";
+cin>>year;
+if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) { cout<<"Nam nhuan"; }
+else { cout<<"Nam khong nhuan"; }
+return 0; }
