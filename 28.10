@@ -27,4 +27,21 @@ cout<<max;
 reutnr 0; }
 
 
+#include <iostream>
+using namespace std;
 
+
+//Tính tiền điện theo bậc thang
+int main () {
+    int soDien;
+    cout<<"So dien ban muon: ";
+    cin>>soDien;
+    int cost = 0;
+    
+    if (soDien <= 50) { cost = soDien*1678; }
+    else if (soDien <= 100) { cost = 50 *1678 + (soDien - 50)*1734; }
+    else if (soDien <= 200) { cost = 50*1678 + 50* 1734 + (soDien - 100)*2014; }
+    else { cost = 50*1678 + 50*1734 + 100*2014 + (soDien - 200)*2536; }
+    cout<<cost;
+    return 0;
+}
