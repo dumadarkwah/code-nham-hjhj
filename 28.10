@@ -10,3 +10,21 @@ int main () {
     else { cout<<"le "; }
     return 0;
 }
+
+#include <iostream>
+using namespace std;
+
+int main () {
+int a, b, c;
+cout<<"Nhap ba so: ";
+cin>>a>>b>>c;
+
+int max = a;
+if (b > max) { max = b; }
+if (c > max) { max = c; }
+
+cout<<max;
+reutnr 0; }
+
+
+
