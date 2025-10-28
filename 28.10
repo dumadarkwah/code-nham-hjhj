@@ -57,3 +57,24 @@ cin>>year;
 if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) { cout<<"Nam nhuan"; }
 else { cout<<"Nam khong nhuan"; }
 return 0; }
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main () {
+    int h, m;
+    cin>>h>>m;
+    string chuKy;
+    if (h == 0) {
+        h = 12;
+        chuKy = "AM";
+    } else if (h < 12) {
+        chuKy = "PM";
+    } else {
+        h -= 12; 
+        chuKy = "PM";
+    }
+    cout<<h<<":"<<setw(2)<<setfill('0')<<m<<" "<<chuKy;
+    return 0;
+}
