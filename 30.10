@@ -61,3 +61,30 @@ break; }
 }
 cout<<(isPrime ? "YES" : "NO") ;
 return 0; }
+
+//Code bị sai
+#include <iostream>
+#include <cmath> //Để dùng sqrt() 
+using namespace std;
+
+int main () {
+    int n; 
+    cout<<"Nhap so nguyen: ";
+    cin>>n;
+    
+    //Nếu n ≤ 1, trả về false. Nếu n = 2, trả về true. Nếu n chẵn và > 2, trả về false
+    if (n < 2) { 
+        cout<<"NO";
+    return 0; }
+
+
+bool isPrime = true; //khởi tạo biến boolen gán giá trị true
+for (int i = 2; i <= sqrt(n); i++) { //Bắt đầu một vòng lặp for với biến đếm i khởi tạo từ 2, và lặp cho đến khi i lớn hơn hoặc bằng căn bậc hai của n (tức là sqrt(n)).
+    if (n % 1 == 0) { //
+        isPrime = false;
+        break;
+    }
+}
+    cout<<(isPrime ? "YES" : "NO");
+    return 0;
+}
