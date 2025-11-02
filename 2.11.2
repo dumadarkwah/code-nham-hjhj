@@ -1,0 +1,497 @@
+// ft_search.cpp
+// Build: g++ -std=c++17 -O2 ft_search.cpp -pthread -o ft_search
+// Usage:
+//   ./ft_search index <dir> <index_file>    # build index from directory, save to index_file
+//   ./ft_search search <index_file> "query" # load index, search query (top 10)
+//   ./ft_search info <index_file>           # print index stats
+//
+// Notes: simple full-text search with inverted index + BM25 ranking.
+// Author: ChatGPT (example)
+
+#include <bits/stdc++.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <unistd.h>
+#include <atomic>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+
+using namespace std;
+
+// --------------------- Utilities ---------------------
+static inline string to_lower(string s) {
+    for (char &c : s) c = (char)tolower((unsigned char)c);
+    return s;
+}
+
+static bool ends_with(const string &s, const string &suf) {
+    if (s.size() < suf.size()) return false;
+    return s.compare(s.size()-suf.size(), suf.size(), suf) == 0;
+}
+
+static vector<string> simple_split_tokens(const string &text) {
+    vector<string> out;
+    string cur;
+    for (char ch : text) {
+        if (isalnum((unsigned char)ch)) cur.push_back((char)tolower((unsigned char)ch));
+        else {
+            if (!cur.empty()) { out.push_back(cur); cur.clear(); }
+        }
+    }
+    if (!cur.empty()) out.push_back(cur);
+    return out;
+}
+
+// Very small suffix-stripping stemmer (not Porter but cheap)
+static string tiny_stem(const string &w) {
+    string s = w;
+    static const vector<string> suffixes = {"ing","ed","ly","es","s","ment","ness","tion","ions"};
+    for (auto &sf : suffixes) {
+        if (s.size() > sf.size()+2 && ends_with(s, sf)) {
+            s.erase(s.size() - sf.size());
+            break;
+        }
+    }
+    return s;
+}
+
+// stopwords small set
+static const unordered_set<string> STOPWORDS = {
+    "the","and","is","in","at","of","a","to","it","for","on","with","as","this","that","by","an"
+};
+
+// --------------------- Data structures ---------------------
+
+using DocId = uint32_t;
+
+// Posting: doc id + term frequency
+struct Posting {
+    DocId doc;
+    uint32_t tf;
+};
+
+// Inverted index: token -> list of postings
+// We'll store as unordered_map<string, vector<Posting>>
+struct InvertedIndex {
+    unordered_map<string, vector<Posting>> inv;
+    // document metadata
+    vector<string> doc_paths;
+    vector<size_t> doc_lengths; // number of tokens per doc
+    size_t total_docs = 0;
+    double avg_doc_len = 0.0;
+
+    // add doc tokens (term frequencies)
+    void add_document(const string &path, const vector<string> &tokens) {
+        DocId id = (DocId)doc_paths.size();
+        doc_paths.push_back(path);
+        doc_lengths.push_back(tokens.size());
+        total_docs++;
+        unordered_map<string, uint32_t> tf;
+        for (auto &t : tokens) {
+            if (t.empty()) continue;
+            if (STOPWORDS.count(t)) continue;
+            string st = tiny_stem(t);
+            if (st.size() < 2) continue;
+            tf[st]++;
+        }
+        for (auto &p : tf) {
+            inv[p.first].push_back({id, p.second});
+        }
+    }
+
+    void finalize() {
+        // compute average doc len
+        size_t sum = 0;
+        for (auto &l : doc_lengths) sum += l;
+        avg_doc_len = total_docs ? (double)sum / (double)total_docs : 0.0;
+    }
+
+    // Save to disk (binary)
+    bool save_to(const string &filename) {
+        ofstream ofs(filename, ios::binary | ios::trunc);
+        if (!ofs) return false;
+        // header: total_docs, avg_doc_len, doc count
+        ofs.write((char*)&total_docs, sizeof(total_docs));
+        ofs.write((char*)&avg_doc_len, sizeof(avg_doc_len));
+        uint64_t doccount = doc_paths.size();
+        ofs.write((char*)&doccount, sizeof(doccount));
+        // docs: path length + path + doc_len
+        for (size_t i=0;i<doc_paths.size();++i) {
+            uint64_t L = doc_paths[i].size();
+            ofs.write((char*)&L, sizeof(L));
+            ofs.write(doc_paths[i].data(), L);
+            uint64_t dlen = doc_lengths[i];
+            ofs.write((char*)&dlen, sizeof(dlen));
+        }
+        // index size
+        uint64_t termcount = inv.size();
+        ofs.write((char*)&termcount, sizeof(termcount));
+        for (auto &kv : inv) {
+            const string &term = kv.first;
+            const auto &post = kv.second;
+            uint64_t termlen = term.size();
+            ofs.write((char*)&termlen, sizeof(termlen));
+            ofs.write(term.data(), termlen);
+            uint64_t plist = post.size();
+            ofs.write((char*)&plist, sizeof(plist));
+            for (auto &pp : post) {
+                ofs.write((char*)&pp.doc, sizeof(pp.doc));
+                ofs.write((char*)&pp.tf, sizeof(pp.tf));
+            }
+        }
+        return true;
+    }
+
+    bool load_from(const string &filename) {
+        ifstream ifs(filename, ios::binary);
+        if (!ifs) return false;
+        ifs.read((char*)&total_docs, sizeof(total_docs));
+        ifs.read((char*)&avg_doc_len, sizeof(avg_doc_len));
+        uint64_t doccount=0;
+        ifs.read((char*)&doccount, sizeof(doccount));
+        doc_paths.resize(doccount);
+        doc_lengths.resize(doccount);
+        for (size_t i=0;i<doccount;++i) {
+            uint64_t L;
+            ifs.read((char*)&L, sizeof(L));
+            string p; p.resize(L);
+            ifs.read(&p[0], L);
+            doc_paths[i] = move(p);
+            uint64_t dlen;
+            ifs.read((char*)&dlen, sizeof(dlen));
+            doc_lengths[i] = dlen;
+        }
+        uint64_t termcount=0;
+        ifs.read((char*)&termcount, sizeof(termcount));
+        inv.clear();
+        inv.reserve(termcount*2);
+        for (uint64_t i=0;i<termcount;++i) {
+            uint64_t tlen;
+            ifs.read((char*)&tlen, sizeof(tlen));
+            string term; term.resize(tlen);
+            ifs.read(&term[0], tlen);
+            uint64_t plist;
+            ifs.read((char*)&plist, sizeof(plist));
+            vector<Posting> posts; posts.reserve(plist);
+            for (uint64_t j=0;j<plist;++j) {
+                Posting p;
+                ifs.read((char*)&p.doc, sizeof(p.doc));
+                ifs.read((char*)&p.tf, sizeof(p.tf));
+                posts.push_back(p);
+            }
+            inv.emplace(move(term), move(posts));
+        }
+        total_docs = doc_paths.size();
+        return true;
+    }
+};
+
+// --------------------- File traversal & reading (multi-threaded) ---------------------
+
+static vector<string> collect_files_recursive(const string &root) {
+    vector<string> out;
+    // simple stack-based traversal
+    vector<string> q; q.push_back(root);
+    while (!q.empty()) {
+        string cur = q.back(); q.pop_back();
+        struct stat st;
+        if (stat(cur.c_str(), &st) != 0) continue;
+        if (S_ISDIR(st.st_mode)) {
+            DIR *d = opendir(cur.c_str());
+            if (!d) continue;
+            struct dirent *ent;
+            while ((ent = readdir(d)) != nullptr) {
+                string name = ent->d_name;
+                if (name == "." || name == "..") continue;
+                string path = cur + "/" + name;
+                q.push_back(path);
+            }
+            closedir(d);
+        } else if (S_ISREG(st.st_mode)) {
+            // consider .txt files and others (you can expand)
+            // We'll index all regular files but skip binary heuristics by extension optionally
+            out.push_back(cur);
+        }
+    }
+    sort(out.begin(), out.end());
+    return out;
+}
+
+// read full file into string (best-effort, assume utf-8)
+static bool read_text_file(const string &path, string &out) {
+    ifstream ifs(path, ios::binary);
+    if (!ifs) return false;
+    std::ostringstream ss;
+    ss << ifs.rdbuf();
+    out = ss.str();
+    return true;
+}
+
+// Thread pool indexing: producers push file paths to queue, worker threads read & parse & push to index via guarded function.
+class IndexBuilder {
+public:
+    IndexBuilder(InvertedIndex &idx, size_t workers=4): idx_(idx), stop_(false) {
+        worker_count = max<size_t>(1, workers);
+    }
+
+    void build_from_dir(const string &root) {
+        files_ = collect_files_recursive(root);
+        // filter: keep only files > 0 bytes and not starting with dot
+        vector<string> tmp;
+        for (auto &f : files_) {
+            string base = f.substr(f.find_last_of("/\\") + 1);
+            if (!base.empty() && base[0]=='.') continue;
+            struct stat st;
+            if (stat(f.c_str(), &st)==0 && st.st_size>0) tmp.push_back(f);
+        }
+        files_.swap(tmp);
+        total_files = files_.size();
+        // spawn workers
+        for (size_t i=0;i<worker_count;++i) {
+            workers_.emplace_back(&IndexBuilder::worker_loop, this);
+        }
+        // push tasks
+        {
+            unique_lock<mutex> lk(mu_);
+            for (auto &p : files_) tasks_.push_back(p);
+            cv_.notify_all();
+        }
+        // wait for completion
+        {
+            unique_lock<mutex> lk(done_mtx_);
+            done_cv_.wait(lk, [&]{ return completed_files == total_files; });
+        }
+        // stop workers
+        {
+            unique_lock<mutex> lk(mu_);
+            stop_ = true;
+            cv_.notify_all();
+        }
+        for (auto &t : workers_) if (t.joinable()) t.join();
+        // finalize index
+        idx_.finalize();
+    }
+
+    size_t get_total_files() const { return total_files; }
+
+private:
+    void worker_loop() {
+        for (;;) {
+            string path;
+            {
+                unique_lock<mutex> lk(mu_);
+                cv_.wait(lk, [&]{ return stop_ || !tasks_.empty(); });
+                if (stop_ && tasks_.empty()) break;
+                if (!tasks_.empty()) {
+                    path = move(tasks_.back());
+                    tasks_.pop_back();
+                } else continue;
+            }
+            string text;
+            if (!read_text_file(path, text)) {
+                inc_completed();
+                continue;
+            }
+            // tokenize
+            auto tokens = simple_split_tokens(text);
+            // small optimization: drop if too short
+            if (tokens.size() < 1) {
+                inc_completed();
+                continue;
+            }
+            // add doc to index (guarded)
+            {
+                lock_guard<mutex> lk(idx_mu_);
+                idx_.add_document(path, tokens);
+            }
+            inc_completed();
+        }
+    }
+
+    void inc_completed() {
+        {
+            lock_guard<mutex> lk(done_mtx_);
+            completed_files++;
+            if (completed_files % 50 == 0 || completed_files == total_files) {
+                // notify occasionally
+                done_cv_.notify_all();
+            }
+        }
+    }
+
+    InvertedIndex &idx_;
+    vector<string> files_;
+    vector<string> tasks_;
+    vector<thread> workers_;
+    mutex mu_;
+    condition_variable cv_;
+    mutex idx_mu_; // protects index when adding
+    atomic<bool> stop_;
+    size_t worker_count = 4;
+    size_t total_files = 0;
+    atomic<size_t> completed_files{0};
+    mutex done_mtx_;
+    condition_variable done_cv_;
+};
+
+// --------------------- Search (BM25) ---------------------
+
+struct ScoredDoc { DocId doc; double score; };
+
+class Searcher {
+public:
+    Searcher(InvertedIndex &index): idx(index) {
+        N = max<size_t>(1, idx.total_docs);
+    }
+
+    // parse query simple: tokens AND (i.e., split and stem)
+    vector<string> parse_query(const string &q) {
+        auto toks = simple_split_tokens(q);
+        vector<string> out;
+        for (auto &t : toks) {
+            string st = tiny_stem(t);
+            if (st.size() < 2) continue;
+            if (STOPWORDS.count(st)) continue;
+            out.push_back(st);
+        }
+        return out;
+    }
+
+    // BM25 params default
+    vector<ScoredDoc> search(const string &q, size_t topk=10) {
+        auto terms = parse_query(q);
+        unordered_map<DocId, double> scores;
+        unordered_map<string, size_t> df_cache;
+        if (terms.empty()) return {};
+        for (auto &term : terms) {
+            auto it = idx.inv.find(term);
+            if (it == idx.inv.end()) continue;
+            const auto &postings = it->second;
+            size_t df = postings.size();
+            df_cache[term] = df;
+            // precompute idf
+            double idf = compute_idf(df);
+            // for each posting accumulate BM25
+            for (const auto &p : postings) {
+                double tf = (double)p.tf;
+                double doclen = (double)idx.doc_lengths[p.doc];
+                double score = idf * bm25_tf(tf, doclen);
+                scores[p.doc] += score;
+            }
+        }
+        // collect, sort topk
+        vector<ScoredDoc> result;
+        result.reserve(scores.size());
+        for (auto &kv : scores) result.push_back({kv.first, kv.second});
+        sort(result.begin(), result.end(), [](const ScoredDoc &a, const ScoredDoc &b){
+            if (a.score == b.score) return a.doc < b.doc;
+            return a.score > b.score;
+        });
+        if (result.size() > topk) result.resize(topk);
+        return result;
+    }
+
+private:
+    InvertedIndex &idx;
+    size_t N;
+    // BM25 knobs
+    double k1 = 1.5;
+    double b = 0.75;
+
+    double compute_idf(size_t df) {
+        // idf = log( (N - df + 0.5) / (df + 0.5) + 1 )
+        double nom = (double)N - (double)df + 0.5;
+        double den = (double)df + 0.5;
+        return log(nom/den + 1.0);
+    }
+
+    double bm25_tf(double tf, double doclen) {
+        double norm = k1 * ((1 - b) + b * (doclen / max(1.0, idx.avg_doc_len)));
+        return (tf * (k1 + 1.0)) / (tf + norm);
+    }
+};
+
+// --------------------- CLI & glue ---------------------
+
+void print_usage() {
+    fprintf(stderr, "Usage:\n");
+    fprintf(stderr, "  ft_search index <dir> <index_file> [workers]\n");
+    fprintf(stderr, "  ft_search search <index_file> \"query\" [topk]\n");
+    fprintf(stderr, "  ft_search info <index_file>\n");
+}
+
+int main(int argc, char** argv) {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    if (argc < 2) {
+        print_usage();
+        return 1;
+    }
+    string cmd = argv[1];
+    if (cmd == "index") {
+        if (argc < 4) { print_usage(); return 1; }
+        string dir = argv[2];
+        string idxfile = argv[3];
+        size_t workers = 4;
+        if (argc >= 5) workers = stoi(argv[4]);
+        InvertedIndex idx;
+        IndexBuilder builder(idx, workers);
+        fprintf(stderr, "Collecting files and indexing with %zu workers...\n", workers);
+        builder.build_from_dir(dir);
+        fprintf(stderr, "Indexed %zu documents.\n", idx.total_docs);
+        fprintf(stderr, "Writing index to %s ...\n", idxfile.c_str());
+        if (!idx.save_to(idxfile)) {
+            fprintf(stderr, "Failed to save index\n");
+            return 2;
+        }
+        fprintf(stderr, "Index saved OK.\n");
+        return 0;
+    } else if (cmd == "search") {
+        if (argc < 4) { print_usage(); return 1; }
+        string idxfile = argv[2];
+        string query = argv[3];
+        size_t topk = 10;
+        if (argc >= 5) topk = stoi(argv[4]);
+        InvertedIndex idx;
+        if (!idx.load_from(idxfile)) {
+            fprintf(stderr, "Failed to load index %s\n", idxfile.c_str());
+            return 2;
+        }
+        Searcher s(idx);
+        auto res = s.search(query, topk);
+        printf("Found %zu results (showing %zu):\n", res.size(), res.size());
+        for (size_t i=0;i<res.size();++i) {
+            auto &r = res[i];
+            printf("%2zu. doc=%u score=%.4f path=%s\n", i+1, (unsigned)r.doc, r.score, idx.doc_paths[r.doc].c_str());
+        }
+        return 0;
+    } else if (cmd == "info") {
+        if (argc < 3) { print_usage(); return 1; }
+        string idxfile = argv[2];
+        InvertedIndex idx;
+        if (!idx.load_from(idxfile)) {
+            fprintf(stderr, "Failed to load index\n");
+            return 2;
+        }
+        printf("Index info:\n");
+        printf("  docs: %zu\n", idx.doc_paths.size());
+        printf("  terms: %zu\n", idx.inv.size());
+        printf("  avg_doc_len: %.2f\n", idx.avg_doc_len);
+        // print top terms by df
+        vector<pair<string,size_t>> v;
+        v.reserve(idx.inv.size());
+        for (auto &kv : idx.inv) v.emplace_back(kv.first, kv.second.size());
+        sort(v.begin(), v.end(), [](auto &a, auto &b){ return a.second > b.second; });
+        printf("Top terms by document frequency:\n");
+        for (size_t i=0;i<min<size_t>(20, v.size()); ++i) {
+            printf("  %s -> %zu\n", v[i].first.c_str(), v[i].second);
+        }
+        return 0;
+    } else {
+        print_usage();
+        return 1;
+    }
+}
