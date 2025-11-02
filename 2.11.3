@@ -149,3 +149,467 @@ int main(int argc,char**argv){
         thread([cli,&idx]{handle_client(cli,idx);}).detach();
     }
 }
+// crawler.cpp
+// Build: g++ -std=c++17 -O2 crawler.cpp -pthread -o crawler
+// Run example:
+//  ./crawler http://example.com 100 3 500 example.com
+//  args: <seed_url> <max_pages> <workers> <politeness_ms> [allowed_domain]
+//
+// Features:
+//  - multi-threaded BFS crawl up to max_pages
+//  - per-host politeness (delay between requests to same host)
+//  - respects robots.txt (User-agent: * simple Disallow rules)
+//  - saves pages to pages/<n>.html and writes index.txt (URL -> file)
+//  - basic normalization and deduplication of URLs
+//
+// Limitations:
+//  - only HTTP (port 80), no HTTPS
+//  - simple HTML link extraction via regex (good-enough for demo)
+//  - robots parsing is basic (supports Disallow under User-agent: *)
+//
+
+#include <bits/stdc++.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <fcntl.h>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <atomic>
+#include <chrono>
+using namespace std;
+using namespace std::chrono;
+
+static const int HTTP_PORT = 80;
+static const int CONNECT_TIMEOUT_MS = 5000;
+static const int READ_TIMEOUT_MS = 5000;
+
+// ---------- Utilities ----------
+static inline string url_lower(const string &s) {
+    string r = s;
+    for (char &c : r) c = (char)tolower((unsigned char)c);
+    return r;
+}
+
+static string host_from_url(const string &url) {
+    // expects http://host[:port]/path
+    size_t p = url.find("://");
+    size_t start = (p==string::npos) ? 0 : p+3;
+    size_t sl = url.find('/', start);
+    string hostport = url.substr(start, sl==string::npos ? string::npos : sl-start);
+    size_t colon = hostport.find(':');
+    if (colon!=string::npos) return hostport.substr(0, colon);
+    return hostport;
+}
+
+static string path_from_url(const string &url) {
+    size_t p = url.find("://");
+    size_t start = (p==string::npos) ? 0 : p+3;
+    size_t sl = url.find('/', start);
+    if (sl==string::npos) return "/";
+    return url.substr(sl);
+}
+
+static bool is_absolute_url(const string &u) {
+    return u.rfind("http://", 0) == 0 || u.rfind("https://", 0) == 0;
+}
+
+static string join_url(const string &base, const string &rel) {
+    // base is absolute http://host/...; rel may be absolute or relative
+    if (is_absolute_url(rel)) return rel;
+    // ignore https relative -> we won't fetch https later but still produce URL
+    // handle absolute path
+    if (!rel.empty() && rel[0] == '/') {
+        size_t p = base.find("://");
+        size_t start = (p==string::npos) ? 0 : p+3;
+        size_t sl = base.find('/', start);
+        string host = (sl==string::npos) ? base : base.substr(0, sl);
+        return host + rel;
+    } else {
+        // relative path: remove last segment of base path
+        size_t p = base.find("://");
+        size_t start = (p==string::npos) ? 0 : p+3;
+        size_t sl = base.find('/', start);
+        string prefix = (sl==string::npos) ? base + "/" : base.substr(0, sl+1);
+        return prefix + rel;
+    }
+}
+
+// simple URL normalization: lowercase scheme+host, remove fragment (#...), remove trailing slash (optional)
+static string normalize_url(const string &url) {
+    // minimal: lower scheme and host
+    size_t p = url.find("://");
+    if (p == string::npos) return url;
+    string scheme = url_lower(url.substr(0, p));
+    size_t start = p+3;
+    size_t sl = url.find('/', start);
+    string hostport = (sl==string::npos) ? url.substr(start) : url.substr(start, sl-start);
+    string rest = (sl==string::npos) ? "/" : url.substr(sl);
+    // remove fragment
+    size_t hash = rest.find('#');
+    if (hash != string::npos) rest = rest.substr(0, hash);
+    // remove default port :80 if present
+    if (hostport.size() > 3 && hostport.rfind(":80") == hostport.size()-3) {
+        hostport = hostport.substr(0, hostport.size()-3);
+    }
+    // collapse ../ and ./ crudely - skip for simplicity
+    // trim trailing slash except single "/"
+    if (rest.size() > 1 && rest.back() == '/') rest.pop_back();
+    return scheme + "://" + url_lower(hostport) + rest;
+}
+
+// Make filename safe
+static string safe_filename(const string &s) {
+    string out;
+    for (char c : s) {
+        if (isalnum((unsigned char)c) || c=='-' || c=='_' || c=='.') out.push_back(c);
+        else out.push_back('_');
+    }
+    if (out.size() > 200) out = out.substr(0,200);
+    return out;
+}
+
+// ---------- Simple HTTP client (blocking) ----------
+// returns pair<status_code, body>. status_code = -1 on error
+pair<int,string> http_get(const string &host, const string &path, int timeout_ms) {
+    // resolve
+    struct addrinfo hints{}, *res=nullptr;
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    string port = to_string(HTTP_PORT);
+    int rc = getaddrinfo(host.c_str(), port.c_str(), &hints, &res);
+    if (rc != 0 || res == nullptr) return {-1, ""};
+
+    int sock = -1;
+    for (struct addrinfo *ai = res; ai; ai = ai->ai_next) {
+        sock = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
+        if (sock < 0) continue;
+        // set non-blocking for connect with timeout
+        int flags = fcntl(sock, F_GETFL, 0);
+        fcntl(sock, F_SETFL, flags | O_NONBLOCK);
+        int c = connect(sock, ai->ai_addr, ai->ai_addrlen);
+        if (c < 0 && errno != EINPROGRESS) {
+            close(sock);
+            sock = -1;
+            continue;
+        }
+        // wait for connect or timeout
+        fd_set wf;
+        FD_ZERO(&wf);
+        FD_SET(sock, &wf);
+        struct timeval tv;
+        tv.tv_sec = timeout_ms / 1000;
+        tv.tv_usec = (timeout_ms % 1000) * 1000;
+        int sel = select(sock+1, nullptr, &wf, nullptr, &tv);
+        if (sel <= 0) { close(sock); sock = -1; continue; }
+        // check for errors
+        int err = 0;
+        socklen_t elen = sizeof(err);
+        if (getsockopt(sock, SOL_SOCKET, SO_ERROR, &err, &elen) < 0 || err != 0) { close(sock); sock = -1; continue; }
+        // set blocking
+        fcntl(sock, F_SETFL, flags);
+        break;
+    }
+    freeaddrinfo(res);
+    if (sock < 0) return {-1, ""};
+
+    // send request
+    string req = "GET " + path + " HTTP/1.1\r\nHost: " + host + "\r\nUser-Agent: SimpleCrawler/1.0\r\nConnection: close\r\n\r\n";
+    ssize_t s = send(sock, req.data(), req.size(), 0);
+    if (s < 0) { close(sock); return {-1, ""}; }
+
+    // read response with timeout
+    string resp;
+    char buf[4096];
+    auto start = steady_clock::now();
+    while (true) {
+        // poll with timeout
+        fd_set rf;
+        FD_ZERO(&rf);
+        FD_SET(sock, &rf);
+        struct timeval tv;
+        tv.tv_sec = READ_TIMEOUT_MS / 1000;
+        tv.tv_usec = (READ_TIMEOUT_MS % 1000) * 1000;
+        int sel = select(sock+1, &rf, nullptr, nullptr, &tv);
+        if (sel <= 0) break;
+        ssize_t r = recv(sock, buf, sizeof(buf), 0);
+        if (r <= 0) break;
+        resp.append(buf, buf + r);
+        // safety: avoid huge responses
+        if (resp.size() > 10 * 1024 * 1024) break;
+        // optional timeout overall
+        if (duration_cast<milliseconds>(steady_clock::now() - start).count() > timeout_ms + READ_TIMEOUT_MS) break;
+    }
+    close(sock);
+
+    // parse status code and body
+    size_t pos = resp.find("\r\n\r\n");
+    if (pos == string::npos) return {-1, ""};
+    string head = resp.substr(0, pos);
+    string body = resp.substr(pos+4);
+    // status code
+    int status = -1;
+    {
+        istringstream iss(head);
+        string httpver;
+        iss >> httpver >> status;
+        if (!iss) status = -1;
+    }
+    return {status, body};
+}
+
+// ---------- Robots.txt minimal parser ----------
+struct RobotsRules {
+    vector<string> disallow; // simple prefixes to block
+};
+
+static RobotsRules parse_robots_text(const string &text) {
+    RobotsRules r;
+    istringstream iss(text);
+    string line;
+    bool applies = false; // whether current User-agent section applies to us (we check *)
+    while (getline(iss, line)) {
+        // trim
+        while (!line.empty() && isspace((unsigned char)line.back())) line.pop_back();
+        size_t i = 0; while (i < line.size() && isspace((unsigned char)line[i])) ++i;
+        if (i) line = line.substr(i);
+        if (line.empty()) continue;
+        // lowercase key
+        string low = url_lower(line);
+        if (low.rfind("user-agent:",0) == 0) {
+            string val = low.substr(11);
+            // trim
+            while (!val.empty() && isspace((unsigned char)val[0])) val.erase(val.begin());
+            applies = (val == "*" || val.find("simplecrawler") != string::npos);
+        } else if (applies && low.rfind("disallow:",0) == 0) {
+            string val = line.substr(9);
+            while (!val.empty() && isspace((unsigned char)val[0])) val.erase(val.begin());
+            if (val.empty()) continue;
+            // ensure starts with '/'
+            if (val[0] != '/') val = "/" + val;
+            r.disallow.push_back(val);
+        } else if (low.rfind("allow:",0) == 0) {
+            // ignore allow for simplicity
+        }
+    }
+    return r;
+}
+
+static bool robots_disallow_check(const RobotsRules &r, const string &path) {
+    for (auto &p : r.disallow) {
+        if (path.rfind(p, 0) == 0) return true;
+    }
+    return false;
+}
+
+// ---------- Link extraction (very simple) ----------
+static vector<string> extract_links(const string &html) {
+    vector<string> out;
+    // find href="..."
+    static const regex re(R"((?i)href\s*=\s*['"]([^'"]+)['"])");
+    auto begin = sregex_iterator(html.begin(), html.end(), re);
+    auto end = sregex_iterator();
+    for (auto it = begin; it != end; ++it) {
+        string u = (*it)[1].str();
+        // clean spaces
+        if (u.empty()) continue;
+        // strip fragments
+        size_t hash = u.find('#');
+        if (hash != string::npos) u = u.substr(0, hash);
+        if (u.empty()) continue;
+        out.push_back(u);
+    }
+    return out;
+}
+
+// ---------- Crawler core ----------
+struct FrontierItem { string url; int depth; };
+
+class Crawler {
+public:
+    Crawler(const string &seed, int max_pages, int workers, int politeness_ms, const string &allowed_domain)
+    : max_pages_(max_pages), politeness_ms_(politeness_ms), allowed_domain_(allowed_domain) {
+        enqueue(seed, 0);
+        workers_ = max(1, workers);
+        mkdir_pages_dir();
+    }
+
+    void run() {
+        vector<thread> pool;
+        for (int i=0;i<workers_;++i) pool.emplace_back(&Crawler::worker_loop, this);
+        // wait
+        for (auto &t : pool) if (t.joinable()) t.join();
+        // finalize index file
+        write_index_file();
+    }
+
+private:
+    // thread-safe structures
+    deque<FrontierItem> frontier_;
+    mutex frontier_mu_;
+    condition_variable frontier_cv_;
+    unordered_set<string> seen_; // normalized URL set
+    mutex seen_mu_;
+
+    // per-host robots & last access
+    unordered_map<string, RobotsRules> robots_cache_;
+    unordered_map<string, steady_clock::time_point> last_access_;
+    mutex host_mu_;
+
+    // saved pages mapping
+    vector<pair<string,string>> saved_; // (url, filepath)
+    mutex saved_mu_;
+
+    atomic<int> pages_crawled_{0};
+
+    int max_pages_;
+    int workers_;
+    int politeness_ms_;
+    string allowed_domain_;
+
+    void enqueue(const string &url, int depth) {
+        string n = normalize_url(url);
+        {
+            lock_guard<mutex> lg(seen_mu_);
+            if (seen_.count(n)) return;
+            seen_.insert(n);
+        }
+        {
+            lock_guard<mutex> lg(frontier_mu_);
+            frontier_.push_back({n, depth});
+        }
+        frontier_cv_.notify_one();
+    }
+
+    bool pop_frontier(FrontierItem &it) {
+        unique_lock<mutex> lk(frontier_mu_);
+        frontier_cv_.wait(lk, [&]{ return !frontier_.empty() || pages_crawled_.load() >= max_pages_; });
+        if (frontier_.empty()) return false;
+        it = frontier_.front(); frontier_.pop_front();
+        return true;
+    }
+
+    void worker_loop() {
+        while (pages_crawled_.load() < max_pages_) {
+            FrontierItem it;
+            if (!pop_frontier(it)) break;
+            // optional domain restriction
+            if (!allowed_domain_.empty()) {
+                string h = host_from_url(it.url);
+                if (h.find(allowed_domain_) == string::npos) continue;
+            }
+            string host = host_from_url(it.url);
+            string path = path_from_url(it.url);
+
+            // robots check (fetch and cache)
+            RobotsRules rules;
+            {
+                lock_guard<mutex> lg(host_mu_);
+                if (robots_cache_.count(host)) rules = robots_cache_[host];
+                else {
+                    // fetch robots.txt
+                    auto res = http_get(host, "/robots.txt", CONNECT_TIMEOUT_MS);
+                    if (res.first == 200) {
+                        rules = parse_robots_text(res.second);
+                    } else {
+                        rules = RobotsRules();
+                    }
+                    robots_cache_[host] = rules;
+                }
+            }
+            if (robots_disallow_check(rules, path)) {
+                // skip due to robots
+                continue;
+            }
+
+            // politeness: ensure last access was > politeness_ms_
+            {
+                lock_guard<mutex> lg(host_mu_);
+                auto now = steady_clock::now();
+                if (last_access_.count(host)) {
+                    auto last = last_access_[host];
+                    auto diff = duration_cast<milliseconds>(now - last).count();
+                    if (diff < politeness_ms_) {
+                        // sleep for remaining
+                        int waitms = politeness_ms_ - (int)diff;
+                        this_thread::sleep_for(milliseconds(waitms));
+                    }
+                }
+                last_access_[host] = steady_clock::now();
+            }
+
+            // perform HTTP GET
+            pair<int,string> res = http_get(host, path, CONNECT_TIMEOUT_MS + READ_TIMEOUT_MS);
+            if (res.first != 200) {
+                // skip on error or non-200
+                continue;
+            }
+
+            // save to file
+            int idx = pages_crawled_.fetch_add(1);
+            string fname = "pages/" + to_string(idx) + "_" + safe_filename(host) + ".html";
+            {
+                ofstream ofs(fname, ios::binary);
+                if (ofs) ofs << res.second;
+            }
+            {
+                lock_guard<mutex> lg(saved_mu_);
+                saved_.push_back({it.url, fname});
+            }
+
+            // extract links and enqueue
+            auto links = extract_links(res.second);
+            for (auto &lnk : links) {
+                string abs = join_url(it.url, lnk);
+                // ignore mailto: and javascript:
+                if (abs.rfind("mailto:",0) == 0) continue;
+                if (abs.rfind("javascript:",0) == 0) continue;
+                // normalize and enqueue
+                string norm = normalize_url(abs);
+                enqueue(norm, it.depth + 1);
+            }
+        }
+    }
+
+    void mkdir_pages_dir() {
+        struct stat st;
+        if (stat("pages", &st) != 0) {
+#ifdef _WIN32
+            _mkdir("pages");
+#else
+            mkdir("pages", 0755);
+#endif
+        }
+    }
+
+    void write_index_file() {
+        ofstream ofs("index.txt");
+        if (!ofs) return;
+        lock_guard<mutex> lg(saved_mu_);
+        for (auto &p : saved_) {
+            ofs << p.first << "\t" << p.second << "\n";
+        }
+    }
+};
+
+// ---------- main ----------
+int main(int argc, char** argv) {
+    if (argc < 5) {
+        fprintf(stderr, "Usage: %s <seed_url> <max_pages> <workers> <politeness_ms> [allowed_domain]\n", argv[0]);
+        fprintf(stderr, "Example: %s http://example.com 100 4 500 example.com\n", argv[0]);
+        return 1;
+    }
+    string seed = argv[1];
+    int max_pages = stoi(argv[2]);
+    int workers = stoi(argv[3]);
+    int politeness_ms = stoi(argv[4]);
+    string allowed_domain = "";
+    if (argc >= 6) allowed_domain = argv[5];
+
+    Crawler c(seed, max_pages, workers, politeness_ms, allowed_domain);
+    c.run();
+    printf("Crawl finished. index.txt written, pages saved to pages/ directory.\n");
+    return 0;
+}
