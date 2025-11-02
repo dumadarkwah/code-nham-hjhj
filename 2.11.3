@@ -1,0 +1,151 @@
+// ft_search_server.cpp
+// Build: g++ -std=c++17 -O2 ft_search_server.cpp -pthread -o ft_search_server
+// Usage: ./ft_search_server <index_file> [port]
+// Example: ./ft_search_server myindex.bin 8080
+//
+// Simple HTTP JSON search API on top of ft_search engine.
+
+#include <bits/stdc++.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <thread>
+#include <regex>
+#include <arpa/inet.h>
+using namespace std;
+
+// -------- Copy phần cấu trúc cần thiết từ ft_search.cpp (InvertedIndex + Searcher) --------
+using DocId = uint32_t;
+struct Posting { DocId doc; uint32_t tf; };
+
+static inline string to_lower(string s){for(char&c:s)c=tolower(c);return s;}
+static inline bool ends_with(const string&s,const string&suf){return s.size()>=suf.size()&&s.compare(s.size()-suf.size(),suf.size(),suf)==0;}
+static inline vector<string> simple_split_tokens(const string &text){
+    vector<string> out; string cur;
+    for (char ch:text){ if(isalnum((unsigned char)ch)) cur.push_back((char)tolower(ch));
+        else { if(!cur.empty()){out.push_back(cur);cur.clear();}}}
+    if(!cur.empty())out.push_back(cur);
+    return out;
+}
+static string tiny_stem(const string&w){
+    string s=w; static const vector<string> suf={"ing","ed","ly","es","s","ment","ness","tion"};
+    for(auto &sf:suf) if(s.size()>sf.size()+2&&ends_with(s,sf)){s.erase(s.size()-sf.size());break;}
+    return s;
+}
+static const unordered_set<string> STOP={"the","and","is","in","at","of","a","to","it","for","on","as","by","an","this","that"};
+
+struct InvertedIndex {
+    unordered_map<string,vector<Posting>> inv;
+    vector<string> doc_paths; vector<size_t> doc_lengths;
+    size_t total_docs=0; double avg_doc_len=0.0;
+    bool load_from(const string &file){
+        ifstream f(file,ios::binary); if(!f)return false;
+        f.read((char*)&total_docs,sizeof(total_docs)); f.read((char*)&avg_doc_len,sizeof(avg_doc_len));
+        uint64_t nd; f.read((char*)&nd,sizeof(nd));
+        doc_paths.resize(nd); doc_lengths.resize(nd);
+        for(size_t i=0;i<nd;++i){
+            uint64_t L; f.read((char*)&L,sizeof(L)); string p; p.resize(L); f.read(&p[0],L);
+            uint64_t dl; f.read((char*)&dl,sizeof(dl)); doc_paths[i]=p; doc_lengths[i]=dl;
+        }
+        uint64_t termcount; f.read((char*)&termcount,sizeof(termcount));
+        inv.clear(); inv.reserve(termcount*2);
+        for(uint64_t i=0;i<termcount;++i){
+            uint64_t tl; f.read((char*)&tl,sizeof(tl)); string term; term.resize(tl); f.read(&term[0],tl);
+            uint64_t plist; f.read((char*)&plist,sizeof(plist));
+            vector<Posting> posts(plist);
+            for(uint64_t j=0;j<plist;++j){
+                f.read((char*)&posts[j].doc,sizeof(DocId)); f.read((char*)&posts[j].tf,sizeof(uint32_t));
+            }
+            inv.emplace(move(term),move(posts));
+        }
+        total_docs=doc_paths.size(); return true;
+    }
+};
+
+struct ScoredDoc { DocId doc; double score; };
+
+class Searcher {
+public:
+    Searcher(InvertedIndex &idx):idx(idx){N=max<size_t>(1,idx.total_docs);}
+    vector<ScoredDoc> search(const string&q,size_t topk=10){
+        auto terms=parse_query(q); unordered_map<DocId,double> sc;
+        for(auto&t:terms){auto it=idx.inv.find(t); if(it==idx.inv.end())continue;
+            double idf=compute_idf(it->second.size());
+            for(auto&p:it->second){
+                double tf=p.tf; double len=idx.doc_lengths[p.doc];
+                double s=idf*bm25_tf(tf,len); sc[p.doc]+=s;
+            }
+        }
+        vector<ScoredDoc> res; res.reserve(sc.size());
+        for(auto &kv:sc)res.push_back({kv.first,kv.second});
+        sort(res.begin(),res.end(),[](auto&a,auto&b){return a.score>b.score;});
+        if(res.size()>topk)res.resize(topk); return res;
+    }
+private:
+    InvertedIndex &idx; size_t N; double k1=1.5,b=0.75;
+    vector<string> parse_query(const string&q){
+        auto toks=simple_split_tokens(q); vector<string> out;
+        for(auto&t:toks){string s=tiny_stem(t); if(s.size()<2||STOP.count(s))continue; out.push_back(s);}
+        return out;
+    }
+    double compute_idf(size_t df){return log(((double)N-df+0.5)/(df+0.5)+1.0);}
+    double bm25_tf(double tf,double len){double norm=k1*((1-b)+b*(len/max(1.0,idx.avg_doc_len)));return tf*(k1+1)/(tf+norm);}
+};
+
+// -------- HTTP tiny server --------
+static string url_decode(const string &src){
+    string out; char a,b; for(size_t i=0;i<src.size();++i){
+        if(src[i]=='%'&&i+2<src.size()&&isxdigit(src[i+1])&&isxdigit(src[i+2])){
+            a=tolower(src[i+1]); b=tolower(src[i+2]);
+            a=a>='a'?a-'a'+10:a-'0'; b=b>='a'?b-'a'+10:b-'0';
+            out.push_back((char)(16*a+b)); i+=2;
+        }else if(src[i]=='+') out.push_back(' ');
+        else out.push_back(src[i]);
+    } return out;
+}
+
+void handle_client(int client, InvertedIndex &idx){
+    char buf[4096]; ssize_t r=read(client,buf,sizeof(buf)-1);
+    if(r<=0){close(client);return;} buf[r]=0;
+    string req(buf);
+    smatch m;
+    regex re("GET /search\\?q=([^ ]*) ");
+    if(regex_search(req,m,re)){
+        string q=url_decode(m[1]); Searcher s(idx);
+        auto res=s.search(q,10);
+        ostringstream body;
+        body<<"{\"query\":\""<<q<<"\",\"results\":[";
+        for(size_t i=0;i<res.size();++i){
+            auto&r=res[i];
+            if(i)body<<",";
+            body<<"{\"doc\":"<<r.doc<<",\"score\":"<<r.score<<",\"path\":\""<<idx.doc_paths[r.doc]<<"\"}";
+        }
+        body<<"]}";
+        string b=body.str();
+        ostringstream head;
+        head<<"HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: "<<b.size()<<"\r\n\r\n";
+        string resp=head.str()+b;
+        write(client,resp.data(),resp.size());
+    }else{
+        string resp="HTTP/1.1 404 Not Found\r\nContent-Length:0\r\n\r\n";
+        write(client,resp.data(),resp.size());
+    }
+    close(client);
+}
+
+int main(int argc,char**argv){
+    if(argc<2){fprintf(stderr,"Usage: %s <index_file> [port]\n",argv[0]);return 1;}
+    string idxfile=argv[1]; int port=8080; if(argc>=3)port=stoi(argv[2]);
+    InvertedIndex idx; if(!idx.load_from(idxfile)){fprintf(stderr,"Cannot load index\n");return 2;}
+    int srv=socket(AF_INET,SOCK_STREAM,0);
+    int opt=1; setsockopt(srv,SOL_SOCKET,SO_REUSEADDR,&opt,sizeof(opt));
+    sockaddr_in addr{}; addr.sin_family=AF_INET; addr.sin_addr.s_addr=INADDR_ANY; addr.sin_port=htons(port);
+    if(bind(srv,(sockaddr*)&addr,sizeof(addr))<0){perror("bind");return 3;}
+    listen(srv,16);
+    printf("Server listening on port %d...\n",port);
+    while(true){
+        int cli=accept(srv,nullptr,nullptr);
+        if(cli<0)continue;
+        thread([cli,&idx]{handle_client(cli,idx);}).detach();
+    }
+}
