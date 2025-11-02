@@ -1,0 +1,456 @@
+// kv_server.cpp
+// Build: g++ -std=c++17 -O2 kv_server.cpp -pthread -o kv_server
+// Run: ./kv_server 4000
+//
+// Simple multi-threaded key-value store with LRU cache, WAL and snapshot.
+// Protocol (text-based, CRLF or LF terminated):
+//  SET <key> <value>\n   -> OK
+//  GET <key>\n          -> VALUE <value> or NOTFOUND
+//  DEL <key>\n          -> DELETED or NOTFOUND
+//  SNAPSHOT\n           -> SNAPSHOT_OK
+//  EXIT\n               -> closes connection
+
+#include <bits/stdc++.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <atomic>
+#include <signal.h>
+
+using namespace std;
+
+static const string WAL_FILE = "kv_wal.log";
+static const string SNAPSHOT_FILE = "kv_snapshot.dat";
+
+class LRUCache {
+public:
+    LRUCache(size_t capacity): capacity_(capacity) {}
+
+    bool get(const string &key, string &value) {
+        lock_guard<mutex> lg(mu_);
+        auto it = map_.find(key);
+        if (it == map_.end()) return false;
+        // move to front
+        usages_.splice(usages_.begin(), usages_, it->second.second);
+        value = it->second.first;
+        return true;
+    }
+
+    void put(const string &key, const string &value) {
+        lock_guard<mutex> lg(mu_);
+        auto it = map_.find(key);
+        if (it != map_.end()) {
+            it->second.first = value;
+            usages_.splice(usages_.begin(), usages_, it->second.second);
+            return;
+        }
+        if (map_.size() >= capacity_) {
+            auto last = usages_.back();
+            map_.erase(last);
+            usages_.pop_back();
+        }
+        usages_.push_front(key);
+        map_[key] = {value, usages_.begin()};
+    }
+
+    bool del(const string &key) {
+        lock_guard<mutex> lg(mu_);
+        auto it = map_.find(key);
+        if (it == map_.end()) return false;
+        usages_.erase(it->second.second);
+        map_.erase(it);
+        return true;
+    }
+
+    // For snapshotting: get all pairs
+    unordered_map<string,string> snapshot_items() {
+        lock_guard<mutex> lg(mu_);
+        unordered_map<string,string> out;
+        out.reserve(map_.size());
+        for (auto &p : map_) out[p.first] = p.second.first;
+        return out;
+    }
+
+    // load items (used when restoring from snapshot)
+    void load_items(const unordered_map<string,string> &items) {
+        lock_guard<mutex> lg(mu_);
+        usages_.clear();
+        map_.clear();
+        for (auto &p : items) {
+            usages_.push_front(p.first);
+            map_[p.first] = {p.second, usages_.begin()};
+        }
+    }
+
+private:
+    size_t capacity_;
+    list<string> usages_;
+    unordered_map<string, pair<string, list<string>::iterator>> map_;
+    mutex mu_;
+};
+
+class KVStore {
+public:
+    KVStore(size_t cache_capacity): cache_(cache_capacity) {}
+
+    // GET
+    optional<string> get(const string &key) {
+        // First check cache
+        string v;
+        if (cache_.get(key, v)) return v;
+        // then main store
+        lock_guard<mutex> lg(mu_);
+        auto it = db_.find(key);
+        if (it == db_.end()) return nullopt;
+        cache_.put(key, it->second);
+        return it->second;
+    }
+
+    // SET
+    void set(const string &key, const string &value) {
+        {
+            lock_guard<mutex> lg(mu_);
+            db_[key] = value;
+        }
+        cache_.put(key, value);
+    }
+
+    // DEL
+    bool del(const string &key) {
+        bool removed = false;
+        {
+            lock_guard<mutex> lg(mu_);
+            auto it = db_.find(key);
+            if (it != db_.end()) {
+                db_.erase(it);
+                removed = true;
+            }
+        }
+        if (removed) cache_.del(key);
+        return removed;
+    }
+
+    unordered_map<string,string> snapshot_items() {
+        lock_guard<mutex> lg(mu_);
+        return db_;
+    }
+
+    void load_items(const unordered_map<string,string>& items) {
+        lock_guard<mutex> lg(mu_);
+        db_ = items;
+        // also load cache
+        cache_.load_items(items);
+    }
+
+private:
+    unordered_map<string,string> db_;
+    mutex mu_;
+    LRUCache cache_;
+};
+
+// WAL helper (append-only)
+class WAL {
+public:
+    WAL(const string &path): path_(path) {
+        // open file for append
+        ofs_.open(path_, ios::app | ios::out);
+        if (!ofs_) {
+            throw runtime_error("Cannot open WAL file for append");
+        }
+    }
+
+    ~WAL() {
+        flush();
+        if (ofs_.is_open()) ofs_.close();
+    }
+
+    void append_set(const string &key, const string &value) {
+        lock_guard<mutex> lg(mu_);
+        ofs_ << "SET " << escape(key) << " " << escape(value) << "\n";
+        if (++counter_ % 16 == 0) ofs_.flush();
+    }
+    void append_del(const string &key) {
+        lock_guard<mutex> lg(mu_);
+        ofs_ << "DEL " << escape(key) << "\n";
+        if (++counter_ % 16 == 0) ofs_.flush();
+    }
+
+    void flush() {
+        lock_guard<mutex> lg(mu_);
+        ofs_.flush();
+    }
+
+    // Replays WAL into store
+    static void replay(const string &path, KVStore &store) {
+        ifstream ifs(path);
+        if (!ifs) return; // no WAL
+        string line;
+        while (getline(ifs, line)) {
+            if (line.empty()) continue;
+            istringstream iss(line);
+            string cmd;
+            if (!(iss >> cmd)) continue;
+            if (cmd == "SET") {
+                string kesc, vesc;
+                if (!(iss >> kesc >> vesc)) continue;
+                string k = unescape(kesc);
+                string v = unescape(vesc);
+                store.set(k, v);
+            } else if (cmd == "DEL") {
+                string kesc;
+                if (!(iss >> kesc)) continue;
+                string k = unescape(kesc);
+                store.del(k);
+            }
+        }
+    }
+
+    static string escape(const string &s) {
+        string out;
+        for (char c : s) {
+            if (c == '\\' || c == ' ') {
+                out.push_back('\\');
+                out.push_back(c);
+            } else out.push_back(c);
+        }
+        return out;
+    }
+    static string unescape(const string &s) {
+        string out;
+        for (size_t i=0;i<s.size();++i) {
+            if (s[i] == '\\' && i+1 < s.size()) {
+                out.push_back(s[i+1]);
+                ++i;
+            } else out.push_back(s[i]);
+        }
+        return out;
+    }
+
+private:
+    string path_;
+    ofstream ofs_;
+    mutex mu_;
+    size_t counter_ = 0;
+};
+
+// Snapshot helper (very simple binary serializer)
+void write_snapshot(const string &path, KVStore &store) {
+    auto items = store.snapshot_items();
+    ofstream ofs(path, ios::binary | ios::trunc);
+    if (!ofs) throw runtime_error("Cannot open snapshot file");
+    uint64_t n = items.size();
+    ofs.write(reinterpret_cast<const char*>(&n), sizeof(n));
+    for (auto &p : items) {
+        uint64_t klen = p.first.size();
+        uint64_t vlen = p.second.size();
+        ofs.write(reinterpret_cast<const char*>(&klen), sizeof(klen));
+        ofs.write(p.first.data(), klen);
+        ofs.write(reinterpret_cast<const char*>(&vlen), sizeof(vlen));
+        ofs.write(p.second.data(), vlen);
+    }
+    ofs.flush();
+}
+
+unordered_map<string,string> read_snapshot(const string &path) {
+    unordered_map<string,string> out;
+    ifstream ifs(path, ios::binary);
+    if (!ifs) return out;
+    uint64_t n;
+    ifs.read(reinterpret_cast<char*>(&n), sizeof(n));
+    for (uint64_t i=0;i<n;++i) {
+        uint64_t klen, vlen;
+        ifs.read(reinterpret_cast<char*>(&klen), sizeof(klen));
+        string k(klen, '\0');
+        ifs.read(&k[0], klen);
+        ifs.read(reinterpret_cast<char*>(&vlen), sizeof(vlen));
+        string v(vlen, '\0');
+        ifs.read(&v[0], vlen);
+        out.emplace(move(k), move(v));
+    }
+    return out;
+}
+
+// Global server control
+atomic<bool> running(true);
+
+// Worker to handle a client socket
+void client_handler(int clientfd, KVStore &store, WAL &wal) {
+    auto send_line = [&](const string &s) {
+        string out = s + "\n";
+        ssize_t n = send(clientfd, out.data(), out.size(), 0);
+        (void)n;
+    };
+
+    // read loop
+    string buf;
+    char tmp[1024];
+    while (running) {
+        ssize_t r = recv(clientfd, tmp, sizeof(tmp), 0);
+        if (r <= 0) break;
+        buf.append(tmp, tmp + r);
+        // process lines
+        size_t pos;
+        while ((pos = buf.find_first_of("\r\n")) != string::npos) {
+            string line = buf.substr(0, pos);
+            // skip multiple CRLF
+            while (!buf.empty() && (buf[0]=='\r' || buf[0]=='\n')) buf.erase(buf.begin());
+            buf.erase(0, pos+1);
+            if (line.empty()) continue;
+            // parse
+            istringstream iss(line);
+            string cmd;
+            iss >> cmd;
+            if (cmd == "GET") {
+                string key;
+                iss >> key;
+                if (key.empty()) { send_line("ERR MissingKey"); continue; }
+                auto val = store.get(key);
+                if (val.has_value()) send_line("VALUE " + *val);
+                else send_line("NOTFOUND");
+            } else if (cmd == "SET") {
+                string key;
+                iss >> key;
+                // rest of line is value (can contain spaces)
+                string value;
+                if (!iss.eof()) {
+                    getline(iss, value);
+                    if (!value.empty() && value[0]==' ') value.erase(0,1);
+                }
+                // simple validation
+                store.set(key, value);
+                wal.append_set(key, value);
+                send_line("OK");
+            } else if (cmd == "DEL") {
+                string key;
+                iss >> key;
+                if (key.empty()) { send_line("ERR MissingKey"); continue; }
+                bool removed = store.del(key);
+                if (removed) {
+                    wal.append_del(key);
+                    send_line("DELETED");
+                } else send_line("NOTFOUND");
+            } else if (cmd == "SNAPSHOT") {
+                try {
+                    write_snapshot(SNAPSHOT_FILE, store);
+                    wal.flush();
+                    send_line("SNAPSHOT_OK");
+                } catch (exception &e) {
+                    send_line(string("ERR SNAPSHOT_FAILED ") + e.what());
+                }
+            } else if (cmd == "EXIT") {
+                send_line("BYE");
+                close(clientfd);
+                return;
+            } else if (cmd == "PING") {
+                send_line("PONG");
+            } else {
+                send_line("ERR UnknownCommand");
+            }
+        }
+    }
+    close(clientfd);
+}
+
+// server accept loop
+void server_loop(int port, KVStore &store, WAL &wal) {
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0) { perror("socket"); return; }
+    int opt = 1;
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    sockaddr_in servaddr;
+    memset(&servaddr,0,sizeof(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = INADDR_ANY;
+    servaddr.sin_port = htons(port);
+    if (bind(sockfd, (sockaddr*)&servaddr, sizeof(servaddr)) < 0) {
+        perror("bind"); close(sockfd); return;
+    }
+    if (listen(sockfd, 128) < 0) { perror("listen"); close(sockfd); return; }
+    printf("Server listening on port %d\n", port);
+
+    vector<thread> workers;
+    while (running) {
+        sockaddr_in cli;
+        socklen_t clilen = sizeof(cli);
+        int connfd = accept(sockfd, (sockaddr*)&cli, &clilen);
+        if (connfd < 0) {
+            if (!running) break;
+            perror("accept");
+            continue;
+        }
+        // spawn thread
+        workers.emplace_back(client_handler, connfd, ref(store), ref(wal));
+        // clean up finished threads periodically
+        if (workers.size() > 64) {
+            vector<thread> still;
+            for (auto &t : workers) {
+                if (t.joinable()) {
+                    if (t.joinable()) {
+                        // try join non-blocking? C++ doesn't support timed join; we'll join if joinable
+                        t.detach(); // to avoid resource leak; minor compromise
+                    }
+                }
+            }
+            workers.clear();
+        }
+    }
+
+    // shutdown socket and join
+    close(sockfd);
+    // best-effort: give threads time (in real app use thread pool)
+    this_thread::sleep_for(chrono::milliseconds(200));
+    printf("Server shutting down\n");
+}
+
+// simple signal handler to set running=false
+void sigint_handler(int) {
+    running = false;
+}
+
+int main(int argc, char** argv) {
+    if (argc < 2) {
+        fprintf(stderr, "Usage: %s <port> [cache_capacity]\n", argv[0]);
+        return 1;
+    }
+    int port = atoi(argv[1]);
+    size_t cache_cap = 1000;
+    if (argc >= 3) cache_cap = stoul(argv[2]);
+
+    signal(SIGINT, sigint_handler);
+    signal(SIGTERM, sigint_handler);
+
+    try {
+        KVStore store(cache_cap);
+        // Step 1: load snapshot if exists
+        auto snap = read_snapshot(SNAPSHOT_FILE);
+        if (!snap.empty()) {
+            store.load_items(snap);
+            printf("Loaded snapshot with %zu items\n", snap.size());
+        }
+        // Step 2: replay WAL
+        WAL::replay(WAL_FILE, store);
+        printf("Replayed WAL\n");
+
+        // prepare WAL object
+        WAL wal(WAL_FILE);
+
+        // spawn server loop
+        server_loop(port, store, wal);
+
+        // graceful shutdown actions: snapshot + flush wal
+        wal.flush();
+        try {
+            write_snapshot(SNAPSHOT_FILE, store);
+            printf("Snapshot written on shutdown\n");
+        } catch (...) {
+            printf("Snapshot failed on shutdown\n");
+        }
+
+    } catch (exception &e) {
+        fprintf(stderr, "Fatal: %s\n", e.what());
+        return 2;
+    }
+    return 0;
+}
