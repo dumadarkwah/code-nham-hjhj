@@ -60,3 +60,13 @@ void AccountManager::createAccount(const std::string& name, const std::string& p
     accounts.emplace_back(id, name, passHash, balance);
     saveToFile();
 }
+
+#include "Logger.h"
+#include <fstream>
+#include <ctime>
+
+void Logger::log(const std::string& msg) {
+    std::ofstream file("data/transactions.log", std::ios::app);
+    time_t now = time(nullptr);
+    file << "[" << ctime(&now) << "] " << msg << "\n";
+}
