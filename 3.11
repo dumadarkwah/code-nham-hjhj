@@ -70,3 +70,47 @@ void Logger::log(const std::string& msg) {
     time_t now = time(nullptr);
     file << "[" << ctime(&now) << "] " << msg << "\n";
 }
+
+#pragma once
+#include <string>
+
+class Encryption {
+public:
+    static std::string hash(const std::string& input);
+};
+
+#include <iostream>
+#include "AccountManager.h"
+#include "TransactionManager.h"
+
+int main() {
+    AccountManager manager;
+    manager.loadFromFile();
+
+    std::cout << "=== BANK MANAGEMENT SYSTEM ===\n";
+    while (true) {
+        std::cout << "\n1. Create Account\n2. Login\n3. Exit\nChoose: ";
+        int choice; std::cin >> choice;
+        if (choice == 1) {
+            std::string name, pass;
+            double bal;
+            std::cout << "Name: "; std::cin >> name;
+            std::cout << "Password: "; std::cin >> pass;
+            std::cout << "Initial Balance: "; std::cin >> bal;
+            manager.createAccount(name, pass, bal);
+        }
+        else if (choice == 2) {
+            std::string id, pass;
+            std::cout << "ID: "; std::cin >> id;
+            std::cout << "Password: "; std::cin >> pass;
+            auto* acc = manager.findById(id);
+            if (acc && acc->checkPassword(Encryption::hash(pass))) {
+                std::cout << "Login successful!\n";
+                TransactionManager::session(*acc, manager);
+            } else {
+                std::cout << "Invalid credentials!\n";
+            }
+        }
+        else break;
+    }
+}
