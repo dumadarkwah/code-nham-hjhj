@@ -23,3 +23,40 @@ public:
 
     void display() const;
 };
+
+#include "AccountManager.h"
+#include <fstream>
+#include <iomanip>
+#include <sstream>
+
+void AccountManager::loadFromFile() {
+    std::ifstream file("data/accounts.dat", std::ios::binary);
+    if (!file) return;
+    Account acc;
+    while (file.read(reinterpret_cast<char*>(&acc), sizeof(acc))) {
+        accounts.push_back(acc);
+    }
+}
+
+void AccountManager::saveToFile() {
+    std::ofstream file("data/accounts.dat", std::ios::binary | std::ios::trunc);
+    for (auto& acc : accounts) {
+        file.write(reinterpret_cast<const char*>(&acc), sizeof(acc));
+    }
+}
+
+Account* AccountManager::findById(const std::string& id) {
+    for (auto& acc : accounts)
+        if (acc.getId() == id)
+            return &acc;
+    return nullptr;
+}
+
+void AccountManager::createAccount(const std::string& name, const std::string& pass, double balance) {
+    std::ostringstream oss;
+    oss << "AC" << std::setw(5) << std::setfill('0') << accounts.size() + 1;
+    std::string id = oss.str();
+    std::string passHash = Encryption::hash(pass);
+    accounts.emplace_back(id, name, passHash, balance);
+    saveToFile();
+}
