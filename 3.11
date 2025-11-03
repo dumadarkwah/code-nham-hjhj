@@ -1,0 +1,25 @@
+#pragma once
+#include <string>
+#include <iostream>
+
+class Account {
+private:
+    std::string id;
+    std::string ownerName;
+    std::string passwordHash;
+    double balance;
+public:
+    Account() = default;
+    Account(const std::string& id, const std::string& name, const std::string& passHash, double bal);
+
+    std::string getId() const;
+    std::string getOwner() const;
+    double getBalance() const;
+    bool checkPassword(const std::string& passHash) const;
+
+    void deposit(double amount);
+    bool withdraw(double amount);
+    bool transfer(Account& to, double amount);
+
+    void display() const;
+};
