@@ -1,0 +1,369 @@
+// flight_system.cpp
+// Compile: g++ -std=c++17 flight_system.cpp -o flight_system
+// Run: ./flight_system
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// ----------------- Models -----------------
+struct Flight {
+    int id;                 // mã chuyến bay
+    string code;            // mã hiển thị (VD: VN123)
+    string origin;
+    string destination;
+    string date;            // dạng "YYYY-MM-DD"
+    string time;            // dạng "HH:MM"
+    int totalSeats;
+    int bookedSeats;
+
+    Flight() : id(0), totalSeats(0), bookedSeats(0) {}
+};
+
+// Một vé đơn giản:
+struct Ticket {
+    int id;             // mã vé
+    int flightId;       // flight.id
+    string passengerName;
+    int seatNumber;     // seat number assigned
+};
+
+// ----------------- Utility -----------------
+vector<string> splitLine(const string &s, char delim='|') {
+    vector<string> parts;
+    string cur;
+    for (char c : s) {
+        if (c == delim) {
+            parts.push_back(cur);
+            cur.clear();
+        } else cur.push_back(c);
+    }
+    parts.push_back(cur);
+    return parts;
+}
+
+string escape(const string &s) {
+    // Nếu cần escape ký tự đặc biệt sau này
+    return s;
+}
+
+// ----------------- System -----------------
+class FlightSystem {
+private:
+    vector<Flight> flights;
+    vector<Ticket> tickets;
+    int nextFlightId = 1;
+    int nextTicketId = 1;
+    const string flightsFile = "flights.txt";
+    const string ticketsFile = "tickets.txt";
+
+    Flight* findFlightById(int id) {
+        for (auto &f : flights)
+            if (f.id == id) return &f;
+        return nullptr;
+    }
+
+    Ticket* findTicketById(int id) {
+        for (auto &t : tickets)
+            if (t.id == id) return &t;
+        return nullptr;
+    }
+
+public:
+    FlightSystem() {
+        load();
+    }
+
+    ~FlightSystem() {
+        save();
+    }
+
+    // ---------- Persistence ----------
+    void load() {
+        flights.clear();
+        tickets.clear();
+        ifstream fin(flightsFile);
+        string line;
+
+        int maxFid = 0, maxTid = 0;
+
+        if (fin.is_open()) {
+            while (getline(fin, line)) {
+                if (line.size() == 0) continue;
+                auto parts = splitLine(line, '|');
+                if (parts.size() < 8) continue; // field count
+                Flight f;
+                try {
+                    f.id = stoi(parts[0]);
+                    f.code = parts[1];
+                    f.origin = parts[2];
+                    f.destination = parts[3];
+                    f.date = parts[4];
+                    f.time = parts[5];
+                    f.totalSeats = stoi(parts[6]);
+                    f.bookedSeats = stoi(parts[7]);
+                    flights.push_back(f);
+                    if (f.id > maxFid) maxFid = f.id;
+                } catch (...) {
+                    // skip malformed line
+                }
+            }
+            fin.close();
+        }
+
+        ifstream tin(ticketsFile);
+        if (tin.is_open()) {
+            while (getline(tin, line)) {
+                if (line.size() == 0) continue;
+                auto p = splitLine(line, '|');
+                if (p.size() < 4) continue;
+                try {
+                    Ticket t;
+                    t.id = stoi(p[0]);
+                    t.flightId = stoi(p[1]);
+                    t.passengerName = p[2];
+                    t.seatNumber = stoi(p[3]);
+                    tickets.push_back(t);
+                    if (t.id > maxTid) maxTid = t.id;
+                } catch (...) {}
+            }
+            tin.close();
+        }
+
+        nextFlightId = maxFid + 1;
+        nextTicketId = maxTid + 1;
+    }
+
+    void save() {
+        ofstream fout(flightsFile);
+        for (auto &f : flights) {
+            fout << f.id << '|' << escape(f.code) << '|' << escape(f.origin) << '|' << escape(f.destination)
+                 << '|' << escape(f.date) << '|' << escape(f.time) << '|' << f.totalSeats << '|' << f.bookedSeats << '\n';
+        }
+        fout.close();
+
+        ofstream tout(ticketsFile);
+        for (auto &t : tickets) {
+            tout << t.id << '|' << t.flightId << '|' << escape(t.passengerName) << '|' << t.seatNumber << '\n';
+        }
+        tout.close();
+    }
+
+    // ---------- Flight operations ----------
+    void addFlight() {
+        Flight f;
+        f.id = nextFlightId++;
+        cout << "Nhập mã chuyến bay (VD: VN123): ";
+        getline(cin, f.code);
+        cout << "Điểm đi: ";
+        getline(cin, f.origin);
+        cout << "Điểm đến: ";
+        getline(cin, f.destination);
+        cout << "Ngày (YYYY-MM-DD): ";
+        getline(cin, f.date);
+        cout << "Giờ (HH:MM): ";
+        getline(cin, f.time);
+        cout << "Tổng số ghế: ";
+        string tmp; getline(cin,tmp); f.totalSeats = stoi(tmp);
+        f.bookedSeats = 0;
+        flights.push_back(f);
+        cout << "Thêm chuyến bay thành công. Mã nội bộ: " << f.id << "\n";
+        save();
+    }
+
+    void editFlight() {
+        cout << "Nhập ID chuyến cần sửa: ";
+        string tmp; getline(cin,tmp); int id = stoi(tmp);
+        Flight* f = findFlightById(id);
+        if (!f) { cout << "Không tìm thấy chuyến.\n"; return; }
+        cout << "Sửa chuyến (để trống nếu không đổi)\n";
+        cout << "Mã chuyến (" << f->code << "): ";
+        string in; getline(cin,in); if (!in.empty()) f->code = in;
+        cout << "Điểm đi (" << f->origin << "): "; getline(cin,in); if (!in.empty()) f->origin = in;
+        cout << "Điểm đến (" << f->destination << "): "; getline(cin,in); if (!in.empty()) f->destination = in;
+        cout << "Ngày (" << f->date << "): "; getline(cin,in); if (!in.empty()) f->date = in;
+        cout << "Giờ (" << f->time << "): "; getline(cin,in); if (!in.empty()) f->time = in;
+        cout << "Tổng ghế (" << f->totalSeats << "): "; getline(cin,in); if (!in.empty()) {
+            int newTotal = stoi(in);
+            if (newTotal < f->bookedSeats) {
+                cout << "Không thể đặt tổng ghế nhỏ hơn số ghế đã đặt (" << f->bookedSeats << "). Bỏ qua.\n";
+            } else f->totalSeats = newTotal;
+        }
+        save();
+        cout << "Sửa xong.\n";
+    }
+
+    void removeFlight() {
+        cout << "Nhập ID chuyến cần xóa: ";
+        string tmp; getline(cin,tmp); int id = stoi(tmp);
+        auto it = remove_if(flights.begin(), flights.end(), [&](const Flight& f){ return f.id==id; });
+        if (it != flights.end()) {
+            // xóa cả vé liên quan
+            flights.erase(it, flights.end());
+            tickets.erase(remove_if(tickets.begin(), tickets.end(), [&](const Ticket& t){ return t.flightId==id; }), tickets.end());
+            cout << "Xóa chuyến và vé liên quan thành công.\n";
+            save();
+        } else cout << "Không tìm thấy chuyến.\n";
+    }
+
+    void listFlights() {
+        if (flights.empty()) { cout << "Chưa có chuyến nào.\n"; return; }
+        cout << left << setw(4) << "ID" << setw(8) << "Code" << setw(12) << "From" << setw(12) << "To"
+             << setw(12) << "Date" << setw(8) << "Time" << setw(8) << "Seats" << setw(8) << "Booked" << '\n';
+        for (auto &f : flights) {
+            cout << setw(4) << f.id << setw(8) << f.code << setw(12) << f.origin << setw(12) << f.destination
+                 << setw(12) << f.date << setw(8) << f.time << setw(8) << f.totalSeats << setw(8) << f.bookedSeats << '\n';
+        }
+    }
+
+    void searchFlights() {
+        cout << "Tìm chuyến theo: 1) Mã 2) Điểm đi 3) Điểm đến 4) Ngày -> chọn số: ";
+        string tmp; getline(cin,tmp);
+        int opt = stoi(tmp);
+        string key;
+        cout << "Nhập từ khóa tìm kiếm: "; getline(cin,key);
+        vector<Flight> res;
+        for (auto &f : flights) {
+            bool ok = false;
+            if (opt==1 && (f.code.find(key) != string::npos || to_string(f.id)==key)) ok = true;
+            if (opt==2 && f.origin.find(key) != string::npos) ok = true;
+            if (opt==3 && f.destination.find(key) != string::npos) ok = true;
+            if (opt==4 && f.date.find(key) != string::npos) ok = true;
+            if (ok) res.push_back(f);
+        }
+        if (res.empty()) { cout << "Không có chuyến phù hợp.\n"; return; }
+        cout << "Kết quả:\n";
+        cout << left << setw(4) << "ID" << setw(8) << "Code" << setw(12) << "From" << setw(12) << "To"
+             << setw(12) << "Date" << setw(8) << "Time" << setw(8) << "Seats" << setw(8) << "Booked" << '\n';
+        for (auto &f : res) {
+            cout << setw(4) << f.id << setw(8) << f.code << setw(12) << f.origin << setw(12) << f.destination
+                 << setw(12) << f.date << setw(8) << f.time << setw(8) << f.totalSeats << setw(8) << f.bookedSeats << '\n';
+        }
+    }
+
+    // ---------- Ticket operations ----------
+    void bookTicket() {
+        cout << "Nhập ID chuyến muốn đặt: ";
+        string tmp; getline(cin,tmp); int fid = stoi(tmp);
+        Flight* f = findFlightById(fid);
+        if (!f) { cout << "Không tìm thấy chuyến.\n"; return; }
+        if (f->bookedSeats >= f->totalSeats) { cout << "Hết ghế.\n"; return; }
+        cout << "Tên hành khách: ";
+        string name; getline(cin, name);
+        // seatNumber đơn giản là bookedSeats+1 (có thể mở rộng)
+        int seat = -1;
+        // đảm bảo seat chưa được dùng:
+        vector<int> used;
+        for (auto &t : tickets) if (t.flightId == fid) used.push_back(t.seatNumber);
+        sort(used.begin(), used.end());
+        // tìm seat nhỏ nhất chưa dùng từ 1..totalSeats
+        for (int s = 1; s <= f->totalSeats; ++s) {
+            if (!binary_search(used.begin(), used.end(), s)) { seat = s; break; }
+        }
+        if (seat == -1) { cout << "Không tìm được ghế trống.\n"; return; }
+
+        Ticket t;
+        t.id = nextTicketId++;
+        t.flightId = fid;
+        t.passengerName = name;
+        t.seatNumber = seat;
+        tickets.push_back(t);
+        f->bookedSeats += 1;
+        cout << "Đặt vé thành công. Mã vé: " << t.id << ", ghế: " << t.seatNumber << '\n';
+        save();
+    }
+
+    void cancelTicket() {
+        cout << "Nhập mã vé cần hủy: ";
+        string tmp; getline(cin,tmp); int tid = stoi(tmp);
+        auto it = find_if(tickets.begin(), tickets.end(), [&](const Ticket& tk){ return tk.id==tid; });
+        if (it == tickets.end()) { cout << "Không tìm thấy vé.\n"; return; }
+        int fid = it->flightId;
+        // giảm bookedSeats nếu flight tồn tại
+        Flight* f = findFlightById(fid);
+        if (f) {
+            if (f->bookedSeats > 0) f->bookedSeats -= 1;
+        }
+        tickets.erase(it);
+        cout << "Hủy vé thành công.\n";
+        save();
+    }
+
+    void listPassengersByFlight() {
+        cout << "Nhập ID chuyến: ";
+        string tmp; getline(cin,tmp); int fid = stoi(tmp);
+        Flight* f = findFlightById(fid);
+        if (!f) { cout << "Không tìm thấy chuyến.\n"; return; }
+        cout << "Danh sách hành khách cho chuyến " << f->code << " (ID="<<f->id<<"):\n";
+        cout << left << setw(6) << "TID" << setw(4) << "Seat" << "Name\n";
+        for (auto &t : tickets) {
+            if (t.flightId == fid) {
+                cout << setw(6) << t.id << setw(4) << t.seatNumber << t.passengerName << '\n';
+            }
+        }
+    }
+
+    void showAllTickets() {
+        if (tickets.empty()) { cout << "Chưa có vé nào.\n"; return; }
+        cout << left << setw(6) << "TID" << setw(6) << "FID" << setw(6) << "Seat" << "Name\n";
+        for (auto &t : tickets) {
+            cout << setw(6) << t.id << setw(6) << t.flightId << setw(6) << t.seatNumber << t.passengerName << '\n';
+        }
+    }
+
+    // ---------- Helper: seed sample data ----------
+    void seedSample() {
+        flights.clear(); tickets.clear();
+        Flight f1; f1.id = nextFlightId++; f1.code="VN101"; f1.origin="HCM"; f1.destination="HN"; f1.date="2025-12-01"; f1.time="08:00"; f1.totalSeats=10; f1.bookedSeats=0;
+        Flight f2; f2.id = nextFlightId++; f2.code="VN202"; f2.origin="DN"; f2.destination="HCM"; f2.date="2025-12-02"; f2.time="14:30"; f2.totalSeats=5; f2.bookedSeats=0;
+        flights.push_back(f1); flights.push_back(f2);
+        save();
+        cout << "Đã tạo dữ liệu mẫu.\n";
+    }
+};
+
+// ----------------- UI -----------------
+void printMenu() {
+    cout << "=== Flight Ticket System ===\n";
+    cout << "1) Danh sách chuyến bay\n";
+    cout << "2) Thêm chuyến bay\n";
+    cout << "3) Sửa chuyến bay\n";
+    cout << "4) Xóa chuyến bay\n";
+    cout << "5) Tìm chuyến bay\n";
+    cout << "6) Đặt vé\n";
+    cout << "7) Hủy vé\n";
+    cout << "8) Danh sách hành khách theo chuyến\n";
+    cout << "9) Danh sách vé\n";
+    cout << "10) Tạo dữ liệu mẫu\n";
+    cout << "0) Thoát\n";
+    cout << "Chọn: ";
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    FlightSystem sys;
+    while (true) {
+        printMenu();
+        string opt; getline(cin,opt);
+        if (opt.empty()) continue;
+        int o = stoi(opt);
+        switch (o) {
+            case 1: sys.listFlights(); break;
+            case 2: sys.addFlight(); break;
+            case 3: sys.editFlight(); break;
+            case 4: sys.removeFlight(); break;
+            case 5: sys.searchFlights(); break;
+            case 6: sys.bookTicket(); break;
+            case 7: sys.cancelTicket(); break;
+            case 8: sys.listPassengersByFlight(); break;
+            case 9: sys.showAllTickets(); break;
+            case 10: sys.seedSample(); break;
+            case 0: cout << "Bye!\n"; return 0;
+            default: cout << "Lựa chọn không hợp lệ.\n"; break;
+        }
+        cout << "---------------------------------\n";
+    }
+
+    return 0;
+}
