@@ -72,3 +72,44 @@ int main() {
     cout << "Tong lon nhat: " << maxSum << endl;
     cout << "Vi tri tu " << start << " den " << end << endl;
 }
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+struct Schedule {
+    string name;
+    int startHour, endHour;
+};
+
+int main() {
+    int n;
+    cout << "Nhap so luong lich: ";
+    cin >> n;
+    vector<Schedule> a(n);
+
+    for (int i = 0; i < n; i++) {
+        cout << "Nhap ten, gio bat dau va gio ket thuc: ";
+        cin >> a[i].name >> a[i].startHour >> a[i].endHour;
+    }
+
+    sort(a.begin(), a.end(), [](auto &x, auto &y) {
+        return x.startHour < y.startHour;
+    });
+
+    cout << "\n--- DANH SACH SAU KHI SAP XEP ---\n";
+    for (auto &s : a)
+        cout << s.name << ": " << s.startHour << " - " << s.endHour << endl;
+
+    cout << "\n--- KIEM TRA XUNG DOT ---\n";
+    bool found = false;
+    for (int i = 0; i < n - 1; i++) {
+        if (a[i].endHour > a[i + 1].startHour) {
+            cout << "Xung dot: " << a[i].name << " va " << a[i + 1].name << endl;
+            found = true;
+        }
+    }
+    if (!found) cout << "Khong co xung dot nao!\n";
+}
