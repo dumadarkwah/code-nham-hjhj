@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+string compress(const string &s) {
+    string result;
+    int count = 1;
+    for (int i = 1; i <= s.size(); i++) {
+        if (i < s.size() && s[i] == s[i - 1]) count++;
+        else {
+            result += s[i - 1];
+            if (count > 1) result += to_string(count);
+            count = 1;
+        }
+    }
+    return result;
+}
+
+string decompress(const string &s) {
+    string result;
+    for (int i = 0; i < s.size(); i++) {
+        char c = s[i];
+        string num = "";
+        while (i + 1 < s.size() && isdigit(s[i + 1])) {
+            num += s[++i];
+        }
+        int count = num.empty() ? 1 : stoi(num);
+        result.append(count, c);
+    }
+    return result;
+}
+
+int main() {
+    string s;
+    cout << "Nhap chuoi: ";
+    cin >> s;
+
+    string compressed = compress(s);
+    cout << "Chuoi nen: " << compressed << endl;
+    cout << "Giai nen: " << decompress(compressed) << endl;
+}
