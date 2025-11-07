@@ -39,3 +39,36 @@ int main() {
     cout << "Chuoi nen: " << compressed << endl;
     cout << "Giai nen: " << decompress(compressed) << endl;
 }
+
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Nhap n: ";
+    cin >> n;
+    int a[n];
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    int maxSum = a[0], currentSum = a[0];
+    int start = 0, end = 0, tempStart = 0;
+
+    for (int i = 1; i < n; i++) {
+        if (currentSum < 0) {
+            currentSum = a[i];
+            tempStart = i;
+        } else {
+            currentSum += a[i];
+        }
+
+        if (currentSum > maxSum) {
+            maxSum = currentSum;
+            start = tempStart;
+            end = i;
+        }
+    }
+
+    cout << "Tong lon nhat: " << maxSum << endl;
+    cout << "Vi tri tu " << start << " den " << end << endl;
+}
