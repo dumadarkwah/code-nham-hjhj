@@ -163,3 +163,77 @@ int main() {
     cout << "Tu xuat hien nhieu nhat: " << maxWord
          << " (" << maxCount << " lan)" << endl;
 }
+
+
+
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <iomanip>
+#include <map>
+using namespace std;
+
+struct Bill {
+    string id, customer, item;
+    int quantity;
+    double price;
+    double total() const { return quantity * price; }
+};
+
+int main() {
+    int n;
+    cout << "Nhap so luong hoa don: ";
+    cin >> n;
+
+    vector<Bill> bills(n);
+    for (int i = 0; i < n; i++) {
+        cout << "Nhap ma, ten khach, san pham, so luong, don gia:\n";
+        cin >> bills[i].id >> bills[i].customer >> bills[i].item 
+            >> bills[i].quantity >> bills[i].price;
+    }
+
+    double totalRevenue = 0;
+    map<string, double> spendPerCustomer;
+
+    cout << "\n--- DANH SACH HOA DON ---\n";
+    cout << left << setw(10) << "MaHD" << setw(12) << "KhachHang"
+         << setw(12) << "SanPham" << setw(8) << "SL"
+         << setw(10) << "DonGia" << setw(10) << "TongTien" << endl;
+
+    for (auto &b : bills) {
+        double t = b.total();
+        totalRevenue += t;
+        spendPerCustomer[b.customer] += t;
+
+        cout << left << setw(10) << b.id << setw(12) << b.customer
+             << setw(12) << b.item << setw(8) << b.quantity
+             << setw(10) << b.price << setw(10) << t << endl;
+    }
+
+    cout << "\nTong doanh thu: " << totalRevenue << endl;
+
+    string topCustomer;
+    double maxSpent = 0;
+    for (auto &p : spendPerCustomer) {
+        if (p.second > maxSpent) {
+            maxSpent = p.second;
+            topCustomer = p.first;
+        }
+    }
+
+    cout << "Khach hang chi tieu nhieu nhat: " 
+         << topCustomer << " (" << maxSpent << ")\n";
+
+    // Ghi ra file
+    ofstream fout("bills.txt");
+    fout << left << setw(10) << "MaHD" << setw(12) << "KhachHang"
+         << setw(12) << "SanPham" << setw(8) << "SL"
+         << setw(10) << "DonGia" << setw(10) << "TongTien" << endl;
+    for (auto &b : bills)
+        fout << left << setw(10) << b.id << setw(12) << b.customer
+             << setw(12) << b.item << setw(8) << b.quantity
+             << setw(10) << b.price << setw(10) << b.total() << endl;
+    fout.close();
+
+    cout << "\nDa luu du lieu vao file bills.txt\n";
+}
