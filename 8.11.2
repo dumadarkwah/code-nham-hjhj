@@ -35,3 +35,21 @@ int main() {
     cout << "\n💰 Tong chi tieu: " << tong;
     cout << "\n📈 Khoan chi lon nhat: " << tenMax << " - " << maxChi;
 }
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int batDau, ketThuc;
+    cout << "Nhap gio bat dau (0-23): "; cin >> batDau;
+    cout << "Nhap gio ket thuc (0-23): "; cin >> ketThuc;
+
+    int gioGui = (ketThuc >= batDau) ? (ketThuc - batDau) : (24 - batDau + ketThuc);
+    int tien = 0;
+
+    if (gioGui <= 1) tien = 5000;
+    else tien = 5000 + (gioGui - 1) * 2000;
+
+    cout << "\n🅿️ Thoi gian gui: " << gioGui << " gio\n";
+    cout << "💵 So tien phai tra: " << tien << " VND";
+}
