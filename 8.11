@@ -1,0 +1,118 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct MayTinh {
+    string maMay;
+    bool dangSuDung;
+    time_t gioBatDau;
+    double doanhThu;
+
+    MayTinh(string ma) {
+        maMay = ma;
+        dangSuDung = false;
+        gioBatDau = 0;
+        doanhThu = 0;
+    }
+};
+
+class QuanNet {
+private:
+    vector<MayTinh> ds;
+    const double giaGio = 10000;
+
+public:
+    void themMay(string ma) {
+        ds.emplace_back(ma);
+        cout << "✅ Đã thêm máy " << ma << endl;
+    }
+
+    void hienThi() {
+        cout << left << setw(10) << "MaMay" 
+             << setw(15) << "TrangThai" 
+             << setw(15) << "DoanhThu" << endl;
+        for (auto &m : ds) {
+            cout << left << setw(10) << m.maMay 
+                 << setw(15) << (m.dangSuDung ? "Dang su dung" : "Trong") 
+                 << setw(15) << fixed << setprecision(0) << m.doanhThu << endl;
+        }
+    }
+
+    void batDau(string ma) {
+        for (auto &m : ds) {
+            if (m.maMay == ma && !m.dangSuDung) {
+                m.dangSuDung = true;
+                m.gioBatDau = time(0);
+                cout << "💻 May " << ma << " da duoc bat dau luc " << ctime(&m.gioBatDau);
+                return;
+            }
+        }
+        cout << "❌ May khong ton tai hoac dang co nguoi su dung!\n";
+    }
+
+    void ketThuc(string ma) {
+        for (auto &m : ds) {
+            if (m.maMay == ma && m.dangSuDung) {
+                time_t gioKetThuc = time(0);
+                double soGio = difftime(gioKetThuc, m.gioBatDau) / 3600.0;
+                double tien = ceil(soGio) * giaGio;
+
+                m.doanhThu += tien;
+                m.dangSuDung = false;
+                cout << "💰 Khach su dung may " << ma << " het " 
+                     << fixed << setprecision(2) << soGio 
+                     << " gio. Thu " << tien << " VND\n";
+                return;
+            }
+        }
+        cout << "❌ May khong ton tai hoac chua duoc su dung!\n";
+    }
+
+    void thongKe() {
+        double tong = 0;
+        for (auto &m : ds) tong += m.doanhThu;
+        cout << "📊 Tong doanh thu quan net: " << tong << " VND\n";
+    }
+
+    void ghiFile() {
+        ofstream fout("quan_net.txt");
+        for (auto &m : ds) {
+            fout << m.maMay << " " << m.doanhThu << endl;
+        }
+        fout.close();
+        cout << "💾 Du lieu da duoc luu vao quan_net.txt\n";
+    }
+};
+
+int main() {
+    QuanNet qn;
+    int chon;
+    string ma;
+
+    while (true) {
+        cout << "\n===== QUAN LY QUAN NET =====\n";
+        cout << "1. Them may\n2. Hien thi\n3. Bat dau\n4. Ket thuc\n5. Thong ke\n6. Thoat\n";
+        cout << "Chon: ";
+        cin >> chon;
+
+        if (chon == 1) {
+            cout << "Nhap ma may: "; cin >> ma;
+            qn.themMay(ma);
+        } else if (chon == 2) {
+            qn.hienThi();
+        } else if (chon == 3) {
+            cout << "Nhap ma may: "; cin >> ma;
+            qn.batDau(ma);
+        } else if (chon == 4) {
+            cout << "Nhap ma may: "; cin >> ma;
+            qn.ketThuc(ma);
+        } else if (chon == 5) {
+            qn.thongKe();
+        } else if (chon == 6) {
+            qn.ghiFile();
+            break;
+        } else {
+            cout << "Lua chon khong hop le!\n";
+        }
+    }
+    return 0;
+}
