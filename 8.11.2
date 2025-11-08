@@ -53,3 +53,41 @@ int main() {
     cout << "\n🅿️ Thoi gian gui: " << gioGui << " gio\n";
     cout << "💵 So tien phai tra: " << tien << " VND";
 }
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct MatHang {
+    string ten;
+    int soLuong;
+    double donGia;
+};
+
+int main() {
+    int n;
+    cout << "Nhap so mat hang: ";
+    cin >> n;
+
+    vector<MatHang> ds;
+    for (int i = 0; i < n; i++) {
+        MatHang mh;
+        cout << "Ten hang: ";
+        cin.ignore();
+        getline(cin, mh.ten);
+        cout << "So luong: ";
+        cin >> mh.soLuong;
+        cout << "Don gia: ";
+        cin >> mh.donGia;
+
+        if (mh.soLuong <= 0 || mh.donGia <= 0) {
+            cout << "❌ Loi: du lieu khong hop le!\n";
+            return 0;
+        }
+        ds.push_back(mh);
+    }
+
+    double tong = 0;
+    for (auto &x : ds) tong += x.soLuong * x.donGia;
+    cout << "\n🧾 Tong tien don hang: " << tong << " VND";
+}
