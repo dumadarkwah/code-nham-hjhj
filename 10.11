@@ -36,3 +36,39 @@ int main() {
     cout << canCompleteCircuit(gas, cost) << "\n";
     return 0;
 }
+
+
+// round_robin_schedule.cpp
+// Generate round-robin schedule for even n teams.
+// Input: n (even), then team names (n strings)
+// Output: rounds with pairings
+// Example:
+// 6
+// A B C D E F
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<string> teams(n);
+    for (int i = 0; i < n; ++i) cin >> teams[i];
+    // If odd, add a bye (not needed here as n is even)
+    int rounds = n - 1;
+    vector<string> cur = teams;
+    for (int r = 0; r < rounds; ++r) {
+        cout << "Round " << r+1 << ":\n";
+        for (int i = 0; i < n/2; ++i) {
+            cout << cur[i] << " vs " << cur[n-1 - i] << "\n";
+        }
+        // rotate all but first
+        string last = cur.back();
+        for (int i = n-1; i > 1; --i) cur[i] = cur[i-1];
+        cur[1] = last;
+        cout << "\n";
+    }
+    return 0;
+}
