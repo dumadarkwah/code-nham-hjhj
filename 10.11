@@ -72,3 +72,99 @@ int main() {
     }
     return 0;
 }
+
+// ticket_manager.cpp
+// Simple Ticket manager with file save/load.
+// Commands: add, list, find <id>, remove <id>, save, load, exit
+// Ticket saved as: id|name|trip|price
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Ticket {
+    string id, name, trip;
+    double price;
+};
+
+class TicketManager {
+    vector<Ticket> data;
+public:
+    void add(const Ticket& t) { data.push_back(t); }
+    void list() {
+        for (auto &t : data) {
+            cout << t.id << " | " << t.name << " | " << t.trip << " | " << t.price << "\n";
+        }
+    }
+    void find(const string &id) {
+        for (auto &t : data) if (t.id == id) {
+            cout << t.id << " | " << t.name << " | " << t.trip << " | " << t.price << "\n";
+            return;
+        }
+        cout << "Not found\n";
+    }
+    void removeId(const string &id) {
+        auto it = remove_if(data.begin(), data.end(), [&](const Ticket& t){ return t.id == id; });
+        if (it != data.end()) {
+            data.erase(it, data.end());
+            cout << "Removed\n";
+        } else cout << "Not found\n";
+    }
+    void save(const string &fname) {
+        ofstream fout(fname);
+        for (auto &t : data) {
+            fout << t.id << '|' << t.name << '|' << t.trip << '|' << t.price << '\n';
+        }
+        fout.close();
+        cout << "Saved\n";
+    }
+    void load(const string &fname) {
+        data.clear();
+        ifstream fin(fname);
+        string line;
+        while (getline(fin, line)) {
+            if (line.empty()) continue;
+            stringstream ss(line);
+            string id,name,trip,priceS;
+            if (!getline(ss, id, '|')) continue;
+            if (!getline(ss, name, '|')) continue;
+            if (!getline(ss, trip, '|')) continue;
+            if (!getline(ss, priceS)) continue;
+            Ticket t; t.id=id; t.name=name; t.trip=trip; t.price=stod(priceS);
+            data.push_back(t);
+        }
+        fin.close();
+        cout << "Loaded\n";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    TicketManager mgr;
+    string cmd;
+    while (true) {
+        cout << "cmd> ";
+        if (!(cin >> cmd)) break;
+        if (cmd == "add") {
+            Ticket t;
+            cout << "id name trip price\n";
+            cin >> ws;
+            getline(cin, t.id, ' ');
+            getline(cin, t.name, ' ');
+            getline(cin, t.trip, ' ');
+            cin >> t.price;
+            mgr.add(t);
+        } else if (cmd == "list") mgr.list();
+        else if (cmd == "find") {
+            string id; cin >> id; mgr.find(id);
+        } else if (cmd == "remove") {
+            string id; cin >> id; mgr.removeId(id);
+        } else if (cmd == "save") {
+            string f; cin >> f; mgr.save(f);
+        } else if (cmd == "load") {
+            string f; cin >> f; mgr.load(f);
+        } else if (cmd == "exit") break;
+        else cout << "Unknown command\n";
+    }
+    return 0;
+}
