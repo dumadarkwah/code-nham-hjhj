@@ -1,0 +1,84 @@
+// bst_advanced.cpp
+// Supports insert, delete, inorder, postorder, findClosest.
+// Example usage in main provided.
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int val;
+    Node* left;
+    Node* right;
+    Node(int v): val(v), left(nullptr), right(nullptr) {}
+};
+
+Node* insertNode(Node* root, int x) {
+    if (!root) return new Node(x);
+    if (x < root->val) root->left = insertNode(root->left, x);
+    else if (x > root->val) root->right = insertNode(root->right, x);
+    return root;
+}
+
+Node* findMin(Node* root) {
+    while (root && root->left) root = root->left;
+    return root;
+}
+
+Node* deleteNode(Node* root, int key) {
+    if (!root) return nullptr;
+    if (key < root->val) root->left = deleteNode(root->left, key);
+    else if (key > root->val) root->right = deleteNode(root->right, key);
+    else {
+        if (!root->left) {
+            Node* r = root->right; delete root; return r;
+        } else if (!root->right) {
+            Node* l = root->left; delete root; return l;
+        } else {
+            Node* mn = findMin(root->right);
+            root->val = mn->val;
+            root->right = deleteNode(root->right, mn->val);
+        }
+    }
+    return root;
+}
+
+void inorder(Node* root) {
+    if (!root) return;
+    inorder(root->left);
+    cout << root->val << ' ';
+    inorder(root->right);
+}
+
+void postorder(Node* root) {
+    if (!root) return;
+    postorder(root->left);
+    postorder(root->right);
+    cout << root->val << ' ';
+}
+
+int findClosest(Node* root, int target) {
+    int closest = root ? root->val : INT_MAX;
+    Node* cur = root;
+    while (cur) {
+        if (abs(cur->val - target) < abs(closest - target)) closest = cur->val;
+        if (target < cur->val) cur = cur->left;
+        else cur = cur->right;
+    }
+    return closest;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    Node* root = nullptr;
+    // Demo operations
+    vector<int> vals = {20, 10, 5, 15, 30, 25, 35};
+    for (int v : vals) root = insertNode(root, v);
+    cout << "Inorder: "; inorder(root); cout << "\n";
+    root = deleteNode(root, 10);
+    cout << "Inorder after delete 10: "; inorder(root); cout << "\n";
+    cout << "Postorder: "; postorder(root); cout << "\n";
+    int target = 28;
+    cout << "Closest to " << target << " is " << findClosest(root, target) << "\n";
+    return 0;
+}
