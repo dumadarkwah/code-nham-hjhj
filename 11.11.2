@@ -19,3 +19,30 @@ int main() {
         for(int x:a) cout<<x<<' ';
     }
 }
+
+
+// knapsack.cpp
+// Input:
+// 4 7
+// 6 13
+// 4 8
+// 3 6
+// 5 12
+// Output: 14
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n, W; cin >> n >> W;
+    vector<int> wt(n+1), val(n+1);
+    for(int i=1;i<=n;i++) cin >> wt[i] >> val[i];
+    vector<vector<int>> dp(n+1, vector<int>(W+1,0));
+    for(int i=1;i<=n;i++){
+        for(int w=0;w<=W;w++){
+            dp[i][w]=dp[i-1][w];
+            if(w>=wt[i]) dp[i][w]=max(dp[i][w],dp[i-1][w-wt[i]]+val[i]);
+        }
+    }
+    cout << dp[n][W] << "\n";
+}
