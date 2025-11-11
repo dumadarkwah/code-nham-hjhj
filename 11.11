@@ -36,3 +36,37 @@ int main() {
     if (idx == -1) cout << "Not found\n";
     else cout << "Found: " << st[idx].name << " GPA: " << st[idx].gpa << "\n";
 }
+
+// decode_string.cpp
+// Input: s = "3[a2[b]]"
+// Output: "abbabbabb"
+
+#include <bits/stdc++.h>
+using namespace std;
+
+string decode(string s) {
+    stack<int> num;
+    stack<string> str;
+    string cur = "";
+    int n = 0;
+    for (char c : s) {
+        if (isdigit(c)) n = n * 10 + (c - '0');
+        else if (c == '[') {
+            num.push(n);
+            str.push(cur);
+            n = 0; cur = "";
+        } else if (c == ']') {
+            int cnt = num.top(); num.pop();
+            string prev = str.top(); str.pop();
+            string tmp = "";
+            while (cnt--) tmp += cur;
+            cur = prev + tmp;
+        } else cur += c;
+    }
+    return cur;
+}
+
+int main() {
+    string s; cin >> s;
+    cout << decode(s) << "\n";
+}
