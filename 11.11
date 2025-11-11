@@ -1,0 +1,38 @@
+// student_manager.cpp
+// Dùng struct, vector, sort, binary_search
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Student {
+    string id;
+    string name;
+    double gpa;
+};
+
+bool cmp(const Student &a, const Student &b) {
+    if (a.gpa != b.gpa) return a.gpa > b.gpa;
+    return a.id < b.id;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n; cin >> n;
+    vector<Student> st(n);
+    for (int i = 0; i < n; ++i)
+        cin >> st[i].id >> ws, getline(cin, st[i].name), cin >> st[i].gpa;
+    sort(st.begin(), st.end(), cmp);
+
+    cout << "\n=== Sorted by GPA ===\n";
+    for (auto &s : st)
+        cout << s.id << " - " << s.name << " - " << s.gpa << "\n";
+
+    cout << "\nSearch by ID: ";
+    string x; cin >> x;
+    int idx = -1;
+    for (int i = 0; i < n; ++i)
+        if (st[i].id == x) idx = i;
+    if (idx == -1) cout << "Not found\n";
+    else cout << "Found: " << st[idx].name << " GPA: " << st[idx].gpa << "\n";
+}
