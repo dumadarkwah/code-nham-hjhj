@@ -36,3 +36,26 @@ int main () {
     
     return 0;
 }
+
+
+/*Bài 3: Đảo ngược chuỗi*/
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main () {
+    string s;
+    
+    //Nhập chuỗi
+    cout<<"Nhập chuỗi: ";
+    getline(cin,s);
+    
+    //Đảo ngược chuỗi
+    string daoNguoc = "";
+    for (int i = s.length() - 1; i >= 0; i--) {
+       daoNguoc = daoNguoc + s[i];
+    }
+    cout<<"Chuỗi đảo ngược: "<<daoNguoc<<endl;
+    return 0;
+}
