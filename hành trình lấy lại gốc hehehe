@@ -13,3 +13,26 @@ int main () {
     else { cout<<n<<" la so le"; }
     return 0;
 }
+
+
+/*Bài 2: Tính giai thừa*/
+
+#include <iostream>
+using namespace std;
+
+int main () {
+    int n;
+    long long giaiThua = 1; //Khởi tạo biến tích lũy = 1 vì 0! = 1
+    
+    //Nhập n 
+    cout<<"Nhap so n: ";
+    cin>>n;
+    
+    for (int i = 1; i <= n; i++) {
+        giaiThua = giaiThua * i;
+    }
+    
+    cout<<n<<"!="<<giaiThua<<endl;
+    
+    return 0;
+}
