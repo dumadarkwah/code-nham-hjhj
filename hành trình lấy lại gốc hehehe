@@ -105,3 +105,56 @@ int main () {
     cout<<dem<<endl;
     return 0;
 }
+
+#include <iostream>
+using namespace  std;
+
+//tạo mảng số nguyên và số phần tử của mảng
+int timSoLonThu2(int a[], int n) {
+    if (n < 2){
+        return -1;
+    }
+    
+    //Giả định số lớn nhất và số lớn thứ 2
+    int max1 = a[0];
+    int max2 = a[1];
+    
+    //đảm bảo số lớn nhất luôn >= số lớn thứ 2 
+    if (max1 < max2) {
+        swap(max1, max2);
+    }
+    
+    //Duyệt từ phần từ thứ 3
+    for (int i = 2; i < n; i++) {
+        if (a[i] > max1) {
+            max2 = max1; 
+            max1 = a[1];
+        }
+        else if (a[i] > max2 && a[i] != max1) {
+            max2 = a[i];
+        }
+    }
+    return max2;
+    
+}
+
+int main () {
+    int n;
+    cout<<"Nhap so phan tu: ";
+    cin>>n;
+    
+    int a[n]; 
+    for(int i = 0; i < n; i++) {
+        cout<<"So thu "<<i+1<<" la: ";
+        cin>>a[i];
+    }
+    
+    int ketQua = timSoLonThu2(a, n);
+    
+    if (ketQua == -1) {
+        cout<<"Mang khong co so lon thu 2"<<endl;
+    } else { cout<<"So lon thu 2 la: "<<ketQua<<endl; }
+    
+    
+    return 0;
+}
