@@ -1,0 +1,43 @@
+include <iostream>
+using namespace std;
+
+int main() {
+	bool ship[4][4] = {
+	{ 0, 1, 1, 0 },
+	{ 0, 0, 0, 0 },
+	{ 0, 0, 1, 0 },
+	{ 0, 0, 1, 0 }
+	};
+
+	//Theo doi cac luot danh trung va so luot nguoi choi da thuc hien qua nhung gia tri nay
+
+	int phat = 0;
+	int soLuotDung = 0;
+
+	//Cho phep nguoi choi tiep tuc sau khi ho ban trung 4 con tau
+	while (phat < 4) {
+		int row, column;
+
+		cout << "Chon toa do: \n";
+		cout << "Chon so hang tu 0 - 3: ";
+		cin >> row;
+
+			cout << "Chon so cot tu 0 - 3: ";
+		cin >> column;
+
+		if (ship[row][column]) {
+			ship[row][column] = 0;
+			phat++;
+
+			cout << "HIT!" << (4 - phat) << "con lai\n";
+		}
+		else { cout << "Hut\n"; }
+
+		soLuotDung++;
+	}
+
+	cout << "Victory\n";
+	cout << "Ban thang voi " << soLuotDung << " luot!" << endl;
+
+	return 0;
+}
