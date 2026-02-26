@@ -1,0 +1,30 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+	int soKhach;
+	cout << "Co bao nhieu khach? ";
+	cin >> soKhach;
+
+	if (soKhach < 0) {
+		cout << "So khach phai co it nhat 1 nguoi";
+		return 0;
+	}
+
+	//tao 1 chuoi moi co sokhach phan tu
+	string* khach = new string[soKhach];
+	cin.ignore();
+
+	for (int i = 0; i < soKhach; i++) {
+		cout << "Nhap ten cua khach hang " << i + 1 << " : ";
+		getline(cin, khach[i]);
+	}
+
+	cout << "\nSo khach check in: \n";
+	for (int i = 0; i < soKhach; i++) {
+		cout << khach[i] << "\n";
+	}
+
+	delete[] khach;
+	return 0;
+}
