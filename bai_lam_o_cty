@@ -57,3 +57,69 @@ int main() {
 	delete[] diem;
 	return 0;
 }
+
+
+#include <iostream>
+using namespace std;
+
+int main() {
+	int sanPham;
+	cout << "So luong san pham la: ";
+	cin >> sanPham;
+
+	string* ten = new string[sanPham];
+	cin.ignore();
+
+	for (int i = 0; i < sanPham; i++) {
+		cout << "Ten cua san pham " << i + 1 << " la: ";
+		getline(cin, ten[i]);
+	}
+
+	float* tien = new float[sanPham];
+	for (int i = 0; i < sanPham; i++) {
+		cout << "Gia tien cua san pham "<<i+1<<" la: ";
+		cin >> tien[i];
+	}
+
+
+		int* soLuong = new int[sanPham];
+	for (int i = 0; i < sanPham; i++) {
+		cout << "So luong san pham " << ten[i] << " la: ";
+		cin >> soLuong[i];
+	}
+
+
+	float* sum = new float[sanPham];
+		for (int i = 0; i < sanPham; i++) {
+			sum[i] = (tien[i] * soLuong[i]);
+		}
+
+
+		float tongKho = 0; 
+		for (int i = 0; i < sanPham; i++) {
+			tongKho += sum[i];
+		}
+
+		float maxTien = tien[0];
+		int viTriMax = 0;
+		for (int i = 0; i < sanPham; i++) {
+			if (tien[i] > maxTien) {
+				maxTien = tien[i];
+				viTriMax = i;
+			}
+		}
+
+		cout << "=====DANH SACH SAN PHAM=====\n";
+	for (int i = 0; i < sanPham; i++) {
+		cout << ten[i] << " - " << tien[i] << " - " << soLuong[i] << " " << sum[i] << "\n";
+	}
+	cout<<"Tong kho: "<<tongKho<<endl;
+	cout << "San pham co gia cao nhat la: " << ten[viTriMax] << " voi gia la: " << tien[viTriMax] << endl; 
+
+	delete[] ten;
+	delete[] tien;
+	delete[] soLuong;
+	delete[] sum;
+
+	return 0;
+}
