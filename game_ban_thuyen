@@ -1,4 +1,4 @@
-include <iostream>
+#include <iostream>
 using namespace std;
 
 int main() {
@@ -29,14 +29,14 @@ int main() {
 			ship[row][column] = 0;
 			phat++;
 
-			cout << "HIT!" << (4 - phat) << "con lai\n";
+			cout << "HIT!" << (4 - phat) << " luot con lai\n";
 		}
 		else { cout << "Hut\n"; }
 
 		soLuotDung++;
 	}
 
-	cout << "Victory\n";
+	cout << "Victory!!!\n";
 	cout << "Ban thang voi " << soLuotDung << " luot!" << endl;
 
 	return 0;
