@@ -305,3 +305,74 @@ void xuatMang(int mt[][COL], int m, int n) {
         cout<<endl;
     } 
 }
+
+
+
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+#define ROW 100
+#define COL 100
+
+void nhapMang(int mt[][COL], int &m, int &n){
+    srand(time(NULL));
+    
+    cout<<"Nhap so dong: ";
+    cin >>m;
+    cout<<"Nhap so cot: ";
+    cin>>n;
+    
+    for(int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            mt[i][j] = rand() %100;
+        }
+    }
+}
+
+
+
+void xuatMang(int mt[][COL], int m, int n) {
+    for (int i = 0; i < m; i++){
+        for (int j = 0; j < n; j++){
+            cout<<mt[i][j]<<"\t";
+        }
+        cout<<endl;
+    }
+}
+
+
+int tongDong(int mt[][COL], int n, int d) {
+    int sum(0);
+    for (int j = 0; j < n; j++) {
+        sum += mt[d][j];
+    } return sum;
+}
+
+int tongCot(int mt[][COL], int m, int c) {
+    int sum(0);
+    for (int i = 0; i < m; i++) {
+        sum += mt [i][c];
+    } return sum;
+}
+
+int main() {
+    int mt[ROW][COL];
+    int nRow, nCol;
+
+    nhapMang(mt, nRow, nCol);
+    xuatMang(mt, nRow, nCol);
+    
+    int d;
+    cout<<"Nhap dong can tinh tong: ";
+    cin>>d;
+    cout<<"Tong dong: "<< tongDong(mt, nCol, d) <<endl;
+    
+    int c;
+    cout<<"Nhap dong can tinh tong: ";
+    cin>>c;
+    cout<<"Tong cot: "<<tongCot(mt, nRow, c)<<endl;
+    
+    return 0;
+}
