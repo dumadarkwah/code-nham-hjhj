@@ -123,3 +123,30 @@ int main() {
 
 	return 0;
 }
+
+
+#include <iostream>
+using namespace std;
+
+int genID() {
+	static int s_id = 0; //neu khong co static thi se nhu the nao
+	++s_id;
+	return s_id;
+}
+
+int main() {
+	int nID1 = genID();
+	string strName("Kteam");
+
+	int nID2 = genID();
+	string strName2("abc");
+
+	int nID3 = genID();
+	string strName3("hjhj");
+
+	cout << nID1 << " : " + strName << endl;
+	cout << nID2 << " : " + strName2 << endl;
+	cout << nID3 << " : " + strName3 << endl;
+
+	return 0;
+}
