@@ -150,3 +150,109 @@ int main() {
 
 	return 0;
 }
+
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+//bien toan cuc
+string g_tenShop = "FPT Shop";
+int g_maCuaHang = 1000;
+
+int taoMaSp() {
+	static int s_maSp = 100;
+	++s_maSp;
+	return s_maSp;
+}
+
+float tinhTong(float tien[], int soLuongSp) {
+	float tong = 0;
+	for (int i = 0; i < soLuongSp; i++) {
+		tong += tien[i];
+	}
+	return tong;
+}
+
+int timSpMax(float gia[], int soLuongSp) {
+	float maxGia = gia[0];
+	int viTri = 0;
+	for (int i = 0; i < soLuongSp; i++) {
+		if (gia[i] > maxGia) {
+			maxGia = gia[i];
+				viTri = i;
+		}
+	}
+	return viTri;
+}
+
+int main() {
+	int soSp;
+	cout << "======" << g_tenShop << "======" << endl;
+	cout << "Ma cua hang: " << g_maCuaHang << endl;
+
+	cout << "So luong san pham: ";
+		cin >> soSp;
+
+
+	if (soSp <= 0) {
+		cout << "So luong san pham it nhat 1!" << endl;
+		return 0;
+	}
+	//cấp phát bộ nhớ động
+	string* tenSp = new string[soSp];
+	float* giaSp = new float[soSp];
+	int* soLuongTon = new int[soSp];
+	int* maSp = new int[soSp];
+
+	cin.ignore();
+
+	//nhập thông tin sản phẩm
+
+	for (int i = 0; i < soSp; i++) {
+		cout << "San pham " << i + 1 << " : " << endl;
+		
+		cout << "Ten san pham: ";
+		getline(cin, tenSp[i]);
+
+		cout << "Gia ban: ";
+		cin >> giaSp[i];
+
+		cout << "So luong ton kho: ";
+		cin >> soLuongTon[i];
+		cin.ignore();
+
+		maSp[i] = taoMaSp();
+
+	}
+
+	float* giaTriKho = new float[soSp];
+	for (int i = 0; i < soSp; i++) {
+		giaTriKho[i] = giaSp[i] * soLuongTon[i];
+	}
+
+	float tongGiaTriKho = tinhTong(giaTriKho, soSp);
+	int viTriMax = timSpMax(giaSp, soSp);
+
+
+
+	//in ket qua
+
+	cout << "=====Danh Sach San Pham=====" << endl;
+	for (int i = 0; i < soSp; i++) {
+		cout << "Ten san pham " << i + 1 << " la: "<<maSp[i]<<" - "<< tenSp[i] << endl;
+		cout << "Gia cua san pham " << i + 1 << " la: " << giaSp[i] << endl;
+		cout << "So luong san pham " << i + 1 << soLuongTon[i] << endl;
+		cout << "Gia tri ton cua san pham " << i + 1 << " la: " << giaTriKho[i] << endl;
+		cout << "San pham co gia tri lon nhat la: " << tenSp[viTriMax]<<" - "<<"Gia: "<<giaSp[viTriMax] << endl;
+	}
+
+	delete[] tenSp;
+	delete[] giaSp;
+	delete[] soLuongTon;
+	delete[] maSp;
+	delete[] giaTriKho;
+
+	return 0;
+}
