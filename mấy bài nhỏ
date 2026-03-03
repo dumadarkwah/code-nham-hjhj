@@ -19,3 +19,24 @@ cin.ignore();
 
 	return 0;
 }
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    int* p = NULL;
+    int x = 10;
+
+    if (p != NULL) {
+        cout << *p << endl;
+    } else {
+        cout << "Con trỏ NULL, không thể truy cập!" << endl; }
+    
+    // Gán địa chỉ và thử lại
+    p = &x;
+    if (p != NULL) {
+        cout << "Giá trị: " << *p << endl;
+    }
+
+    return 0;
+}
