@@ -40,3 +40,18 @@ int main() {
 
     return 0;
 }
+
+#include <iostream>
+using namespace std;
+
+int main () {
+    const int arrlength = 4;
+    int arr[arrlength] = { 5, 6, 8 ,7 };
+    
+    for (int* ptr = arr; ptr < arr + arrlength; ptr++) {
+        cout<<*ptr<<endl;
+    }
+    
+    
+    return 0;
+}
