@@ -76,3 +76,22 @@ int main () {
     
     return 0;
 }
+
+#include <iostream>
+using namespace std;
+
+int tong(int n) {
+    if(n == 1) {
+        return 1;
+    }
+    return n + tong(n - 1);
+}
+
+int main () {
+    int a;
+    cout<<"Tinh tong tu 1 cho den: ";
+    cin>>a;
+    
+    cout<<"Tong tu 1 den "<<a<<" la: "<<tong(a);
+    return 0;
+}
