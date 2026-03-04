@@ -90,3 +90,49 @@ int main() {
 	cout << a;
 	return 0;
 }
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Student {
+    string name;
+    int age;
+    int score;
+};
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore(); // bỏ ký tự xuống dòng
+
+    Student* students = new Student[n];
+
+    for (int i = 0; i < n; i++) {
+        getline(cin, students[i].name);
+        cin >> students[i].age;
+        cin >> students[i].score;
+        cin.ignore(); // bỏ '\n' để getline lần sau không bị lỗi
+    }
+
+    // Tìm điểm cao nhất
+    int maxDiem = students[0].score;
+    for (int i = 1; i < n; i++) {
+        if (students[i].score > maxDiem) {
+            maxDiem = students[i].score;
+        }
+    }
+
+    // In sinh viên có điểm cao nhất
+    for (int i = 0; i < n; i++) {
+        if (students[i].score == maxDiem) {
+            cout <<"Name: "<< students[i].name << endl;
+            cout <<"Age: "<< students[i].age << endl;
+            cout <<"Score: "<< students[i].score << endl;
+        }
+    }
+
+    delete[] students;
+    return 0;
+}
