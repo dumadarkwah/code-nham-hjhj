@@ -1,0 +1,5693 @@
+?ｻｿ//==========================================================================
+//	@file [SubA_PrjStgNml.c]
+//	@brief 窶之窶ｹZﾂ湘ｳ窶佚犯畜ﾂーﾆ段ﾆ湛窶堙娯ｰ窶ｰﾂ出窶卩?窶堋ｹ窶堙ｱﾂ祥?窶板?
+//	@author
+//==========================================================================
+#include "SubA_UserSystem.h"
+
+//------------------------------------------------------------------------
+// define窶凖ｨ窶ｹ`
+//------------------------------------------------------------------------
+
+//------------------------------------------------------------------------
+// ﾂ構窶伉｢窶佚娯凖ｨ窶ｹ`
+//------------------------------------------------------------------------
+
+//------------------------------------------------------------------------
+// 窶｢ﾃ渉絶昶凖ｨ窶ｹ`
+//------------------------------------------------------------------------
+
+//------------------------------------------------------------------------
+// ﾅ?ﾃ鳴絶昶凖ｨ窶ｹ`
+//------------------------------------------------------------------------
+static void SubA_PrjStgNml_TrgSetStage(void);
+static void SubA_PrjStgGm_TrgSetStage(void);
+
+#if (defined(_D_PROC_NML_ACTIVE_))
+//--------------------------------------------------------------------------
+//!	@brief		NMLﾅ?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵFS
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_StaIni(void)
+{
+	// ﾆ陳?ﾆ停愴弛ﾂーﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻ
+	// ---ﾂｶﾂｳﾃ敕ﾂｰﾅ?ﾃ麺廣
+	// ﾂｽﾃδｰﾂｼﾃ樞佚伉催扁
+	g_Base.Stg.Nml.SubANmlStgStyG = 0;
+	// 窶楼窶吮ｺ窶牢窶佚隈
+	g_Base.Stg.Nml.SubANmlZenAllG = 0;
+	// 窶楼窶吮ｺﾂ進ﾂ行G
+	g_Base.Stg.Nml.SubANmlZenPrgG = 0;
+	// 窶楼窶吮ｺﾅｽcG
+	g_Base.Stg.Nml.SubANmlZenZanG = 0;
+	// 窶板?窶楼窶吮ｺ窶牢窶佚隈
+	g_Base.Stg.Nml.SubANmlUraZenAllG = 0;
+	// 窶板?窶楼窶吮ｺﾂ進ﾂ行G
+	g_Base.Stg.Nml.SubANmlUraZenPrgG = 0;
+	// 窶板?窶楼窶吮ｺﾅｽcG
+	g_Base.Stg.Nml.SubANmlUraZenZanG = 0;
+	// ﾃ古榲崢ｯﾂｸ窶牢窶佚隈
+	g_Base.Stg.Nml.SubANmlBlkAllG = 0;
+	// ﾃ古榲崢ｯﾂｸﾅｽcG
+	g_Base.Stg.Nml.SubANmlBlkZanG = 0;
+	// ﾃ古榲崢ｯﾂｸ窶ｰﾃｱﾂ絶?
+	g_Base.Stg.Nml.SubANmlBlkNum = 0;
+	// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵG
+	g_Base.Stg.Nml.SubANmlSceYoyG = 0;
+	// ﾂｼﾃ?ﾃ伉ｵﾅ?JﾅｽnG
+	g_Base.Stg.Nml.SubANmlSceStaG = 0;
+	// ﾂｼﾃ?ﾃ伉ｵﾅ?Jﾅｽn窶堙懌堙?G
+	g_Base.Stg.Nml.SubANmlSceForStaG = 0;
+	// ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G
+	g_Base.Stg.Nml.SubANmlStgChgLimG = 0;
+	// ﾃ渉ｶﾂ坂塲?m窶｢ﾃ崢湘賂
+	g_Base.Stg.Nml.SubANmlMakSecG = 0;
+	// ﾂｹﾃ楪ｰﾃ堕絶昶｢ﾃ崢湘賂
+	g_Base.Stg.Nml.SubANmlGamSecG = 0;
+	// // 窶伉ｸﾅｽmp
+	// g_Base.Stg.Nml.SubANmlSsiP = 0;
+	// // ﾅ?l窶慊ｾ窶伉ｸﾅｽmp
+	// g_Base.Stg.Nml.SubANmlGetSsiP = 0;
+
+	// ﾂｱﾂｲﾃε鯛彎窶倪板青ｧﾅ津ﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubANmlItmTraLim = D_SUBA_NML_ITM_TRA_LIM;
+	// NM窶｢窶ｺﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubANmlNMSub = 0;
+	// NM窶｢窶ｺ窶ｹﾃ滅ｽ~G
+	g_Base.Stg.Nml.SubANmlNMFukuKinshiG = 0;
+	// SU窶｢ﾂｶﾅ陳ｾﾂ青ｧﾅ津ﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubANmlSUBungenSeigenKauntaa = 0;
+	// BIGﾅｽﾂｦﾂ債ｴﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlBIGShisaFlg = FALSE;
+	// BIGﾅｽﾂｦﾂ債ｴ窶楼窶吮ｺﾂ終窶板ｹﾅ津｣ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlBIGShisaZenchouShuuryouGoFlg = FALSE;
+	// ﾅ槌停扨窶敕ｱ窶敖ｭﾂ青ｶﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubANmlGekiHiCnt = 0;
+	// 窶愿≫凖ｨﾃﾂｲﾃ静敖ｸﾃ樞愿?窶｢窶敘ｽﾂｦﾂ債ｴﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubANmlTimingHintCnt = 0;
+	// ﾋ廣窶伉ｱ窶ｰ窶ｰﾂ出窶楼窶吮ｺﾂ終窶板ｹﾅ津｣ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlCntPerfPrmEndFlg = FALSE;
+	// ﾋ?ﾃ?窶彎ﾂｽﾃε?ﾂｪﾃ敘津｣ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlDarkTransStagingEndflg = FALSE;
+	// ﾋ?ﾃ?窶彎ﾂｽﾃε?ﾂｪﾃ敘?ﾂｮ窶板ｹﾂ催鞘堙敕古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlDarkTransStagingCompflg = FALSE;
+
+	// ---ﾃ古猟ｸﾃ?/ﾅｽﾃｭ窶｢ﾃ看?ﾃ麺廣
+	// ﾆ湛ﾆ弾ﾂーﾆ淡
+	g_Base.Stg.Nml.SubANmlStgNow = E_SUBA_NML_STG_NON;
+	// ﾅｽﾅｸﾆ湛ﾆ弾ﾂーﾆ淡
+	g_Base.Stg.Nml.SubANmlStgNex = E_SUBA_NML_STG_NON;
+	// ﾆ湛ﾆ弾ﾆ蛋ﾆ巽ﾆ停懌能窶禿ｱ
+	g_Base.Stg.Nml.SubANmlStgChgYoy = E_SUBA_NML_STG_NON;
+	// 窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlZenTyp = E_SUBA_NML_ZEN_TYP_NON;
+	// ﾃﾂｲﾃ?ﾃ吮｢\ﾅｽﾂｦﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlTitDipFlg = FALSE;
+	// ﾃ古榲崢ｯﾂｸﾂ湘ｳ窶ｹﾂｵ
+	g_Base.Stg.Nml.SubANmlBlkSts = E_SUBA_NML_BLK_STS_TYP_NON;
+	// ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlGamNumTyp = E_SUBA_NML_GAMNUM_TYP_WHI;
+	// UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶敖　ﾂｹﾃ楪ｰﾃ堕絶敖ｶﾂｳﾃ敕窶堙個色窶堋ｪ窶｢ﾃ鞘堙ｭ窶堙≫堋ｽﾂｹﾃ楪ｰﾃ堕絶昶堙ｰﾅ?o窶堋ｦ窶堙?窶堋ｨ窶堋ｭ窶廃
+	// g_Base.Stg.Nml.SubANmlUiChgNum = 0;
+	// ﾂ色窶｢ﾃ鞘ｰﾂｻ窶吮?窶楼窶吮ｺﾃ古猟ｸﾃ楪　ﾂｹﾃ楪ｰﾃ堕絶敖ｶﾂｳﾃ敕窶堙個色窶堋ｪ窶｢ﾃ鞘堙ｭ窶堙≫堙?窶堙ｩﾂ催?窶吮?窶堙俄懌凪堋ｹ窶堙ｱ窶堋ｵ窶堋ｽ窶楼窶吮ｺ窶敖ｻ窶凖ｨ窶廃
+	g_Base.Stg.Nml.SubANmlUiColChgZenFlg = FALSE;
+	// 窶｢ﾃ鞘ｰﾂｻ窶卩?窶堋ｹ窶堙ｱﾂ催湘古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlChgLotFlg = FALSE;
+	// ﾃ渉ｶﾂ坂塲?mﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlMakKouTyp = E_SUBA_NML_MAK_KOU_TYP_NON;
+	// ﾃ渉ｶﾂ坂塲?mﾂ湘ｳ窶佚?
+	g_Base.Stg.Nml.SubANmlMakKouSts = E_SUBA_NML_MAK_KOU_STS_NON;
+	// ﾅ?m窶凖ｨ窶凪塲?E窶ｹU窶倪｢ﾃ古猟ｸﾃ? ﾅ?m窶凖ｨ窶凪塲?E窶堙ｰ窶怒窶楼窶吮ｺ窶堙?ﾅ陳ｩ窶板ｧ窶堙?窶堙?窶ｹU窶倪｢窶堋ｷ窶堙ｩﾃ古猟ｸﾃ楪?ﾃ銀督｢ﾅｽg窶廃
+	g_Base.Stg.Nml.SubANmlKakMakGisFlg = FALSE;
+	// 窶凖環湘ｭﾂｽﾃη?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlStaIniFlg = FALSE;
+	// 窶楼窶吮ｺﾂ催?ﾂ静昶凖ｨﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlZenSaiSetFlg = FALSE;
+	// 窶怒窶楼窶吮ｺﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlHonZenFlg = FALSE;
+	// 窶ｹN窶彑窶禿ｰ
+	g_Base.Stg.Nml.SubANmlKitYak = E_SUBA_NML_YAK_NON;
+	// 窶板?窶ｹN窶彑窶禿ｰ
+	g_Base.Stg.Nml.SubANmlUraKitYak = E_SUBA_NML_YAK_NON;
+	// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ
+	SubA_PrjCmn_ClrSenario(&g_Base.Stg.Nml.SubANmlSceYoy);
+	// 窶凖環湘ｭﾂｼﾃ?ﾃ伉ｵ窶堙?ﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻ窶堋ｵ窶堙?窶堋ｨ窶堋ｭ
+	SubA_PrjCmn_ClrSenario(&g_Base.Stg.Nml.Snr);
+	// 窶凖環湘ｭ窶｢窶ｺﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlFukTyp = E_SUBA_NML_FUK_NON;
+	// 窶楼窶吮ｺ窶ｹﾂｭ窶忸_ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlZKS_Typ = E_SUBA_NML_ZEN_KYODO_SHUBETSU_TYP_NON;
+	// 窶凖環湘ｭﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ
+	g_Base.Stg.Nml.SubANmlSceTypeAttr = E_SUBA_NML_SCN_TYPE_ATTR_NON;
+	// 窶凖環湘ｭﾅ槌停扨ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlGekiatuFlg = FALSE;
+	// 窶ｰﾃ･ﾋ弋ﾃ凪楼窶吮ｺ_窶｢窶ｺﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmZenSubType = E_SUBA_GMZEN_TYPE_NON;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農ﾅｽg窶廃ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlItmTraUseFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農ﾃ督ｰﾃ?ﾃ槐ｽﾂｦﾂ債ｴﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlItmTraSSAFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農窶伉ｸﾅｽmﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlItmTraSsiFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農窶楼窶吮ｺﾅｽﾅｾﾅｽg窶廃ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlItmTraZenUseFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ?
+	//g_Base.Stg.Nml.SubANmlItmTraGamTyp = E_SUBA_NML_ITMTRA_GAMNUM_NON;
+	// 窶卍ｩﾋ?ﾃｪﾃ古猟ｸﾃ?
+	// g_Base.Stg.Nml.SubAGmAsaIchiFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農ﾂ坂壺｢p窶忸ﾃ古猟ｸﾃ?
+	//g_Base.Stg.Nml.SubANmlItmTraKouHindoFlg = FALSE;
+	// 窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlZenchouShisaShubetsuTyp = E_SUBA_NML_ZENCHOU_SHISA_SHUBETSU_NON;
+	// 窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾂ色
+	g_Base.Stg.Nml.SubANmlZenchouShisaIroTyp = E_SUBA_NML_ZENCHOU_SHISA_IRO_NON;
+	// BIGﾅｽﾂｦﾂ債ｴ
+	g_Base.Stg.Nml.SubANmlBIGShisaTyp = E_SUBA_NML_BIG_SHISA_NON;
+	// BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp = E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_NON;
+	// CZﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶﾂ催鞘堙敕古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlCZShisaHasseiZumiFuraguTyp = FALSE;
+	// ﾂ青｢ﾅ?Eﾅ?ﾃ渉静?窶督ｾﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlSekaikanSetsumeiShubetsu = E_SUBA_NML_SEKAIKAN_SETSUMEI_SHUBETSU_NON;
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶卍ｷﾅ?ﾃｺ窶彭窶冉ﾅｽﾅｾﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_StaIniLongPow(void)
+{
+	// ﾆ陳?ﾆ停愴弛ﾂーﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻ
+	// ---ﾂｶﾂｳﾃ敕ﾂｰﾅ?ﾃ麺廣
+	// ﾂｽﾃδｰﾂｼﾃ樞佚伉催扁
+	g_Base.Stg.Nml.SubANmlStgStyG = 0;
+	// 窶楼窶吮ｺ窶牢窶佚隈
+	g_Base.Stg.Nml.SubANmlZenAllG = 0;
+	// 窶楼窶吮ｺﾂ進ﾂ行G
+	g_Base.Stg.Nml.SubANmlZenPrgG = 0;
+	// 窶楼窶吮ｺﾅｽcG
+	g_Base.Stg.Nml.SubANmlZenZanG = 0;
+	// 窶板?窶楼窶吮ｺ窶牢窶佚隈
+	g_Base.Stg.Nml.SubANmlUraZenAllG = 0;
+	// 窶板?窶楼窶吮ｺﾂ進ﾂ行G
+	g_Base.Stg.Nml.SubANmlUraZenPrgG = 0;
+	// 窶板?窶楼窶吮ｺﾅｽcG
+	g_Base.Stg.Nml.SubANmlUraZenZanG = 0;
+	// ﾃ古榲崢ｯﾂｸ窶牢窶佚隈
+	g_Base.Stg.Nml.SubANmlBlkAllG = 0;
+	// ﾃ古榲崢ｯﾂｸﾅｽcG
+	g_Base.Stg.Nml.SubANmlBlkZanG = 0;
+	// ﾃ古榲崢ｯﾂｸ窶ｰﾃｱﾂ絶?
+	g_Base.Stg.Nml.SubANmlBlkNum = 0;
+	// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵG
+	g_Base.Stg.Nml.SubANmlSceYoyG = 0;
+	// ﾂｼﾃ?ﾃ伉ｵﾅ?JﾅｽnG
+	g_Base.Stg.Nml.SubANmlSceStaG = 0;
+	// ﾂｼﾃ?ﾃ伉ｵﾅ?Jﾅｽn窶堙懌堙?G
+	g_Base.Stg.Nml.SubANmlSceForStaG = 0;
+	// ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G
+	g_Base.Stg.Nml.SubANmlStgChgLimG = 0;
+	// ﾃ渉ｶﾂ坂塲?m窶｢ﾃ崢湘賂
+	g_Base.Stg.Nml.SubANmlMakSecG = 0;
+	// ﾂｹﾃ楪ｰﾃ堕絶昶｢ﾃ崢湘賂
+	g_Base.Stg.Nml.SubANmlGamSecG = 0;
+	// // 窶伉ｸﾅｽmp
+	// g_Base.Stg.Nml.SubANmlSsiP = 0;
+	// // ﾅ?l窶慊ｾ窶伉ｸﾅｽmp
+	// g_Base.Stg.Nml.SubANmlGetSsiP = 0;
+	// ﾂｱﾂｲﾃε鯛彎窶倪板青ｧﾅ津ﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubANmlItmTraLim = D_SUBA_NML_ITM_TRA_LIM;
+	// NM窶｢窶ｺﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubANmlNMSub = 0;
+	// NM窶｢窶ｺ窶ｹﾃ滅ｽ~G
+	g_Base.Stg.Nml.SubANmlNMFukuKinshiG = 0;
+	// SU窶｢ﾂｶﾅ陳ｾﾂ青ｧﾅ津ﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubANmlSUBungenSeigenKauntaa = 0;
+	// BIGﾅｽﾂｦﾂ債ｴﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlBIGShisaFlg = FALSE;
+	// BIGﾅｽﾂｦﾂ債ｴ窶楼窶吮ｺﾂ終窶板ｹﾅ津｣ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlBIGShisaZenchouShuuryouGoFlg = FALSE;
+	// ﾅ槌停扨窶敕ｱ窶敖ｭﾂ青ｶﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubANmlGekiHiCnt = 0;
+	// 窶愿≫凖ｨﾃﾂｲﾃ静敖ｸﾃ樞愿?窶｢窶敘ｽﾂｦﾂ債ｴﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubANmlTimingHintCnt = 0;
+	// ﾋ廣窶伉ｱ窶ｰ窶ｰﾂ出窶楼窶吮ｺﾂ終窶板ｹﾅ津｣ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlCntPerfPrmEndFlg = FALSE;
+	// ﾋ?ﾃ?窶彎ﾂｽﾃε?ﾂｪﾃ敘津｣ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlDarkTransStagingEndflg = FALSE;
+	// ﾋ?ﾃ?窶彎ﾂｽﾃε?ﾂｪﾃ敘?ﾂｮ窶板ｹﾂ催鞘堙敕古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlDarkTransStagingCompflg = FALSE;
+
+	// ---ﾃ古猟ｸﾃ?/ﾅｽﾃｭ窶｢ﾃ看?ﾃ麺廣
+	// ﾆ湛ﾆ弾ﾂーﾆ淡
+	g_Base.Stg.Nml.SubANmlStgNow = E_SUBA_NML_STG_NON;
+	// ﾅｽﾅｸﾆ湛ﾆ弾ﾂーﾆ淡
+	g_Base.Stg.Nml.SubANmlStgNex = E_SUBA_NML_STG_NON;
+	// ﾆ湛ﾆ弾ﾆ蛋ﾆ巽ﾆ停懌能窶禿ｱ
+	g_Base.Stg.Nml.SubANmlStgChgYoy = E_SUBA_NML_STG_NON;
+	// 窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlZenTyp = E_SUBA_NML_ZEN_TYP_NON;
+	// 窶楼窶之窶ｹZ_[窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ[窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨
+	g_Base.Stg.Nml.SubANmlZenTyp_Old = g_Base.Stg.Nml.SubANmlZenTyp;
+	// ﾃﾂｲﾃ?ﾃ吮｢\ﾅｽﾂｦﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlTitDipFlg = FALSE;
+	// ﾃ古榲崢ｯﾂｸﾂ湘ｳ窶ｹﾂｵ
+	g_Base.Stg.Nml.SubANmlBlkSts = E_SUBA_NML_BLK_STS_TYP_NON;
+	// ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlGamNumTyp = E_SUBA_NML_GAMNUM_TYP_WHI;
+	// UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶敖　ﾂｹﾃ楪ｰﾃ堕絶敖ｶﾂｳﾃ敕窶堙個色窶堋ｪ窶｢ﾃ鞘堙ｭ窶堙≫堋ｽﾂｹﾃ楪ｰﾃ堕絶昶堙ｰﾅ?o窶堋ｦ窶堙?窶堋ｨ窶堋ｭ窶廃
+	// g_Base.Stg.Nml.SubANmlUiChgNum = 0;
+	// ﾂ色窶｢ﾃ鞘ｰﾂｻ窶吮?窶楼窶吮ｺﾃ古猟ｸﾃ楪　ﾂｹﾃ楪ｰﾃ堕絶敖ｶﾂｳﾃ敕窶堙個色窶堋ｪ窶｢ﾃ鞘堙ｭ窶堙≫堙?窶堙ｩﾂ催?窶吮?窶堙俄懌凪堋ｹ窶堙ｱ窶堋ｵ窶堋ｽ窶楼窶吮ｺ窶敖ｻ窶凖ｨ窶廃
+	g_Base.Stg.Nml.SubANmlUiColChgZenFlg = FALSE;
+	// 窶｢ﾃ鞘ｰﾂｻ窶卩?窶堋ｹ窶堙ｱﾂ催湘古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlChgLotFlg = FALSE;
+	// ﾃ渉ｶﾂ坂塲?mﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlMakKouTyp = E_SUBA_NML_MAK_KOU_TYP_NON;
+	// ﾃ渉ｶﾂ坂塲?mﾂ湘ｳ窶佚?
+	g_Base.Stg.Nml.SubANmlMakKouSts = E_SUBA_NML_MAK_KOU_STS_NON;
+	// ﾅ?m窶凖ｨ窶凪塲?E窶ｹU窶倪｢ﾃ古猟ｸﾃ? ﾅ?m窶凖ｨ窶凪塲?E窶堙ｰ窶怒窶楼窶吮ｺ窶堙?ﾅ陳ｩ窶板ｧ窶堙?窶堙?窶ｹU窶倪｢窶堋ｷ窶堙ｩﾃ古猟ｸﾃ楪?ﾃ銀督｢ﾅｽg窶廃
+	g_Base.Stg.Nml.SubANmlKakMakGisFlg = FALSE;
+	// 窶凖環湘ｭﾂｽﾃη?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlStaIniFlg = FALSE;
+	// 窶楼窶吮ｺﾂ催?ﾂ静昶凖ｨﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlZenSaiSetFlg = FALSE;
+	// 窶怒窶楼窶吮ｺﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlHonZenFlg = FALSE;
+	// 窶ｹN窶彑窶禿ｰ
+	g_Base.Stg.Nml.SubANmlKitYak = E_SUBA_NML_YAK_NON;
+	// 窶板?窶ｹN窶彑窶禿ｰ
+	g_Base.Stg.Nml.SubANmlUraKitYak = E_SUBA_NML_YAK_NON;
+	// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ
+	SubA_PrjCmn_ClrSenario(&g_Base.Stg.Nml.SubANmlSceYoy);
+	// 窶凖環湘ｭﾂｼﾃ?ﾃ伉ｵ窶堙?ﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻ窶堋ｵ窶堙?窶堋ｨ窶堋ｭ
+	SubA_PrjCmn_ClrSenario(&g_Base.Stg.Nml.Snr);
+	// 窶凖環湘ｭ窶｢窶ｺﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlFukTyp = E_SUBA_NML_FUK_NON;
+	// 窶楼窶吮ｺ窶ｹﾂｭ窶忸_ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlZKS_Typ = E_SUBA_NML_ZEN_KYODO_SHUBETSU_TYP_NON;
+	// 窶凖環湘ｭﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ
+	g_Base.Stg.Nml.SubANmlSceTypeAttr = E_SUBA_NML_SCN_TYPE_ATTR_NON;
+	// 窶凖環湘ｭﾅ槌停扨ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlGekiatuFlg = FALSE;
+	// 窶ｰﾃ･ﾋ弋ﾃ凪楼窶吮ｺ_窶｢窶ｺﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmZenSubType = E_SUBA_GMZEN_TYPE_NON;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農ﾅｽg窶廃ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlItmTraUseFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農ﾃ督ｰﾃ?ﾃ槐ｽﾂｦﾂ債ｴﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlItmTraSSAFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農窶伉ｸﾅｽmﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlItmTraSsiFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農窶楼窶吮ｺﾅｽﾅｾﾅｽg窶廃ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlItmTraZenUseFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlItmTraGamTyp = E_SUBA_NML_ITMTRA_GAMNUM_NON;
+	// 窶卍ｩﾋ?ﾃｪﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmAsaIchiFlg = TRUE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農ﾂ坂壺｢p窶忸ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlItmTraKouHindoFlg = FALSE;
+	// 窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlZenchouShisaShubetsuTyp = E_SUBA_NML_ZENCHOU_SHISA_SHUBETSU_NON;
+	// 窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾂ色
+	g_Base.Stg.Nml.SubANmlZenchouShisaIroTyp = E_SUBA_NML_ZENCHOU_SHISA_IRO_NON;
+	// BIGﾅｽﾂｦﾂ債ｴ
+	g_Base.Stg.Nml.SubANmlBIGShisaTyp = E_SUBA_NML_BIG_SHISA_NON;
+	// BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp = E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_NON;
+	// CZﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶﾂ催鞘堙敕古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlCZShisaHasseiZumiFuraguTyp = FALSE;
+	// ﾂ青｢ﾅ?Eﾅ?ﾃ渉静?窶督ｾﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlSekaikanSetsumeiShubetsu = E_SUBA_NML_SEKAIKAN_SETSUMEI_SHUBETSU_NON;
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		GMﾅ?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_StaIni(void)
+{
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｽﾃδｰﾂｼﾃ樞督｢ﾂ静昶凖ｨﾅｽﾅｾﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_StgNon(void)
+{
+	// ﾅ停ｹ窶ｰﾃ?
+	u32 result = 0;
+	// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩﾅ?Xﾂｽﾃδｰﾂｼﾃ?
+	g_Base.Stg.Nml.SubANmlStgNow = E_SUBA_NML_STG_MAT;
+	// ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津ﾂ鞘ｰ窶ｰﾃｱG窶卩?窶堋ｹ窶堙ｱ
+	result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_STG_CHG_1ST);
+	// [ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+	g_Base.Stg.Nml.SubANmlStgChgLimG = result;
+	// [ﾅｽﾅｸﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩ[ﾂｽﾃδｰﾂｼﾃ枉
+	g_Base.Stg.Nml.SubANmlStgNex = g_Base.Stg.Nml.SubANmlStgNow;
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		NML窶ｹﾂ､窶凖垣ﾅｽ窶凪楼ﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_ComPre(void)
+{
+	// ﾅ停ｹ窶ｰﾃ?
+	u32 result = 0;
+	// Gﾂ絶敞谷ﾆ脱ﾆ停愴耽窶卩?窶露ﾆ稚ﾆ停ｰﾆ丹
+	BOOL chk = FALSE;
+	// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ≫喙ﾅｽﾅｸﾂｽﾃδｰﾂｼﾃ枉
+	if (g_Base.Stg.Nml.SubANmlStgNow != g_Base.Stg.Nml.SubANmlStgNex)
+	{
+		// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩ[ﾅｽﾅｸﾂｽﾃδｰﾂｼﾃ枉
+		g_Base.Stg.Nml.SubANmlStgNow = g_Base.Stg.Nml.SubANmlStgNex;
+		// [ﾂｽﾃδｰﾂｼﾃ樞佚伉催扁]ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlStgStyG = 1;
+		// [ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ]ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlStgChgYoy = E_SUBA_NML_STG_NON;
+		// [ﾂｽﾃδｰﾂｼﾃ枉=窶督｢ﾂ静昶凖ｨ?
+		if (g_Base.Stg.Nml.SubANmlStgNow != E_SUBA_NML_STG_NON)
+		{
+			// ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G窶卩?窶堋ｹ窶堙ｱ
+			result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_STG_CHG_LIM_G);
+			// [ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubANmlStgChgLimG = result;
+		}
+	}
+	// [ﾂｽﾃδｰﾂｼﾃ枉=[ﾅｽﾅｸﾂｽﾃδｰﾂｼﾃ枉
+	else
+	{
+		// [ﾂｽﾃδｰﾂｼﾃ樞佚伉催扁]+1
+		ADD_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlStgStyG, 1, D_SUBA_NML_STG_STY_G_MAX);
+		// [ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G]>0?
+		if (g_Base.Stg.Nml.SubANmlStgChgLimG > 0)
+		{
+			// [ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G]-1
+			SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlStgChgLimG, 1, 0);
+		}
+	}
+	// [窶楼窶吮ｺﾂ進ﾂ行G]>0?
+	if (g_Base.Stg.Nml.SubANmlZenPrgG > 0)
+	{
+		// [窶楼窶吮ｺﾂ進ﾂ行G]+1
+		ADD_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlZenPrgG, 1, D_SUBA_NML_ZEN_PRG_G_MAX);
+	}
+	// [ﾃ古榲崢ｯﾂｸﾅｽcG]>0?
+	if (g_Base.Stg.Nml.SubANmlBlkZanG > 0)
+	{
+		// [ﾃ古榲崢ｯﾂｸﾅｽcG]-1
+		SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlBlkZanG, 1, 0);
+	}
+	// [ﾂｼﾃ?ﾃ伉ｵﾅ?Jﾅｽn窶堙懌堙?G]>0?
+	if (g_Base.Stg.Nml.SubANmlSceForStaG > 0)
+	{
+		// [ﾂｼﾃ?ﾃ伉ｵﾅ?Jﾅｽn窶堙懌堙?G]-1
+		SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlSceForStaG, 1, 0);
+	}
+	// [窶楼窶吮ｺﾅｽcG]>0?
+	if (g_Base.Stg.Nml.SubANmlZenZanG > 0)
+	{
+		// [窶楼窶吮ｺﾅｽcG]-1
+		SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlZenZanG, 1, 0);
+	}
+	// [ﾂｱﾂｲﾃε鯛彎窶倪板青ｧﾅ津ﾂｶﾂｳﾃ敕]>0
+	if (g_Base.Stg.Nml.SubANmlItmTraLim > 0)
+	{
+		// [ﾂｱﾂｲﾃε鯛彎窶倪板青ｧﾅ津ﾂｶﾂｳﾃ敕]-1
+		SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlItmTraLim, 1, 0);
+	}
+	// [窶板?窶楼窶吮ｺﾅｽcG]>0?
+	if (g_Base.Stg.Nml.SubANmlUraZenZanG > 0)
+	{
+		// [窶板?窶楼窶吮ｺﾅｽcG]-1
+		SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlUraZenZanG, 1, 0);
+	}
+	// [窶板?窶楼窶吮ｺﾂ進ﾂ行G]>0?
+	if (g_Base.Stg.Nml.SubANmlUraZenPrgG > 0)
+	{
+		// [窶板?窶楼窶吮ｺﾂ進ﾂ行G]+1
+		ADD_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlUraZenPrgG, 1, 255);
+	}
+	// [ﾂｹﾃ楪ｰﾃ堕絶昶｢ﾃ崢湘賂]>0?
+	if (g_Base.Stg.Nml.SubANmlGamSecG > 0)
+	{
+		// [ﾂｹﾃ楪ｰﾃ堕絶昶｢ﾃ崢湘賂]-1
+		SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlGamSecG, 1, 0);
+	}
+	// [ﾃ渉ｶﾂ坂塲?m窶｢ﾃ崢湘賂]>0?
+	if (g_Base.Stg.Nml.SubANmlMakSecG > 0)
+	{
+		// [ﾃ渉ｶﾂ坂塲?m窶｢ﾃ崢湘賂]-1
+		SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlMakSecG, 1, 0);
+	}
+	// [NM窶｢窶ｺ窶ｹﾃ滅ｽ~G]>0?
+	if (g_Base.Stg.Nml.SubANmlNMFukuKinshiG > 0)
+	{
+		// [NM窶｢窶ｺ窶ｹﾃ滅ｽ~G]-1
+		SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlNMFukuKinshiG, 1, 0);
+	}
+	// [SU窶｢ﾂｶﾅ陳ｾﾂ青ｧﾅ津ﾂｶﾂｳﾃ敕]>0?
+	if (g_Base.Stg.Nml.SubANmlSUBungenSeigenKauntaa > 0)
+	{
+		// [SU窶｢ﾂｶﾅ陳ｾﾂ青ｧﾅ津ﾂｶﾂｳﾃ敕]-1
+		SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlSUBungenSeigenKauntaa, 1, 0);
+	}
+	// [ﾅ槌停扨窶敕ｱ窶敖ｭﾂ青ｶﾂｶﾂｳﾃ敕]>0?
+	if (g_Base.Stg.Nml.SubANmlGekiHiCnt > 0)
+	{
+		//[ﾅ槌停扨窶敕ｱ窶敖ｭﾂ青ｶﾂｶﾂｳﾃ敕] - 1
+		SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlGekiHiCnt, 1, 0);
+	}
+	// [窶愿≫凖ｨﾃﾂｲﾃ静敖ｸﾃ樞愿?窶｢窶敘ｽﾂｦﾂ債ｴﾂｶﾂｳﾃ敕]>0?
+	if (g_Base.Stg.Nml.SubANmlTimingHintCnt > 0)
+	{
+		// [窶愿≫凖ｨﾃﾂｲﾃ静敖ｸﾃ樞愿?窶｢窶敘ｽﾂｦﾂ債ｴﾂｶﾂｳﾃ敕]-1
+		SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlTimingHintCnt, 1, 0);
+	}
+	// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]<111?
+	if (g_Base.Cmn.NmlCounter < D_SUBA_NML_GAM_EDG_NUM_111)
+	{
+		// [ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ窶昶?
+		g_Base.Stg.Nml.SubANmlGamNumTyp = E_SUBA_NML_GAMNUM_TYP_WHI;
+		// [窶｢ﾃ鞘ｰﾂｻ窶卩?窶堋ｹ窶堙ｱﾂ催湘古猟ｸﾃ枉ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlChgLotFlg = FALSE;
+		// [ﾂ色窶｢ﾃ鞘ｰﾂｻ窶吮?窶楼窶吮ｺﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlUiColChgZenFlg = FALSE;
+	}
+	else
+	{
+		// [窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ≫?1?ﾋ?ﾃ闇?O窶堋ｩ窶堙?[ﾂｽﾃδｰﾂｼﾃ枉=5or6?ﾋ?ﾃ闇?O
+		if (g_Base.Stg.Nml.SubANmlZenTyp == 0 && (g_Base.Stg.Nml.SubANmlStgNow != E_SUBA_NML_STG_MEG && g_Base.Stg.Nml.SubANmlStgNow != E_SUBA_NML_STG_GRO))
+		{
+			// [ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ窶昶?
+			g_Base.Stg.Nml.SubANmlGamNumTyp = E_SUBA_NML_GAMNUM_TYP_WHI;
+		}
+
+		// [窶｢ﾃ鞘ｰﾂｻ窶卩?窶堋ｹ窶堙ｱﾂ催湘古猟ｸﾃ枉=0?
+		if (g_Base.Stg.Nml.SubANmlChgLotFlg == FALSE)
+		{
+			// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=111ﾂ～124?
+			if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_111 && g_Base.Cmn.NmlCounter <= D_SUBA_NML_GAM_EDG_NUM_124)
+			{
+				chk = TRUE;
+			}
+			// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=222ﾂ～235?
+			else if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_222 && g_Base.Cmn.NmlCounter <= D_SUBA_NML_GAM_EDG_NUM_235)
+			{
+				chk = TRUE;
+			}
+			// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=333ﾂ～346?
+			else if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_333 && g_Base.Cmn.NmlCounter <= D_SUBA_NML_GAM_EDG_NUM_346)
+			{
+				chk = TRUE;
+			}
+			// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=444ﾂ～457?
+			else if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_444 && g_Base.Cmn.NmlCounter <= D_SUBA_NML_GAM_EDG_NUM_457)
+			{
+				chk = TRUE;
+			}
+			// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=555ﾂ～568?
+			else if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_555 && g_Base.Cmn.NmlCounter <= D_SUBA_NML_GAM_EDG_NUM_568)
+			{
+				chk = TRUE;
+			}
+			// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=777ﾂ～790?
+			else if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_777 && g_Base.Cmn.NmlCounter <= D_SUBA_NML_GAM_EDG_NUM_790)
+			{
+				chk = TRUE;
+			}
+			// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]ﾂ≫?999
+			else if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_999)
+			{
+				chk = TRUE;
+			}
+			if (chk)
+			{
+				// [ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=窶昶??
+				if (g_Base.Stg.Nml.SubANmlGamNumTyp == E_SUBA_NML_GAMNUM_TYP_WHI)
+				{
+					// [窶｢ﾃ鞘ｰﾂｻ窶卩?窶堋ｹ窶堙ｱﾂ催湘古猟ｸﾃ枉ﾂ?ﾂｩ1
+					g_Base.Stg.Nml.SubANmlChgLotFlg = TRUE;
+					// Gﾂ絶敖ｶﾂｳﾃ敕ﾂ色窶卩?窶堋ｹ窶堙ｱ
+					result = SubA_PrjStgNml_LotGNum();
+
+					// ﾅ停ｹ窶ｰﾃ環≫?0?
+					if (result != 0)
+					{
+						// [ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+						g_Base.Stg.Nml.SubANmlGamNumTyp = (E_SUBA_NML_GAMNUM_TYP)result;
+						// [UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆ﾂ?ﾂｩ[窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]
+						g_Base.Stg.Nml.SubANmlUiChgNum = g_Base.Cmn.NmlCounter;
+						// [ﾂｱﾂｲﾃε鯛彎窶倪農ﾃ督ｰﾃ?ﾃ槐ｽﾂｦﾂ債ｴﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+						g_Base.Stg.Nml.SubANmlItmTraSSAFlg = FALSE;
+						// [窶愿≫凖ｨﾃﾂｲﾃ静敖ｸﾃ樞愿?窶｢窶敘ｽﾂｦﾂ債ｴﾂｶﾂｳﾃ敕]ﾂ?ﾂｩ50
+						g_Base.Stg.Nml.SubANmlTimingHintCnt = 50;
+					}
+				}
+			}
+		}
+	}
+	// [ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=窶昶??
+	if (g_Base.Stg.Nml.SubANmlGamNumTyp == E_SUBA_NML_GAMNUM_TYP_WHI)
+	{
+		// [UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlUiChgNum = 0;
+	}
+
+	// [ﾂｱﾂｲﾃε鯛彎窶倪農ﾅｽg窶廃ﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+	g_Base.Stg.Nml.SubANmlItmTraUseFlg = FALSE;
+
+	// [窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ馨=1?
+	if (g_Base.Stg.Nml.SubANmlZenchouShisaShubetsuTyp == E_SUBA_NML_ZENCHOU_SHISA_SHUBETSU_1)
+	{
+		// [窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ2
+		g_Base.Stg.Nml.SubANmlZenchouShisaShubetsuTyp = E_SUBA_NML_ZENCHOU_SHISA_SHUBETSU_2;
+	}
+
+	// [窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ馨=3?
+	if (g_Base.Stg.Nml.SubANmlZenchouShisaShubetsuTyp == E_SUBA_NML_ZENCHOU_SHISA_SHUBETSU_3)
+	{
+		// [窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlZenchouShisaShubetsuTyp = E_SUBA_NML_ZENCHOU_SHISA_SHUBETSU_NON;
+		// [窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾂ色]ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlZenchouShisaIroTyp = E_SUBA_NML_ZENCHOU_SHISA_IRO_NON;
+	}
+}
+//--------------------------------------------------------------------------
+//!	@brief		Gﾂ絶敖ｶﾂｳﾃ敕ﾂ色窶卩?窶堋ｹ窶堙ｱ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶卩?窶露ﾅ停ｹ窶ｰﾃ?
+//--------------------------------------------------------------------------
+u32 SubA_PrjStgNml_LotGNum(void)
+{
+	// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=111ﾂ～124
+	if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_111 && g_Base.Cmn.NmlCounter <= D_SUBA_NML_GAM_EDG_NUM_124)
+	{
+		return SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_G_CNT_COL_111);
+	}
+	// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=222ﾂ～235
+	if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_222 && g_Base.Cmn.NmlCounter <= D_SUBA_NML_GAM_EDG_NUM_235)
+	{
+		return SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_G_CNT_COL_222);
+	}
+	// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=333ﾂ～346
+	if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_333 && g_Base.Cmn.NmlCounter <= D_SUBA_NML_GAM_EDG_NUM_346)
+	{
+		return SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_G_CNT_COL_333);
+	}
+	// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=444ﾂ～457
+	if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_444 && g_Base.Cmn.NmlCounter <= D_SUBA_NML_GAM_EDG_NUM_457)
+	{
+		return SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_G_CNT_COL_444);
+	}
+	// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=555ﾂ～568
+	if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_555 && g_Base.Cmn.NmlCounter <= D_SUBA_NML_GAM_EDG_NUM_568)
+	{
+		return SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_G_CNT_COL_555);
+	}
+	// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=777ﾂ～790
+	if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_777 && g_Base.Cmn.NmlCounter <= D_SUBA_NML_GAM_EDG_NUM_790)
+	{
+		return SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_G_CNT_COL_777);
+	}
+	// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]ﾂ≫?999
+	if (g_Base.Cmn.NmlCounter >= D_SUBA_NML_GAM_EDG_NUM_999)
+	{
+		return SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_G_CNT_COL_999);
+	}
+	// ﾋ?ﾃ卍湘ｭ:窶卩?窶露ﾅ停ｹ窶ｰﾃ岩堋ｪﾆ竪ﾆ停ｰﾂー
+	SUBA_ASSERT(FALSE);
+	return 0;
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶堋ｻ窶堙娯伉ｼﾂ祥?窶板戡_窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_NmlStgOthA(void)
+{
+	// ﾅｽ窶凪楼ﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+	SubA_PrjStgNml_NmlStgPre();
+	// 窶楼窶吮ｺﾅ?ﾃ?窶板敖祥?窶板拈窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+	SubA_PrjStgNml_NmlStgZenKan();
+	// ﾂｽﾃδｰﾂｼﾃ槐?ﾃ?窶板敖祥?窶板?
+	SubA_PrjStgNml_StgMan();
+	// ﾃ渉ｶﾂ坂塲?mﾅ?ﾃ?窶板敖祥?窶板?
+	SubA_PrjStgNml_MakKouMan();
+	// 窶｢窶ｺLevﾂ祥?窶板?
+	SubA_PrjStgNml_FukLev();
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾅｽ窶凪楼ﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_NmlStgPre(void)
+{
+	// 窶楼窶之窶ｹZ_[窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ[窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨
+	g_Base.Stg.Nml.SubANmlZenTyp_Old = g_Base.Stg.Nml.SubANmlZenTyp;
+
+	// [窶凖環湘ｭﾂｽﾃη?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾃ古猟ｸﾃ枉=1?
+	if (g_Base.Stg.Nml.SubANmlStaIniFlg)
+	{
+		// 窶凖環湘ｭﾂｽﾃη?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾂ祥?窶板?
+		SubA_PrjStgNml_StgStaIni();
+		// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]-[UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆ﾂ≫ｦ7窶堋ｩ窶堙や楼窶之窶ｹZ_[窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨=3?ﾋ?ﾃ闇?O
+		if ( ( g_Base.Cmn.NmlCounter - g_Base.Stg.Nml.SubANmlUiChgNum ) <= 7 && g_Base.Stg.Nml.SubANmlZenTyp_Old != E_SUBA_NML_ZEN_TYP_MEG )
+		{
+			return;
+		}
+		// [ﾂｽﾃδｰﾂｼﾃ枉=5(ﾂ鞘板神窶佛?)?
+		else if ( g_Base.Stg.Nml.SubANmlStgNow == E_SUBA_NML_STG_MEG )
+		{
+			return;
+		}
+		// [ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ窶昶?
+		g_Base.Stg.Nml.SubANmlGamNumTyp = E_SUBA_NML_GAMNUM_TYP_WHI;
+		// [ﾂ色窶｢ﾃ鞘ｰﾂｻ窶吮?窶楼窶吮ｺﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlUiColChgZenFlg = FALSE;
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶凖環湘ｭﾂｽﾃη?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_StgStaIni(void)
+{
+	// ﾆ陳?ﾆ停愴弛ﾂーﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻ
+	// ---ﾂｶﾂｳﾃ敕ﾂｰﾅ?ﾃ麺廣
+	// // ﾂｽﾃδｰﾂｼﾃ樞佚伉催扁
+	// g_Base.Stg.Nml.SubANmlStgStyG = 0;
+	// 窶楼窶吮ｺ窶牢窶佚隈
+	g_Base.Stg.Nml.SubANmlZenAllG = 0;
+	// 窶楼窶吮ｺﾂ進ﾂ行G
+	g_Base.Stg.Nml.SubANmlZenPrgG = 0;
+	// 窶楼窶吮ｺﾅｽcG
+	g_Base.Stg.Nml.SubANmlZenZanG = 0;
+	// // 窶板?窶楼窶吮ｺ窶牢窶佚隈
+	// g_Base.Stg.Nml.SubANmlUraZenAllG = 0;
+	// // 窶板?窶楼窶吮ｺﾂ進ﾂ行G
+	// g_Base.Stg.Nml.SubANmlUraZenPrgG = 0;
+	// // 窶板?窶楼窶吮ｺﾅｽcG
+	// g_Base.Stg.Nml.SubANmlUraZenZanG = 0;
+	// ﾃ古榲崢ｯﾂｸ窶牢窶佚隈
+	g_Base.Stg.Nml.SubANmlBlkAllG = 0;
+	// ﾃ古榲崢ｯﾂｸﾅｽcG
+	g_Base.Stg.Nml.SubANmlBlkZanG = 0;
+	// ﾃ古榲崢ｯﾂｸ窶ｰﾃｱﾂ絶?
+	g_Base.Stg.Nml.SubANmlBlkNum = 0;
+	// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵG
+	g_Base.Stg.Nml.SubANmlSceYoyG = 0;
+	// ﾂｼﾃ?ﾃ伉ｵﾅ?JﾅｽnG
+	g_Base.Stg.Nml.SubANmlSceStaG = 0;
+	// ﾂｼﾃ?ﾃ伉ｵﾅ?Jﾅｽn窶堙懌堙?G
+	g_Base.Stg.Nml.SubANmlSceForStaG = 0;
+	// ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G
+	// g_Base.Stg.Nml.SubANmlStgChgLimG = 0;
+	// // ﾃ渉ｶﾂ坂塲?m窶｢ﾃ崢湘賂
+	// g_Base.Stg.Nml.SubANmlMakSecG = 0;
+	// // ﾂｹﾃ楪ｰﾃ堕絶昶｢ﾃ崢湘賂
+	// g_Base.Stg.Nml.SubANmlGamSecG = 0;
+	// // 窶伉ｸﾅｽmp
+	// g_Base.Stg.Nml.SubANmlSsiP = 0;
+	// // ﾅ?l窶慊ｾ窶伉ｸﾅｽmp
+	// g_Base.Stg.Nml.SubANmlGetSsiP = 0;
+	// NM窶｢窶ｺﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubANmlNMSub = 0;
+	// NM窶｢窶ｺ窶ｹﾃ滅ｽ~G
+	g_Base.Stg.Nml.SubANmlNMFukuKinshiG = 0;
+	// SU窶｢ﾂｶﾅ陳ｾﾂ青ｧﾅ津ﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubANmlSUBungenSeigenKauntaa = 0;
+	//// BIGﾅｽﾂｦﾂ債ｴﾃ古猟ｸﾃ?
+	//g_Base.Stg.Nml.SubANmlBigSugFlg = 0;
+	//// BIGﾅｽﾂｦﾂ債ｴ窶楼窶吮ｺﾂ終窶板ｹﾅ津｣ﾃ古猟ｸﾃ?
+	//g_Base.Stg.Nml.SubANmlBigSugZenShuoFlg = 0;
+	// ﾋ廣窶伉ｱ窶ｰ窶ｰﾂ出窶楼窶吮ｺﾂ終窶板ｹﾅ津｣ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlCntPerfPrmEndFlg = FALSE;
+	// ﾋ?ﾃ?窶彎ﾂｽﾃε?ﾂｪﾃ敘津｣ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlDarkTransStagingEndflg = FALSE;
+	// ﾋ?ﾃ?窶彎ﾂｽﾃε?ﾂｪﾃ敘?ﾂｮ窶板ｹﾂ催鞘堙敕古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlDarkTransStagingCompflg = FALSE;
+
+	// ---ﾃ古猟ｸﾃ?/ﾅｽﾃｭ窶｢ﾃ看?ﾃ麺廣
+	// ﾆ湛ﾆ弾ﾂーﾆ淡
+	// g_Base.Stg.Nml.SubANmlStage = E_SUBA_NML_STG_NON;
+	// ﾅｽﾅｸﾆ湛ﾆ弾ﾂーﾆ淡
+	// g_Base.Stg.Nml.SubANmlStgNex = E_SUBA_NML_STG_NON;
+	// ﾆ湛ﾆ弾ﾆ蛋ﾆ巽ﾆ停懌能窶禿ｱ
+	g_Base.Stg.Nml.SubANmlStgChgYoy = E_SUBA_NML_STG_NON;
+	// 窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlZenTyp = E_SUBA_NML_ZEN_TYP_NON;
+	// ﾃﾂｲﾃ?ﾃ吮｢\ﾅｽﾂｦﾃ古猟ｸﾃ?
+	// g_Base.Stg.Nml.SubANmlTitDipFlg = FALSE;
+	// ﾃ古榲崢ｯﾂｸﾂ湘ｳ窶ｹﾂｵ
+	g_Base.Stg.Nml.SubANmlBlkSts = E_SUBA_NML_BLK_STS_TYP_NON;
+	// ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ?
+//	g_Base.Stg.Nml.SubANmlGamNumTyp = E_SUBA_NML_GAMNUM_TYP_WHI;
+	// UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶敖　ﾂｹﾃ楪ｰﾃ堕絶敖ｶﾂｳﾃ敕窶堙個色窶堋ｪ窶｢ﾃ鞘堙ｭ窶堙≫堋ｽﾂｹﾃ楪ｰﾃ堕絶昶堙ｰﾅ?o窶堋ｦ窶堙?窶堋ｨ窶堋ｭ窶廃
+	// g_Base.Stg.Nml.SubANmlUiChgNum = 0;
+	// ﾂ色窶｢ﾃ鞘ｰﾂｻ窶吮?窶楼窶吮ｺﾃ古猟ｸﾃ楪　ﾂｹﾃ楪ｰﾃ堕絶敖ｶﾂｳﾃ敕窶堙個色窶堋ｪ窶｢ﾃ鞘堙ｭ窶堙≫堙?窶堙ｩﾂ催?窶吮?窶堙俄懌凪堋ｹ窶堙ｱ窶堋ｵ窶堋ｽ窶楼窶吮ｺ窶敖ｻ窶凖ｨ窶廃
+	g_Base.Stg.Nml.SubANmlUiColChgZenFlg = FALSE;
+	// 窶｢ﾃ鞘ｰﾂｻ窶卩?窶堋ｹ窶堙ｱﾂ催湘古猟ｸﾃ?
+	// g_Base.Stg.Nml.SubANmlChgLotFlg = FALSE;
+	// ﾃ渉ｶﾂ坂塲?mﾅｽﾃｭ窶｢ﾃ?
+	// g_Base.Stg.Nml.SubANmlMakKouTyp = E_SUBA_NML_MAK_KOU_TYP_NON;
+	// ﾃ渉ｶﾂ坂塲?mﾂ湘ｳ窶佚?
+	// g_Base.Stg.Nml.SubANmlMakKouSta = E_SUBA_NML_MAK_KOU_STS_NON;
+	// ﾅ?m窶凖ｨ窶凪塲?E窶ｹU窶倪｢ﾃ古猟ｸﾃ? ﾅ?m窶凖ｨ窶凪塲?E窶堙ｰ窶怒窶楼窶吮ｺ窶堙?ﾅ陳ｩ窶板ｧ窶堙?窶堙?窶ｹU窶倪｢窶堋ｷ窶堙ｩﾃ古猟ｸﾃ楪?ﾃ銀督｢ﾅｽg窶廃
+	// g_Base.Stg.Nml.SubANmlKakMakGisFlg = FALSE;
+	// 窶凖環湘ｭﾂｽﾃη?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlStaIniFlg = FALSE;
+	// 窶楼窶吮ｺﾂ催?ﾂ静昶凖ｨﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlZenSaiSetFlg = FALSE;
+	// // 窶怒窶楼窶吮ｺﾃ古猟ｸﾃ?
+	// g_Base.Stg.Nml.SubANmlHonZenFlg = FALSE;
+	// 窶ｹN窶彑窶禿ｰ
+	g_Base.Stg.Nml.SubANmlKitYak = E_SUBA_NML_YAK_NON;
+	// 窶板?窶ｹN窶彑窶禿ｰ
+	//g_Base.Stg.Nml.SubANmlUraKitYak = E_SUBA_NML_YAK_NON;
+	// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ
+	SubA_PrjCmn_ClrSenario(&g_Base.Stg.Nml.SubANmlSceYoy);
+	// 窶凖環湘ｭﾂｼﾃ?ﾃ伉ｵ窶堙?ﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻ窶堋ｵ窶堙?窶堋ｨ窶堋ｭ
+	SubA_PrjCmn_ClrSenario(&g_Base.Stg.Nml.Snr);
+	// 窶凖環湘ｭ窶｢窶ｺﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlFukTyp = E_SUBA_NML_FUK_NON;
+	// 窶楼窶吮ｺ窶ｹﾂｭ窶忸_ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubANmlZKS_Typ = E_SUBA_NML_ZEN_KYODO_SHUBETSU_TYP_NON;
+	// 窶凖環湘ｭﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ
+	g_Base.Stg.Nml.SubANmlSceTypeAttr = E_SUBA_NML_SCN_TYPE_ATTR_NON;
+	// 窶凖環湘ｭﾅ槌停扨ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlGekiatuFlg = FALSE;
+	// 窶ｰﾃ･ﾋ弋ﾃ凪楼窶吮ｺ_窶｢窶ｺﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmZenSubType = E_SUBA_GMZEN_TYPE_NON;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農ﾅｽg窶廃ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlItmTraUseFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農ﾃ督ｰﾃ?ﾃ槐ｽﾂｦﾂ債ｴﾃ古猟ｸﾃ?
+	//g_Base.Stg.Nml.SubANmlItmTraSSAFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農窶伉ｸﾅｽmﾃ古猟ｸﾃ?
+	//g_Base.Stg.Nml.SubANmlItmTraSsiFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農窶楼窶吮ｺﾅｽﾅｾﾅｽg窶廃ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubANmlItmTraZenUseFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ?
+	// g_Base.Stg.Nml.SubANmlItmTraGamTyp = E_SUBA_NML_ITMTRA_GAMNUM_NON;
+	// 窶卍ｩﾋ?ﾃｪﾃ古猟ｸﾃ?
+	// g_Base.Stg.Nml.SubAGmAsaIchiFlg = FALSE;
+	// ﾂｱﾂｲﾃε鯛彎窶倪農ﾂ坂壺｢p窶忸ﾃ古猟ｸﾃ?
+	//g_Base.Stg.Nml.SubANmlItmTraKouHindoFlg = FALSE;
+	// 窶卍ｩﾋ?ﾃｪ1G窶禿壺堋ｾ窶堋ｯﾃ古猟ｸﾃ?
+	//g_Base.Stg.Nml.SubANmlAsaichi1gFlag = FALSE;
+	// 窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ?
+	//g_Base.Stg.Nml.SubANmlZenchouShisaTyp = E_SUBA_NML_ZENCHOU_SHISA_NON;
+	// 窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾂ色
+	//g_Base.Stg.Nml.SubANmlZenchouShisairoTyp = E_SUBA_NML_ZENCHOU_SHISAIRO_NON;
+	// BIGﾅｽﾂｦﾂ債ｴ
+	//g_Base.Stg.Nml.SubANmlBIGShisaTyp = E_SUBA_NML_BIG_SHISHA_NON;
+	// BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ?
+	//g_Base.Stg.Nml.SubANmlBIGShisaGamNumTyp = E_SUBA_NML_BIG_SHISHA_GAMNUM_NON;
+	// CZﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶﾂ催鞘堙敕古猟ｸﾃ?
+	//g_Base.Stg.Nml.SubANmlCZShisaHasseiZumiTyp = E_SUBA_NML_CZ_SHISA_HASSEI_ZUMI_NON;
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶楼窶吮ｺﾂ催?ﾂ静昶凖ｨﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃ?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_NmlStgZenSai(void)
+{
+	u32 result = 0;
+	u32 tmp1 = 0;
+	u32 tmp2 = 0;
+	// [ﾃ古榲崢ｯﾂｸﾂ湘ｳ窶ｹﾂｵ]+1
+	ADD_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlBlkSts, 1, D_SUBA_NML_BLK_MAX);
+	// ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ窶卩?窶堋ｹ窶堙ｱ
+	result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_STG_CHG_YOY);
+	// [ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+	g_Base.Stg.Nml.SubANmlStgChgYoy = (E_SUBA_NML_STG)result;
+	// [ﾃ古榲崢ｯﾂｸ窶ｰﾃｱﾂ絶拆>[ﾃ古榲崢ｯﾂｸﾂ湘ｳ窶ｹﾂｵ]?
+	if (g_Base.Stg.Nml.SubANmlBlkNum > (u32)g_Base.Stg.Nml.SubANmlBlkSts)
+	{
+		// ﾃ古榲崢ｯﾂｸGﾂ絶昶卩?窶堋ｹ窶堙ｱ_2窶ｰﾃｱ窶禿喟窶凖環湘ｭﾂｽﾃ?
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_BLK_G_2_NML_STG);
+		// [ﾃ古榲崢ｯﾂｸ窶牢窶佚隈]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubANmlBlkAllG = result;
+		// [ﾃ古榲崢ｯﾂｸﾅｽcG]ﾂ?ﾂｩ[ﾃ古榲崢ｯﾂｸ窶牢窶佚隈]-1
+		tmp1 = g_Base.Stg.Nml.SubANmlBlkAllG;
+		SUB_LIMITCHK_ERR_S(tmp1, 1, 0)
+		g_Base.Stg.Nml.SubANmlBlkZanG = tmp1;
+	}
+	else
+	{
+		// [ﾃ古榲崢ｯﾂｸ窶牢窶佚隈]ﾂ?ﾂｩ[窶楼窶吮ｺ窶牢窶佚隈]-[窶楼窶吮ｺﾂ進ﾂ行G]+1
+		tmp1 = g_Base.Stg.Nml.SubANmlZenAllG;
+		tmp2 = g_Base.Stg.Nml.SubANmlZenPrgG;
+		SUB_LIMITCHK_ERR_S(tmp1, tmp2, 0);
+		ADD_LIMITCHK_ERR_S(tmp1, 1, D_SUBA_NML_BLK_ALL_MAX);
+		g_Base.Stg.Nml.SubANmlBlkAllG = tmp1;
+		// [ﾃ古榲崢ｯﾂｸﾅｽcG]ﾂ?ﾂｩ[ﾃ古榲崢ｯﾂｸ窶牢窶佚隈]-1
+		tmp1 = g_Base.Stg.Nml.SubANmlBlkAllG;
+		SUB_LIMITCHK_ERR_S(tmp1, 1, 0)
+		g_Base.Stg.Nml.SubANmlBlkZanG = tmp1;
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶板?窶楼窶吮ｺﾅ?ﾃ?窶板敖祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_NmlStgUraZen(void)
+{
+	u32 result = 0;
+	u32 tmp1 = 0;
+	// ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=ZEN?
+	if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_ZEN)
+	{
+		// ﾂ終窶板ｹ
+	}
+	else
+	{
+		// 窶板?窶楼窶吮ｺ窶ｹ窶凪ｰﾃや卩?窶堋ｹ窶堙ｱ
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_URA_ZEN_OK);
+		// ﾅ停ｹ窶ｰﾃ?=0?
+		if (result == 0)
+		{
+			// ﾂ終窶板ｹ
+		}
+		else
+		{
+			// 窶板?窶楼窶吮ｺ窶懌凪敕帚卩?窶堋ｹ窶堙ｱ
+			result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_URA_ZEN_TOH);
+			// ﾅ停ｹ窶ｰﾃ?=0?
+			if (result == 0)
+			{
+				// ﾂ終窶板ｹ
+			}
+			else
+			{
+				// 窶楼窶吮ｺ窶ｹN窶彑窶禿ｰﾂ静昶凖ｨ
+				result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_ZEN_KIT_YAK);
+				// [窶板?窶ｹN窶彑窶禿ｰ]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+				g_Base.Stg.Nml.SubANmlUraKitYak = result;
+
+				// 窶板?窶楼窶吮ｺG窶卩?窶堋ｹ窶堙ｱ
+				result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_URA_ZEN_G);
+				// [窶板?窶楼窶吮ｺ窶牢窶佚隈]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+				g_Base.Stg.Nml.SubANmlUraZenAllG = result;
+				// [窶板?窶楼窶吮ｺﾅｽcG]ﾂ?ﾂｩ[窶板?窶楼窶吮ｺ窶牢窶佚隈]-1
+				tmp1 = g_Base.Stg.Nml.SubANmlUraZenAllG;
+				SUB_LIMITCHK_ERR_S(tmp1, 1, 0)
+				g_Base.Stg.Nml.SubANmlUraZenZanG = tmp1;
+				// [窶板?窶楼窶吮ｺﾂ進ﾂ行G]ﾂ?ﾂｩ1
+				g_Base.Stg.Nml.SubANmlUraZenPrgG = 1;
+
+				// [ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=窶昶??..NO
+				if (g_Base.Stg.Nml.SubANmlGamNumTyp != E_SUBA_NML_GAMNUM_TYP_WHI)
+				{
+					// [ﾂ色窶｢ﾃ鞘ｰﾂｻ窶吮?窶楼窶吮ｺﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+					g_Base.Stg.Nml.SubANmlUiColChgZenFlg = 1;
+				}
+			}
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶楼窶吮ｺﾅ?ﾃ?窶板敖祥?窶板拈窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_NmlStgZenKan(void)
+{
+	u32 result = 0;
+	// ﾂ湘ｰﾅ陳照稚ﾆ停ｰﾆ丹
+	BOOL chk = FALSE;
+	// [窶楼窶吮ｺﾂ催?ﾂ静昶凖ｨﾃ古猟ｸﾃ枉=1?
+	if (g_Base.Stg.Nml.SubANmlZenSaiSetFlg)
+	{
+		// 窶楼窶吮ｺﾂ催?ﾂ静昶凖ｨﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃ?
+		SubA_PrjStgNml_NmlStgZenSai();
+	}
+
+	// [窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+	if (g_Base.Stg.Nml.SubANmlZenTyp == E_SUBA_NML_ZEN_TYP_NON)
+	{
+		// 窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ垣窶督｢ﾂ静昶凖ｨ
+		SubA_PrjStgNml_SubANmlZenTypNone();
+	}
+	else
+	{
+		// [ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=1? 窶堋ｩ窶堙? [窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾆ?3?
+		if ( ( g_Base.Stg.Nml.SubANmlGamNumTyp == E_SUBA_NML_GAMNUM_TYP_BLU ) &&
+			 ( g_Base.Stg.Nml.SubANmlZenTyp < E_SUBA_NML_ZEN_TYP_MEG ) )
+		{
+			// [ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ]ﾂ?ﾂｩ窶督｢ﾂ静昶凖ｨ
+			g_Base.Stg.Nml.SubANmlStgChgYoy = E_SUBA_NML_STG_NON;
+			// 窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ垣窶督｢ﾂ静昶凖ｨ
+			SubA_PrjStgNml_SubANmlZenTypNone();
+		}
+		else
+		{
+			// ﾂｽﾃε?ﾂｪﾃ昶楼窶吮ｺ窶敖ｻ窶凖ｨ
+			result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NM_SUTECHEN_ZENCHOU_HANTEI);
+			if (result == 1)
+			{
+				// ﾂ静ｸ窶堙ｨAﾂｽﾃε?ﾂｪﾃ敘ｽﾅｾ_窶氾｡ﾅ?Oﾂ祥?窶板昶敖ｻ窶凖ｨ
+				result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NM_STGCHANGE_PERMIT);
+				if (result == 1)
+				{
+					chk = TRUE;
+				}
+			}
+
+			// ﾂｽﾃε?ﾂｪﾃ昶楼窶吮ｺ窶敖ｻ窶凖ｨ : ﾅ停ｹ窶ｰﾃ?=1?
+			// [ﾃ古榲崢ｯﾂｸﾅｽcG]=0?
+			// ﾂ静ｸ窶堙ｨAﾂｽﾃε?ﾂｪﾃ敘ｽﾅｾ_窶氾｡ﾅ?Oﾂ祥?窶板昶敖ｻ窶凖ｨ : ﾅ停ｹ窶ｰﾃ?=1?
+			if (chk && g_Base.Stg.Nml.SubANmlBlkZanG == 0)
+			{
+				// [ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ]ﾂ?ﾂｩ窶督｢ﾂ静昶凖ｨ
+				g_Base.Stg.Nml.SubAGmStgChgYoy = E_SUBA_NML_STG_NON;
+
+				// 窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ垣窶督｢ﾂ静昶凖ｨ
+				SubA_PrjStgNml_SubANmlZenTypNone();
+			}
+			else
+			{
+				// 窶板?窶楼窶吮ｺﾅ?ﾃ?窶板敖祥?窶板?
+				SubA_PrjStgNml_NmlStgUraZen();
+				// ﾆ歎ﾆ段ﾆ椎?ﾆ棚窶吮?窶堙?窶堙坂堙遺堋｢ﾂ？
+				if (SubA_PrjStgNml_IsSenarioRun() == FALSE)
+				{
+					// [窶怒窶楼窶吮ｺﾃ古猟ｸﾃ枉=0ﾅ?ﾅｽ窶堙つ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=ZEN?
+					if (g_Base.Stg.Nml.SubANmlHonZenFlg == FALSE &&
+						g_Base.Stg.Mn.State.Now == D_DDM_STATE_ZEN)
+					{
+						// ﾂ【窶敕?窶廃窶之窶ｹZﾂ絶戡ﾂｶﾂｳﾃ敕ﾂ】>[窶楼窶吮ｺﾅｽcG]+2?
+						if (g_Base.Stg.Mn.CmnA_PlayCount > (g_Base.Stg.Nml.SubANmlZenZanG + 2))
+						{
+							// 窶楼窶吮ｺﾂ催?ﾂ静昶凖ｨﾅｽﾅｾﾂｼﾃ?ﾃ伉ｵ窶能窶禿ｱﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃ?
+							SubA_PrjStgNml_NmlStgZenSaiSceYoy();
+						}
+						else
+						{
+							// ﾂ【窶敕?窶廃窶之窶ｹZﾂ絶戡ﾂｶﾂｳﾃ敕ﾂ】>[ﾃ古榲崢ｯﾂｸﾅｽcG]+2?
+							if (g_Base.Stg.Mn.CmnA_PlayCount > (g_Base.Stg.Nml.SubANmlBlkZanG + 2))
+							{
+								// 窶楼窶吮ｺﾂ催?ﾂ静昶凖ｨﾅｽﾅｾﾂｼﾃ?ﾃ伉ｵ窶能窶禿ｱﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃ?
+								SubA_PrjStgNml_NmlStgZenSaiSceYoy();
+							}
+							else
+							{
+								// 窶楼窶吮ｺ窶ｹN窶彑ﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃ?
+								SubA_PrjStgNml_NmlStgZenSta();
+							}
+						}
+					}
+					else
+					{
+						// 窶楼窶吮ｺﾂ催?ﾂ静昶凖ｨﾅｽﾅｾﾂｼﾃ?ﾃ伉ｵ窶能窶禿ｱﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃ?
+						SubA_PrjStgNml_NmlStgZenSaiSceYoy();
+					}
+				}
+			}
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵﾅ塚?窶凖ｨﾅｽﾅｾﾂ祥?窶板拈NML窶ｹﾂ､窶凖?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_NmlComYoySceDec(void)
+{
+	u32 tmp = 0;
+	// [窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵG]ﾂ?ﾂｩ[窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ]窶堙個ｹﾃ楪ｰﾃ堕絶?
+	g_Base.Stg.Nml.SubANmlSceYoyG = g_Base.Stg.Nml.SubANmlSceYoy.GameMax;
+	// [ﾂｼﾃ?ﾃ伉ｵﾅ?JﾅｽnG]ﾂ?ﾂｩ[ﾃ古榲崢ｯﾂｸ窶牢窶佚隈]+[窶楼窶吮ｺﾂ進ﾂ行G]-[窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵG]
+	tmp = g_Base.Stg.Nml.SubANmlBlkAllG + g_Base.Stg.Nml.SubANmlZenPrgG - g_Base.Stg.Nml.SubANmlSceYoyG;
+	LIMITCHK_ERR(tmp, 0, D_SUBA_NML_STG_HAN_G_MAX);
+	g_Base.Stg.Nml.SubANmlSceStaG = tmp;
+	// [ﾂｼﾃ?ﾃ伉ｵﾅ?Jﾅｽn窶堙懌堙?G]ﾂ?ﾂｩ[ﾂｼﾃ?ﾃ伉ｵﾅ?JﾅｽnG]-[窶楼窶吮ｺﾂ進ﾂ行G]
+	tmp = g_Base.Stg.Nml.SubANmlSceStaG - g_Base.Stg.Nml.SubANmlZenPrgG;
+	LIMITCHK_ERR(tmp, 0, D_SUBA_NML_STG_HAN_G_MAX);
+	g_Base.Stg.Nml.SubANmlSceForStaG = tmp;
+	// [窶楼窶吮ｺﾂ催?ﾂ静昶凖ｨﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+	g_Base.Stg.Nml.SubANmlZenSaiSetFlg = FALSE;
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶楼窶吮ｺ窶ｹN窶彑ﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃ?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_NmlStgZenSta(void)
+{
+	u32 result = 0;
+	u32 tmp = 0;
+	// ﾂ【ZEN窶懌凪敕崚古猟ｸﾃ楪】=1 or ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】= GMA/CZ?
+	if (g_Base.Stg.Mn.ZenHitFlg ||
+		g_Base.Stg.Mn.State.Next == D_DDM_STATE_GMA ||
+		g_Base.Stg.Mn.State.Next == D_DDM_STATE_CZ)
+	{
+		//  [窶怒窶楼窶吮ｺﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlHonZenFlg = TRUE;
+		// [窶楼窶吮ｺ窶牢窶佚隈]ﾂ?ﾂｩﾂ【窶敕?窶廃窶之窶ｹZﾂ絶戡ﾂｶﾂｳﾃ敕ﾂ】+1
+		tmp = g_Base.Stg.Mn.CmnA_PlayCount;
+		ADD_LIMITCHK_ERR_S(tmp, 1, D_SUBA_NML_STG_HAN_G_MAX);
+		g_Base.Stg.Nml.SubANmlZenAllG = tmp;
+		// [窶楼窶吮ｺﾅｽcG]ﾂ?ﾂｩ[窶楼窶吮ｺ窶牢窶佚隈]-1
+		tmp = g_Base.Stg.Nml.SubANmlZenAllG;
+		SUB_LIMITCHK_ERR_S(tmp, 1, 0);
+		g_Base.Stg.Nml.SubANmlZenZanG = g_Base.Stg.Nml.SubANmlZenAllG;
+		// [窶楼窶吮ｺﾂ進ﾂ行G]ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlZenPrgG = 1;
+	}
+	// 窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ岩卩?窶堋ｹ窶堙ｱ_窶凖環湘ｭﾂｽﾃ?
+	result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_ZEN_TYP_NML_STG);
+	// ﾅ停ｹ窶ｰﾃ?=0?
+	if (result != 0)
+	{
+		// 窶楼窶之窶ｹZ_[窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ[窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨
+//		g_Base.Stg.Nml.SubANmlZenTyp_Old = g_Base.Stg.Nml.SubANmlZenTyp;
+		// [窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubANmlZenTyp = (E_SUBA_NML_ZEN_TYP)result;
+
+		// [ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=窶昶??
+		if ( g_Base.Stg.Nml.SubANmlGamNumTyp != E_SUBA_NML_GAMNUM_TYP_WHI )
+		{
+			// [窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨>3?
+			if ( g_Base.Stg.Nml.SubANmlZenTyp > E_SUBA_NML_ZEN_TYP_MEG)
+			{
+				// [ﾂ色窶｢ﾃ鞘ｰﾂｻ窶吮?窶楼窶吮ｺﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+				g_Base.Stg.Nml.SubANmlUiColChgZenFlg = TRUE;
+			}
+			else
+			{
+				// [窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨=3?ﾋ?ﾃ闇?O窶堙?ASSERT
+				ASSERT(g_Base.Stg.Nml.SubANmlZenTyp == E_SUBA_NML_ZEN_TYP_MEG);
+			}
+		}
+
+		// 窶楼窶吮ｺ窶ｹN窶彑窶禿ｰﾂ静昶凖ｨ
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_ZEN_KIT_YAK);
+		// [窶ｹN窶彑窶禿ｰ]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubANmlKitYak = result;
+
+		// 窶ｰﾃ･ﾋ弋ﾃ凪楼窶吮ｺ窶｢窶ｺﾅｽﾃｭ窶｢ﾃ岩卩?窶堋ｹ窶堙ｱ_窶凖環湘ｭﾂｽﾃ?
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NM_GMZEN_SUB_TYPE);
+		// [窶ｰﾃ･ﾋ弋ﾃ凪楼窶吮ｺ_窶｢窶ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubAGmZenSubType = (E_SUBA_GMZEN_TYPE_FUK)result;
+
+		// 窶楼窶吮ｺ窶ｹﾂｭ窶忸窶卩?窶堋ｹ窶堙ｱ_窶凖環湘ｭﾂｽﾃ?
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NM_ZENCHOU_SHU);
+		// [窶楼窶吮ｺ窶ｹﾂｭ窶忸_ﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubANmlZKS_Typ = (E_SUBA_NML_ZEN_KYODO_SHUBETSU_TYP)result;
+
+		// [ﾃ古榲崢ｯﾂｸﾂ湘ｳ窶ｹﾂｵ]ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlBlkSts = E_SUBA_NML_BLK_STS_TYP_1;
+		// ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ窶卩?窶堋ｹ窶堙ｱ
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_STG_CHG_YOY);
+		// [ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubANmlStgChgYoy = (E_SUBA_NML_STG)result;
+		// ﾅ停ｹ窶ｰﾃ?=65535?(ﾂｴﾃ猟ｰ)
+		if (result == D_SUBA_NML_LOT_MAX)
+		{
+			// ﾋ?ﾃ卍湘ｭ:窶卩?窶露ﾅ停ｹ窶ｰﾃ岩堋ｪﾆ竪ﾆ停ｰﾂー
+			SUBA_ASSERT(FALSE);
+		}
+		else
+		{
+			// ﾂ【ZEN窶懌凪敕崚古猟ｸﾃ楪】=1 or ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】= GMA/CZ?
+			if (g_Base.Stg.Mn.ZenHitFlg ||
+				g_Base.Stg.Mn.State.Next == D_DDM_STATE_GMA ||
+				g_Base.Stg.Mn.State.Next == D_DDM_STATE_CZ)
+			{
+				// 窶ｰﾂｽ窶堙?窶堋ｵ窶堙遺堋｢
+			}
+			else
+			{
+				// 窶楼窶吮ｺ窶牢窶佚隈窶卩?窶堋ｹ窶堙ｱ_ﾅ?ﾃｮ窶怒
+				result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_ZEN_ALL_G_KHN);
+				// [窶楼窶吮ｺ窶牢窶佚隈]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+				g_Base.Stg.Nml.SubANmlZenAllG = result;
+				// ﾅ停ｹ窶ｰﾃ?=65535?(ﾂｴﾃ猟ｰ)
+				if (result == D_SUBA_NML_LOT_MAX)
+				{
+					// ﾋ?ﾃ卍湘ｭ:窶卩?窶露ﾅ停ｹ窶ｰﾃ岩堋ｪﾆ竪ﾆ停ｰﾂー
+					SUBA_ASSERT(FALSE);
+				}
+				else
+				{
+					// [窶楼窶吮ｺﾅｽcG]ﾂ?ﾂｩ[窶楼窶吮ｺ窶牢窶佚隈]-1
+					tmp = g_Base.Stg.Nml.SubANmlZenAllG;
+					SUB_LIMITCHK_ERR_S(tmp, 1, 0);
+					g_Base.Stg.Nml.SubANmlZenZanG = tmp;
+					// [窶楼窶吮ｺﾂ進ﾂ行G]ﾂ?ﾂｩ1
+					g_Base.Stg.Nml.SubANmlZenPrgG = 1;
+				}
+			}
+			// ﾃ古榲崢ｯﾂｸ窶ｰﾃｱﾂ絶昶卩?窶堋ｹ窶堙ｱ_窶凖環湘ｭﾂｽﾃ?
+			result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_BLK_CNT_NML_STG);
+			// [ﾃ古榲崢ｯﾂｸ窶ｰﾃｱﾂ絶拆ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubANmlBlkNum = result;
+			// [ﾃ古榲崢ｯﾂｸ窶ｰﾃｱﾂ絶拆>[ﾃ古榲崢ｯﾂｸﾂ湘ｳ窶ｹﾂｵ]?
+			if (g_Base.Stg.Nml.SubANmlBlkNum > (u32)g_Base.Stg.Nml.SubANmlBlkSts)
+			{
+				// ﾃ古榲崢ｯﾂｸGﾂ絶昶卩?窶堋ｹ窶堙ｱ_1窶ｰﾃｱ窶禿喟窶凖環湘ｭﾂｽﾃ?
+				result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_BLK_G_1_NML_STG);
+				// [ﾃ古榲崢ｯﾂｸ窶牢窶佚隈]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+				g_Base.Stg.Nml.SubANmlBlkAllG = result;
+			}
+			else
+			{
+				// [ﾃ古榲崢ｯﾂｸ窶牢窶佚隈]ﾂ?ﾂｩ[窶楼窶吮ｺ窶牢窶佚隈]
+				g_Base.Stg.Nml.SubANmlBlkAllG = g_Base.Stg.Nml.SubANmlZenAllG;
+			}
+			// [ﾃ古榲崢ｯﾂｸﾅｽcG]ﾂ?ﾂｩ[ﾃ古榲崢ｯﾂｸ窶牢窶佚隈]-1
+			tmp = g_Base.Stg.Nml.SubANmlBlkAllG;
+			SUB_LIMITCHK_ERR_S(tmp, 1, 0);
+			g_Base.Stg.Nml.SubANmlBlkZanG = tmp;
+
+			// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ窶卩?窶堋ｹ窶堙ｱ_窶凖環湘ｭﾂｽﾃダ1窶ｰﾃｱ窶禿?
+			// [窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			SubA_PrjCmn_SetSenario(D_LOT_S_NML_YOY_1, &g_Base.Stg.Nml.SubANmlSceYoy);
+			
+			// [窶凖環湘ｭﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ]ﾂ?ﾂｩ[窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ]窶堙啓ﾂｴﾃ敕古榲堙堕静ｸ窶堙ｨ窶廃_ﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ]
+			g_Base.Stg.Nml.SubANmlSceTypeAttr = SubA_PrjCmn_GetAttrData(g_Base.Stg.Nml.SubANmlSceYoy.OyaSenarioDataGlobal, D_SNR_EN_AORI_SINA_ZOKU);
+
+			// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵﾅ塚?窶凖ｨﾅｽﾅｾﾂ祥?窶板拈NML窶ｹﾂ､窶凖?
+			SubA_PrjStgNml_NmlComYoySceDec();
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ垣窶督｢ﾂ静昶凖ｨ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_SubANmlZenTypNone(void)
+{
+	// 窶楼窶吮ｺ窶ｹN窶彑ﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃ?
+	SubA_PrjStgNml_NmlStgZenSta();
+	// [窶板?窶楼窶吮ｺ窶牢窶佚隈]>0?
+	if (g_Base.Stg.Nml.SubANmlUraZenAllG > 0)
+	{
+		// [窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨<3?
+		if (g_Base.Stg.Nml.SubANmlZenTyp < E_SUBA_NML_ZEN_TYP_MEG)
+		{
+			// 窶板?窶楼窶吮ｺﾅ?Jﾅｽnﾂ祥?窶板?
+			SubA_PrjStgNml_NmlStgUraZenSta();
+		}
+		// [窶板?窶楼窶吮ｺ窶牢窶佚隈]ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlUraZenAllG = 0;
+		// [窶板?窶楼窶吮ｺﾂ進ﾂ行G]ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlUraZenPrgG = 0;
+		// [窶板?窶楼窶吮ｺﾅｽcG]ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlUraZenZanG = 0;
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶板?窶楼窶吮ｺﾅ?Jﾅｽnﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_NmlStgUraZenSta(void)
+{
+	u32 result = 0;
+	u32 tmp = 0;
+	// [窶楼窶吮ｺ窶牢窶佚隈]ﾂ?ﾂｩ[窶板?窶楼窶吮ｺ窶牢窶佚隈]
+	g_Base.Stg.Nml.SubANmlZenAllG = g_Base.Stg.Nml.SubANmlUraZenAllG;
+	// [窶楼窶吮ｺﾅｽcG]ﾂ?ﾂｩ[窶板?窶楼窶吮ｺﾅｽcG]
+	g_Base.Stg.Nml.SubANmlZenZanG = g_Base.Stg.Nml.SubANmlUraZenZanG;
+	// [窶楼窶吮ｺﾂ進ﾂ行G]ﾂ?ﾂｩ[窶板?窶楼窶吮ｺﾂ進ﾂ行G]
+	g_Base.Stg.Nml.SubANmlZenPrgG = g_Base.Stg.Nml.SubANmlUraZenPrgG;
+	// 窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ岩卩?窶堋ｹ窶堙ｱ_窶板?窶楼窶吮ｺ
+	result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_ZEN_TYP_URA_STG);
+	// ﾅ停ｹ窶ｰﾃ?=0?
+	if (result == 0)
+	{
+		// [窶楼窶吮ｺ窶牢窶佚隈]ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlZenAllG = 0;
+		// [窶楼窶吮ｺﾅｽcG]ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlZenZanG = 0;
+		// [窶楼窶吮ｺﾂ進ﾂ行G]ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlZenPrgG = 0;
+	}
+	else
+	{
+		// 窶楼窶之窶ｹZ_[窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ[窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨
+//		g_Base.Stg.Nml.SubANmlZenTyp_Old = g_Base.Stg.Nml.SubANmlZenTyp;
+		// [窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubANmlZenTyp = (E_SUBA_NML_ZEN_TYP)result;
+		// [ﾃ古榲崢ｯﾂｸﾂ湘ｳ窶ｹﾂｵ]ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlBlkSts = E_SUBA_NML_BLK_STS_TYP_1;
+		// [窶ｹN窶彑窶禿ｰ]ﾂ?ﾂｩ[窶板?窶ｹN窶彑窶禿ｰ]
+		g_Base.Stg.Nml.SubANmlKitYak = g_Base.Stg.Nml.SubANmlUraKitYak;
+
+		// 窶楼窶吮ｺ窶ｹﾂｭ窶忸窶卩?窶堋ｹ窶堙ｱ_窶凖環湘ｭﾂｽﾃ?
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NM_ZENCHOU_SHU);
+		// [窶楼窶吮ｺ窶ｹﾂｭ窶忸_ﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubANmlZKS_Typ = result;
+
+		// ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ窶卩?窶堋ｹ窶堙ｱ
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_STG_CHG_YOY);
+		// [ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubANmlStgChgYoy = (E_SUBA_NML_STG)result;
+		// ﾅ停ｹ窶ｰﾃ?=65535?(ﾂｴﾃ猟ｰ)
+		if (result == D_SUBA_NML_LOT_MAX)
+		{
+			// ﾋ?ﾃ卍湘ｭ:窶卩?窶露ﾅ停ｹ窶ｰﾃ岩堋ｪﾆ竪ﾆ停ｰﾂー
+			SUBA_ASSERT(FALSE);
+		}
+		else
+		{
+			// ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=ZEN or ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】= GMA/CZ?
+			if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_ZEN ||
+				g_Base.Stg.Mn.State.Next == D_DDM_STATE_GMA ||
+				g_Base.Stg.Mn.State.Next == D_DDM_STATE_CZ)
+			{
+				// ﾋ?ﾃ卍湘ｭ:窶卩?窶露ﾅ停ｹ窶ｰﾃ岩堋ｪﾆ竪ﾆ停ｰﾂー
+				SUBA_ASSERT(FALSE);
+			}
+			else
+			{
+				//// 窶楼窶吮ｺ窶牢窶佚隈窶卩?窶堋ｹ窶堙ｱ_ﾅ?ﾃｮ窶怒
+				//result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_ZEN_ALL_G_KHN);
+				//// [窶楼窶吮ｺ窶牢窶佚隈]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+				//g_Base.Stg.Nml.SubANmlZenAllG = result;
+				//// ﾅ停ｹ窶ｰﾃ?=65535?(ﾂｴﾃ猟ｰ)
+				//if (result == D_SUBA_NML_LOT_MAX)
+				//{
+				//	// ﾋ?ﾃ卍湘ｭ:窶卩?窶露ﾅ停ｹ窶ｰﾃ岩堋ｪﾆ竪ﾆ停ｰﾂー
+				//	SUBA_ASSERT(FALSE);
+				//}
+				//else
+				//{
+				//	// [窶楼窶吮ｺﾅｽcG]ﾂ?ﾂｩ[窶楼窶吮ｺ窶牢窶佚隈]-1
+				//	tmp = g_Base.Stg.Nml.SubANmlZenAllG;
+				//	SUB_LIMITCHK_ERR_S(tmp, 1, 0);
+				//	g_Base.Stg.Nml.SubANmlZenZanG = tmp;
+				//	// [窶楼窶吮ｺﾂ進ﾂ行G]ﾂ?ﾂｩ1
+				//	g_Base.Stg.Nml.SubANmlZenPrgG = 1;
+					// ﾃ古榲崢ｯﾂｸ窶ｰﾃｱﾂ絶昶卩?窶堋ｹ窶堙ｱ_窶凖環湘ｭﾂｽﾃ?
+				result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_BLK_CNT_NML_STG);
+				// [ﾃ古榲崢ｯﾂｸ窶ｰﾃｱﾂ絶拆ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+				g_Base.Stg.Nml.SubANmlBlkNum = result;
+				// [ﾃ古榲崢ｯﾂｸ窶ｰﾃｱﾂ絶拆>[ﾃ古榲崢ｯﾂｸﾂ湘ｳ窶ｹﾂｵ]?
+				if (g_Base.Stg.Nml.SubANmlBlkNum > (u32)g_Base.Stg.Nml.SubANmlBlkSts)
+				{
+					// ﾃ古榲崢ｯﾂｸGﾂ絶昶卩?窶堋ｹ窶堙ｱ_1窶ｰﾃｱ窶禿喟窶凖環湘ｭﾂｽﾃ?
+					result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_BLK_G_1_NML_STG);
+					// [ﾃ古榲崢ｯﾂｸ窶牢窶佚隈]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+					g_Base.Stg.Nml.SubANmlBlkAllG = result;
+				}
+				else
+				{
+					// [ﾃ古榲崢ｯﾂｸ窶牢窶佚隈]ﾂ?ﾂｩ[窶楼窶吮ｺﾅｽcG]+1
+					g_Base.Stg.Nml.SubANmlBlkAllG = SAFE_ADD(g_Base.Stg.Nml.SubANmlZenZanG, 1, 0);
+				}
+				// [ﾃ古榲崢ｯﾂｸﾅｽcG]ﾂ?ﾂｩ[ﾃ古榲崢ｯﾂｸ窶牢窶佚隈]-1
+				tmp = g_Base.Stg.Nml.SubANmlBlkAllG;
+				SUB_LIMITCHK_ERR_S(tmp, 1, 0);
+				g_Base.Stg.Nml.SubANmlBlkZanG = tmp;
+
+				// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ窶卩?窶堋ｹ窶堙ｱ_窶凖環湘ｭﾂｽﾃダ1窶ｰﾃｱ窶禿?
+				SubA_PrjCmn_SetSenario(D_LOT_S_NML_YOY_1, &g_Base.Stg.Nml.SubANmlSceYoy);
+
+				// [窶凖環湘ｭﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ]ﾂ?ﾂｩ[窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ]窶堙啓ﾂｴﾃ敕古榲堙堕静ｸ窶堙ｨ窶廃_ﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ]
+				g_Base.Stg.Nml.SubANmlSceTypeAttr = SubA_PrjCmn_GetAttrData(g_Base.Stg.Nml.SubANmlSceYoy.OyaSenarioDataGlobal, D_SNR_EN_AORI_SINA_ZOKU);
+
+				// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵﾅ塚?窶凖ｨﾅｽﾅｾﾂ祥?窶板拈NML窶ｹﾂ､窶凖?
+				SubA_PrjStgNml_NmlComYoySceDec();
+
+			}
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶楼窶吮ｺﾂ催?ﾂ静昶凖ｨﾅｽﾅｾﾂｼﾃ?ﾃ伉ｵ窶能窶禿ｱﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃ?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_NmlStgZenSaiSceYoy(void)
+{
+	u32 result = 0;
+	// [窶楼窶吮ｺﾂ催?ﾂ静昶凖ｨﾃ古猟ｸﾃ枉=1?
+	if (g_Base.Stg.Nml.SubANmlZenSaiSetFlg)
+	{
+		// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ窶卩?窶堋ｹ窶堙ｱ_窶凖環湘ｭﾂｽﾃダ2窶ｰﾃｱ窶禿塒?ﾃ按降
+		SubA_PrjCmn_SetSenario(D_LOT_S_NML_YOY_2, &g_Base.Stg.Nml.SubANmlSceYoy);
+
+		// [窶凖環湘ｭﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ]ﾂ?ﾂｩ[窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ]窶堙啓ﾂｴﾃ敕古榲堙堕静ｸ窶堙ｨ窶廃_ﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ]
+		g_Base.Stg.Nml.SubANmlSceTypeAttr = SubA_PrjCmn_GetAttrData(g_Base.Stg.Nml.SubANmlSceYoy.OyaSenarioDataGlobal, D_SNR_EN_AORI_SINA_ZOKU);
+
+		// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵﾅ塚?窶凖ｨﾅｽﾅｾﾂ祥?窶板拈NML窶ｹﾂ､窶凖?
+		SubA_PrjStgNml_NmlComYoySceDec();
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｽﾃδｰﾂｼﾃ槐?ﾃ?窶板敖祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_StgMan(void)
+{
+	u32 result = 0;
+	BOOL chk = FALSE;
+	// [窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+	if (g_Base.Stg.Nml.SubANmlZenTyp == E_SUBA_NML_ZEN_TYP_NON)
+	{
+		// [ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G]=0ﾅ?ﾅｽ窶堙?[ﾃﾂｲﾃ?ﾃ吮｢\ﾅｽﾂｦﾃ古猟ｸﾃ枉=0?
+		if (g_Base.Stg.Nml.SubANmlStgChgLimG == 0 && g_Base.Stg.Nml.SubANmlTitDipFlg == FALSE)
+		{
+			// ﾂｽﾃδｰﾂｼﾃ寨?ﾃ堋行窶ｹ窶凪ｰﾃや卩?窶堋ｹ窶堙ｱ
+			result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_STG_IKO_OK);
+			// ﾅ停ｹ窶ｰﾃ環≫?0?
+			if (result != 0)
+			{
+				// ﾂｽﾃδｰﾂｼﾃ寨?ﾃ堋行窶卩?窶堋ｹ窶堙ｱ
+				result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_STG_IKO);
+				// ﾅ停ｹ窶ｰﾃ環≫?0?
+				if (result != 0)
+				{
+					// [ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+					g_Base.Stg.Nml.SubANmlStgChgYoy = (E_SUBA_NML_STG)result;
+				}
+			}
+		}
+	}
+	// [UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆=111ﾂ～124?
+	if ((g_Base.Stg.Nml.SubANmlUiChgNum >= D_SUBA_NML_GAM_EDG_NUM_111 && g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_124))
+	{
+		chk = TRUE;
+	}
+	// [UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆=222ﾂ～235?
+	else if ((g_Base.Stg.Nml.SubANmlUiChgNum >= D_SUBA_NML_GAM_EDG_NUM_222 && g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_235))
+	{
+		chk = TRUE;
+	}
+	// [UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆=333ﾂ～346?
+	else if ((g_Base.Stg.Nml.SubANmlUiChgNum >= D_SUBA_NML_GAM_EDG_NUM_333 && g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_346))
+	{
+		chk = TRUE;
+	}
+	// [UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆=444ﾂ～457?
+	else if ((g_Base.Stg.Nml.SubANmlUiChgNum >= D_SUBA_NML_GAM_EDG_NUM_444 && g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_457))
+	{
+		chk = TRUE;
+	}
+	// [UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆=555ﾂ～568?
+	else if ((g_Base.Stg.Nml.SubANmlUiChgNum >= D_SUBA_NML_GAM_EDG_NUM_555 && g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_568))
+	{
+		chk = TRUE;
+	}
+	// [UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆=777ﾂ～790?
+	else if ((g_Base.Stg.Nml.SubANmlUiChgNum >= D_SUBA_NML_GAM_EDG_NUM_777 && g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_790))
+	{
+		chk = TRUE;
+	}
+#if 0 // '25/01/07 ﾂ催ｭﾂ焦?
+	// [UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆=999ﾂ～1012ﾅ?ﾅｽ窶堙?[窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]>605?
+	else if ((g_Base.Stg.Nml.SubANmlUiChgNum >= D_SUBA_NML_GAM_EDG_NUM_999 && g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_1012) &&
+		g_Base.Cmn.NmlCounter > D_SUBA_NML_GAM_EDG_NUM_605)
+	{
+		chk = TRUE;
+	}
+#endif
+	else
+	{
+		chk = FALSE;
+	}
+
+#if 0 // 2025/10/27 ﾂ催ｭﾂ焦?
+	if (chk)
+	{
+		// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]-[UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆>10?
+		if ((g_Base.Cmn.NmlCounter - g_Base.Stg.Nml.SubANmlUiChgNum) > 10)
+		{
+			// [ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ窶昶?
+			g_Base.Stg.Nml.SubANmlGamNumTyp = E_SUBA_NML_GAMNUM_TYP_WHI;
+		}
+	}
+#endif
+	// [窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ≫?1 窶堋ｩ窶堙? [ﾂｽﾃδｰﾂｼﾃ枉=5or6?ﾋ?ﾃ闇?O
+	if ( ( g_Base.Stg.Nml.SubANmlZenTyp == E_SUBA_NML_ZEN_TYP_NON) &&
+		 ( g_Base.Stg.Nml.SubANmlStgNow != E_SUBA_NML_STG_MEG && g_Base.Stg.Nml.SubANmlStgNow != E_SUBA_NML_STG_GRO ) )
+	{
+		// [ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ窶昶?
+		g_Base.Stg.Nml.SubANmlGamNumTyp = E_SUBA_NML_GAMNUM_TYP_WHI;
+	}
+
+	// 窶楼窶之窶ｹZ_ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=GMB/CZ?
+	if ( g_Base.Stg.Mn.State.Old == D_DDM_STATE_GMB || g_Base.Stg.Mn.State.Old == D_DDM_STATE_CZ )
+	{
+		// 窶楼窶之窶ｹZ_[ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨ﾂ≫?1? 窶堋ｩ窶堙? [ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=0?
+		if (( g_Base.Stg.Nml.SubANmlGamNumTyp_Old >= E_SUBA_NML_GAMNUM_TYP_BLU ) &&
+			( g_Base.Stg.Nml.SubANmlGamNumTyp	  == E_SUBA_NML_GAMNUM_TYP_WHI ))
+		{
+			chk = FALSE;
+
+			// ﾂ「[UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆=111ﾂ～124?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=3?ﾂ」
+			if (((g_Base.Stg.Nml.SubANmlUiChgNum >= D_SUBA_NML_GAM_EDG_NUM_111) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_124))
+				&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_3))
+			{
+				chk = TRUE;
+			}
+			// ﾂ「[UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆=222ﾂ～235?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=5?ﾂ」
+			else if (((g_Base.Stg.Nml.SubANmlUiChgNum >= D_SUBA_NML_GAM_EDG_NUM_222) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_235))
+				&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_5))
+			{
+				chk = TRUE;
+			}
+			// ﾂ「[UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆=333ﾂ～346?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=7?ﾂ」
+			else if (((g_Base.Stg.Nml.SubANmlUiChgNum >= D_SUBA_NML_GAM_EDG_NUM_333) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_346))
+				&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_7))
+			{
+				chk = TRUE;
+			}
+			// ﾂ「[UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆=444ﾂ～457?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=9?ﾂ」
+			else if (((g_Base.Stg.Nml.SubANmlUiChgNum >= D_SUBA_NML_GAM_EDG_NUM_444) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_457))
+				&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_9))
+			{
+				chk = TRUE;
+			}
+			// ﾂ「[UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆=555ﾂ～568?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=11?ﾂ」
+			else if (((g_Base.Stg.Nml.SubANmlUiChgNum >= D_SUBA_NML_GAM_EDG_NUM_555) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_568))
+				&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_11))
+			{
+				chk = TRUE;
+			}
+			// ﾂ「[UIﾂ色窶｢ﾃ鞘ｰﾂｻGﾂ絶拆=777ﾂ～790?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=14?ﾂ」
+			else if (((g_Base.Stg.Nml.SubANmlUiChgNum >= D_SUBA_NML_GAM_EDG_NUM_777) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_790))
+				&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_14))
+			{
+				chk = TRUE;
+			}
+
+			if (chk)
+			{
+				// [BIGﾅｽﾂｦﾂ債ｴ窶楼窶吮ｺﾂ終窶板ｹﾅ津｣ﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+				g_Base.Stg.Nml.SubANmlBIGShisaZenchouShuuryouGoFlg = TRUE;
+			}
+		}
+	}
+
+	chk = FALSE;
+	// ﾂ「 [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=0ﾂ～99?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=1?ﾂ」
+	if (((g_Base.Stg.Nml.SubANmlUiChgNum >= 0) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_99))
+		&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_1))
+	{
+		chk = TRUE;
+	}
+	// ﾂ「 [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=100ﾂ～199?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=2?ﾂ」
+	else if (((g_Base.Stg.Nml.SubANmlUiChgNum > D_SUBA_NML_GAM_EDG_NUM_99) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_199))
+		&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_2))
+	{
+		chk = TRUE;
+	}
+	// ﾂ「 [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=200ﾂ～299?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=4?ﾂ」
+	else if (((g_Base.Stg.Nml.SubANmlUiChgNum > D_SUBA_NML_GAM_EDG_NUM_199) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_299))
+		&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_4))
+	{
+		chk = TRUE;
+	}
+	// ﾂ「 [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=300ﾂ～399?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=6?ﾂ」
+	else if (((g_Base.Stg.Nml.SubANmlUiChgNum > D_SUBA_NML_GAM_EDG_NUM_299) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_399))
+		&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_6))
+	{
+		chk = TRUE;
+	}
+	// ﾂ「 [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=400ﾂ～499?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=8?ﾂ」
+	else if (((g_Base.Stg.Nml.SubANmlUiChgNum > D_SUBA_NML_GAM_EDG_NUM_399) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_499))
+		&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_8))
+	{
+		chk = TRUE;
+	}
+	// ﾂ「 [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=500ﾂ～599?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=10?ﾂ」
+	else if (((g_Base.Stg.Nml.SubANmlUiChgNum > D_SUBA_NML_GAM_EDG_NUM_499) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_599))
+		&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_10))
+	{
+		chk = TRUE;
+	}
+	// ﾂ「 [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=600ﾂ～699?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=12?ﾂ」
+	else if (((g_Base.Stg.Nml.SubANmlUiChgNum > D_SUBA_NML_GAM_EDG_NUM_599) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_699))
+		&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_12))
+	{
+		chk = TRUE;
+	}
+	// ﾂ「 [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=700ﾂ～799?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=13?ﾂ」
+	else if (((g_Base.Stg.Nml.SubANmlUiChgNum > D_SUBA_NML_GAM_EDG_NUM_699) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_799))
+		&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_13))
+	{
+		chk = TRUE;
+	}
+	// ﾂ「 [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]=800ﾂ～899?ﾂ」窶堙?ﾂ「[BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=15?ﾂ」
+	else if (((g_Base.Stg.Nml.SubANmlUiChgNum > D_SUBA_NML_GAM_EDG_NUM_799) && (g_Base.Stg.Nml.SubANmlUiChgNum <= D_SUBA_NML_GAM_EDG_NUM_899))
+		&& (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_15))
+	{
+		chk = TRUE;
+	}
+
+	if (chk)
+	{
+		// [BIGﾅｽﾂｦﾂ債ｴﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlBIGShisaFlg = TRUE;
+	}
+
+	// 窶楼窶之窶ｹZ_[ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨窶堙閏ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨窶堙ｰﾂ静昶凖ｨ
+	g_Base.Stg.Nml.SubANmlGamNumTyp_Old = g_Base.Stg.Nml.SubANmlGamNumTyp;
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾃ渉ｶﾂ坂塲?mﾅ?ﾃ?窶板敖祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_MakKouMan(void)
+{
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾅｽﾃ･窶ｰ窶ｰﾂ出ﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_NmlStgMain(void)
+{
+	u32 result = 0;
+
+	// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵﾂ催ｬ窶慊ｮﾃ古猟ｸﾃ?
+	BOOL isYoyScnRun = ( g_Base.Stg.Nml.SubANmlSceStaG > 0 && g_Base.Stg.Nml.SubANmlSceForStaG == 0 ) ? TRUE : FALSE;
+
+	// ﾆ歎ﾆ段ﾆ椎?ﾆ棚窶吮?窶堙?窶堙坂堙遺堋｢ﾂ？(ﾅｽﾃ･ﾂｼﾃ?ﾃ伉ｵﾂ、窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ)
+	if (SubA_PrjStgNml_IsSenarioRun() == FALSE)
+	{
+		// [ﾂｼﾃ?ﾃ伉ｵﾅ?JﾅｽnG]>0ﾅ?ﾅｽ窶堙?[ﾂｼﾃ?ﾃ伉ｵﾅ?Jﾅｽn窶堙懌堙?G]=0?
+		if ( isYoyScnRun )
+		{
+			// [窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ]窶堙ｰﾅ?Jﾅｽn
+			// 窶能窶禿ｱﾆ歎ﾆ段ﾆ椎?ﾆ棚窶堋ｩ窶堙ｧﾆ辰ﾆ遅ﾆ停愴暖窶卩?窶堋ｹ窶堙ｱ
+			result = SubA_PrjCmn_GetEvent( &g_Base.Stg.Nml.SubANmlSceYoy );
+
+			// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰﾅｽﾃ･ﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+			SubA_PrjCmn_SetEventMain(result);
+		}
+		else
+		{
+			// ﾂｼﾃ?ﾃ伉ｵ窶卩?窶堋ｹ窶堙ｱ_窶凖環湘ｭﾂｽﾃ?
+			// [ﾃﾂｲﾃ?ﾃ吮｢\ﾅｽﾂｦﾃ古猟ｸﾃ枉=1
+			if ( g_Base.Stg.Nml.SubANmlTitDipFlg )
+			{
+				SubA_PrjCmn_SetSenario(D_LOT_S_NML_SCE_LOT_NML_STG_TIT, &g_Base.Stg.Nml.Snr);
+			}
+			else
+			{
+				SubA_PrjCmn_SetSenario(D_LOT_S_NML_MAI_GAM, &g_Base.Stg.Nml.Snr);
+			}
+
+			// ﾆ歎ﾆ段ﾆ椎?ﾆ棚窶堋ｩ窶堙ｧﾆ辰ﾆ遅ﾆ停愴暖窶卩?窶堋ｹ窶堙ｱ
+			result = SubA_PrjCmn_GetEvent(&g_Base.Stg.Nml.Snr);
+			// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰﾅｽﾃ･ﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+			SubA_PrjCmn_SetEventMain(result);
+		}
+	}
+	else
+	{
+		// [ﾂｼﾃ?ﾃ伉ｵﾅ?JﾅｽnG]>0ﾅ?ﾅｽ窶堙?[ﾂｼﾃ?ﾃ伉ｵﾅ?Jﾅｽn窶堙懌堙?G]=0?
+		if ( isYoyScnRun )
+		{
+			// 窶能窶禿ｱﾆ歎ﾆ段ﾆ椎?ﾆ棚窶堋ｩ窶堙ｧﾆ辰ﾆ遅ﾆ停愴暖窶卩?窶堋ｹ窶堙ｱ
+			result = SubA_PrjCmn_GetEvent( &g_Base.Stg.Nml.SubANmlSceYoy );
+
+			// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰﾅｽﾃ･ﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+			SubA_PrjCmn_SetEventMain(result);
+		}
+		// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵﾋ?ﾃ闇?O
+		else
+		{
+			// ﾆ歎ﾆ段ﾆ椎?ﾆ棚窶堋ｩ窶堙ｧﾆ辰ﾆ遅ﾆ停愴暖窶卩?窶堋ｹ窶堙ｱ
+			result = SubA_PrjCmn_GetEvent(&g_Base.Stg.Nml.Snr);
+
+			// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰﾅｽﾃ･ﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+			SubA_PrjCmn_SetEventMain(result);
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶堋ｻ窶堙娯伉ｼﾂ祥?窶板截_窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_NmlStgOthB(void)
+{
+	// [ﾃﾂｲﾃ?ﾃ吮｢\ﾅｽﾂｦﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+	g_Base.Stg.Nml.SubANmlTitDipFlg = FALSE;
+	// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙娯伉ｮﾂ青ｫ[ﾅｽﾅｸlvﾃﾂｲﾃ?ﾃ兢=窶｢K窶牌?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NEXT_LV_TITLE) == D_EVT_NEXT_LV_TITLE_ATTR_HITSUYOU)
+	{
+		// [ﾃﾂｲﾃ?ﾃ吮｢\ﾅｽﾂｦﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlTitDipFlg = TRUE;
+	}
+
+	// [窶凖環湘ｭﾅ槌停扨ﾃ古猟ｸﾃ枉=1?
+	if (g_Base.Stg.Nml.SubANmlGekiatuFlg == TRUE)
+	{
+		// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMGM窶ｹﾂ､窶凖垣ﾅ槌停扨窶｢ﾃ焦?ﾂｷﾂｲﾃ催榲敕Ь=0?
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NMGM_CM_GEKI_EVENT) == FALSE)
+		{
+			// ﾂ祥?窶板昶堙遺堋ｵ
+		}
+
+		else
+		{
+			// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙ｰﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMGM窶ｹﾂ､窶凖垣ﾅ槌停扨窶｢ﾃ焦?ﾂｷﾂｲﾃ催榲敕Ь窶堙個ｲﾃ催榲敕?窶堙可鞘倪堋ｫﾅ?ﾂｷ窶堋ｦ
+			g_Base.Cmn.Pr.EventMain = GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NMGM_CM_GEKI_EVENT);
+		}
+	}
+
+	// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMGM窶ｹﾂ､窶凖垣ﾅ槌停扨ﾂ青ｧﾅ津]=ﾅ槌停扨ﾂ青ｧﾅ津?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NMGM_CM_GEKI_SEIGEN) == D_EVT_NMGM_CM_GEKI_SEIGEN_ATTR_GEKINETSUSEIGEN)
+	{
+		// [窶凖環湘ｭﾅ槌停扨ﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlGekiatuFlg = TRUE;
+
+		// [ﾅ槌停扨窶敕ｱ窶敖ｭﾂ青ｶﾂｶﾂｳﾃ敕]ﾂ?ﾂｩ10
+		g_Base.Stg.Nml.SubANmlGekiHiCnt = 10;
+	}
+
+	// [ﾅ槌停扨窶敕ｱ窶敖ｭﾂ青ｶﾂｶﾂｳﾃ敕]=0?
+	if (g_Base.Stg.Nml.SubANmlGekiHiCnt == 0)
+	{
+		// [窶凖環湘ｭﾅ槌停扨ﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlGekiatuFlg = FALSE;
+	}
+
+	// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NM_CZﾅｽﾂｦﾂ債ｴ]=1?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_CZ_SISA) == TRUE)
+	{
+		// [CZﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶﾂ催鞘堙敕古猟ｸﾃ枉ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlCZShisaHasseiZumiFuraguTyp = TRUE;
+	}
+
+	// [窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+	if (g_Base.Stg.Nml.SubANmlZenTyp == E_SUBA_NML_ZEN_TYP_NON)
+	{
+		// [ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ]>0?
+		if (g_Base.Stg.Nml.SubANmlStgChgYoy > E_SUBA_NML_STG_NON)
+		{
+			// [ﾅｽﾅｸﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩ[ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ]
+			g_Base.Stg.Nml.SubANmlStgNex = g_Base.Stg.Nml.SubANmlStgChgYoy;
+		}
+	}
+	else
+	{
+		// [ﾃ古榲崢ｯﾂｸﾅｽcG]=0?
+		if (g_Base.Stg.Nml.SubANmlBlkZanG == 0)
+		{
+			// [ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ]=1ﾂ～5? ﾂ?ﾂｦﾅ?Xﾂ～ﾂ鞘板神窶佛?
+			if (g_Base.Stg.Nml.SubANmlStgChgYoy >= E_SUBA_NML_STG_MAT &&
+				g_Base.Stg.Nml.SubANmlStgChgYoy <= E_SUBA_NML_STG_GRO)
+			{
+				// [ﾅｽﾅｸﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩ[ﾂｽﾃε?ﾂｪﾃ昶能窶禿ｱ]
+				g_Base.Stg.Nml.SubANmlStgNex = g_Base.Stg.Nml.SubANmlStgChgYoy;
+			}
+
+			// [窶凖環湘ｭﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ]ﾂ?ﾂｩ0
+			g_Base.Stg.Nml.SubANmlSceTypeAttr = 0;
+
+			// [ﾃ古榲崢ｯﾂｸﾂ湘ｳ窶ｹﾂｵ]=[ﾃ古榲崢ｯﾂｸ窶ｰﾃｱﾂ絶拆?
+			if (g_Base.Stg.Nml.SubANmlBlkSts == g_Base.Stg.Nml.SubANmlBlkNum)
+			{
+				// [窶凖環湘ｭﾂｽﾃη?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+				g_Base.Stg.Nml.SubANmlStaIniFlg = TRUE;
+				// [ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G]<3?
+				if (g_Base.Stg.Nml.SubANmlStgChgLimG < 3)
+				{
+					// [ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G]ﾂ?ﾂｩ3
+					g_Base.Stg.Nml.SubANmlStgChgLimG = 3;
+				}
+				// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕Ъ窶凖環湘ｭ_ﾋ廣窶伉ｱ窶ｰ窶ｰﾂ出窶楼窶吮ｺﾂ終窶板ｹ]=1?
+				if (SubA_PrjCmn_CheckEvtAttrMain(D_EVT_NM_REN_ZEN_FINISH, TRUE))
+				{
+					g_Base.Stg.Nml.SubANmlCntPerfPrmEndFlg = TRUE;
+				}
+				else
+				{
+					g_Base.Stg.Nml.SubANmlCntPerfPrmEndFlg = FALSE;
+				}
+			}
+			else
+			{
+				// [窶楼窶吮ｺﾂ催?ﾂ静昶凖ｨﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+				g_Base.Stg.Nml.SubANmlZenSaiSetFlg = TRUE;
+			}
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶｢窶ｺ窶ｰ窶ｰﾂ出ﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_NmlStgDep(void)
+{
+	u32 result = 0;
+	u32 tmp = 0;			
+	BOOL tmp_flag = FALSE;
+
+	// 窶｢窶ｺ_窶禿ｰ窶｢ﾃｱ窶冦
+	result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_NML_FUK_EN_YAK_HCH);
+	// [窶｢窶ｺ_窶禿ｰ窶｢ﾃｱ窶冦]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+	g_Base.Stg.Nml.SubANmlYakHch = result;
+	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	SubA_PrjCmn_SetEventSubRange(g_Base.Stg.Nml.SubANmlYakHch);
+	// ﾂ【LFﾃ古猟ｸﾃ楪】=1?
+	if (g_Base.Stg.Mn.LfFlg == 1)
+	{
+		// ﾃ崚敕古佚ﾂｲﾃ静敖ｸﾃ樞卩?窶堋ｹ窶堙ｱ
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_LNGFRZ_TIM);
+
+		// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙ｰﾃ崚敕古伉ｲﾃ催榲敕?窶堙可鞘倪堋ｫﾅ?ﾂｷ窶堋ｦ
+		// 窶凖ｨ窶ｹ`	D_EVT_NML_LF_A
+		SubA_PrjCmn_SetEventMain(D_EVT_NML_LF_A);
+
+		// ﾅ停ｹ窶ｰﾃ?=0?
+		if (result == 0)
+		{
+			// 窶｢窶ｺ_ﾃ崚敕古論窶伉ｦ
+			result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_NML_FUK_LNG_FRZ_SOK);
+			// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+			SubA_PrjCmn_SetEventSubRange(result);
+		}
+		else
+		{
+			// 窶｢窶ｺ_ﾃ崚敕古論窶凅窶堙ｪ
+			result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_NML_FUK_LNG_FRZ_OKR);
+			// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+			SubA_PrjCmn_SetEventSubRange(result);
+		}
+	}
+
+	// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕ЪSU_ﾂ青｢ﾅ?Eﾅ?ﾃ渉静?窶督ｾ]=1?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_SU_SEKAI_SETU) == 1)
+	{
+		// [NM窶｢窶ｺ窶ｹﾃ滅ｽ~G]ﾂ?ﾂｩ3
+		g_Base.Stg.Nml.SubANmlNMFukuKinshiG = 3;
+		// [SU窶｢ﾂｶﾅ陳ｾﾂ青ｧﾅ津ﾂｶﾂｳﾃ敕]ﾂ?ﾂｩ10
+		g_Base.Stg.Nml.SubANmlSUBungenSeigenKauntaa = 10;
+		// [ﾂ青｢ﾅ?Eﾅ?ﾃ渉静?窶督ｾﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕ЪSU_ﾂ青｢ﾅ?Eﾅ?ﾃ渉静?窶督ｾﾅｽﾃｭ窶｢ﾃ馨
+		g_Base.Stg.Nml.SubANmlSekaikanSetsumeiShubetsu = GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_SU_SEKAI_KIND);
+	}
+
+	//// [窶伉ｸﾅｽmp]>ﾂ【窶伉ｸﾅｽmPﾂｶﾂｳﾃ敕ﾂ】?
+	//if (g_Base.Stg.Nml.SubANmlSsiP > g_Base.Stg.Mn.SonshiCount)
+	//{
+	//	// [ﾅ?l窶慊ｾ窶伉ｸﾅｽmp]ﾂ?ﾂｩ[窶伉ｸﾅｽmp]-ﾂ【窶伉ｸﾅｽmPﾂｶﾂｳﾃ敕ﾂ】
+	//	tmp = g_Base.Stg.Nml.SubANmlSsiP - g_Base.Stg.Mn.SonshiCount;
+	//	g_Base.Stg.Nml.SubANmlGetSsiP = tmp;
+
+	//	// 窶｢窶ｺ_窶伉ｸﾅｽmpﾅ?l窶慊ｾ
+	//	result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_NML_FUK_SSI_P_GET);
+	//	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	//	SubA_PrjCmn_SetEventSub(result);
+
+	//	// 窶｢窶ｺ_窶伉ｸﾅｽmpﾅｽﾂｦﾂ債ｴ
+	//	result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_NML_FUK_SSI_P_SSA);
+	//	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	//	SubA_PrjCmn_SetEventSub(result);
+
+	//	// [窶伉ｸﾅｽmp]ﾂ?ﾂｩﾂ【窶伉ｸﾅｽmPﾂｶﾂｳﾃ敕ﾂ】
+	//	g_Base.Stg.Nml.SubANmlSsiP = g_Base.Stg.Mn.SonshiCount;
+	//}
+
+
+	// ﾂｼﾃ?ﾃ伉ｵﾂ進ﾂ行窶吮?窶堙?窶堙坂堙遺堋｢ﾂ？
+	if (SubA_PrjCmn_IsSenarioRun(&g_Base.Stg.Nml.SubSnr) == FALSE)
+	{
+		// 窶｢窶ｺﾂｼﾃ?ﾃ伉ｵ_窶凖環湘ｭ窶｢窶ｺ
+		SubA_PrjCmn_SetSenario(D_LOT_S_NML_FUK_NML_FUK, &g_Base.Stg.Nml.SubSnr);
+	}
+
+	// ﾆ歎ﾆ段ﾆ椎?ﾆ棚窶堋ｩ窶堙ｧ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶卩?窶堋ｹ窶堙ｱ
+	result = SubA_PrjCmn_GetEvent(&g_Base.Stg.Nml.SubSnr);
+	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	SubA_PrjCmn_SetEventSubL(E_EVENT_SUB_NUMBER_SUB_H, result);
+
+	// 窶｢窶ｺﾅｽﾃｭ窶｢ﾃ岩ｹ窶凪ｰﾃや卩?窶堋ｹ窶堙ｱ
+	result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NM_SUB_PERMIT);
+
+	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ?=0?
+	if (result == 0)
+	{
+		// ﾂ「窶｢窶ｺﾂｼﾃ?ﾃ伉ｵ_窶凖環湘ｭ窶｢窶ｺﾂ」窶堙?窶｢ﾃ披堋ｳ窶堙ｪ窶堋ｽﾂｲﾃ催榲敕?窶堙ｰﾋ?ﾃ遺ｰﾂｺ窶堙娯凖ｨ窶ｹ`窶堙可鞘倪堋ｫﾅ?ﾂｷ窶堋ｦ
+		// D_EVT_NML_SENIOR_A
+		g_Base.Cmn.Pr.EventSub[E_EVENT_SUB_NUMBER_SUB_H] = D_EVT_NML_SENIOR_A;
+	}
+
+	// ﾂ「窶｢窶ｺﾂｼﾃ?ﾃ伉ｵ_窶凖環湘ｭ窶｢窶ｺﾂ」窶堙娯弩ﾅ?J窶堋ｳ窶堙ｪ窶堋ｽ窶｢窶ｺﾂｲﾃ催榲敕?窶堙娯伉ｮﾂ青ｫ[NM_SUﾂ青ｧﾅ津]=1?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_SU_SEIGEN, TRUE))
+	{
+		// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NM_ﾅｽﾃ･窶ｰ窶ｰﾂ出窶敖ｻ窶凖ｨ]=0?
+		if (SubA_PrjCmn_CheckEvtAttrMain(D_EVT_NM_EN_JUGDE, FALSE))
+		{
+			// ﾂ「窶｢窶ｺﾂｼﾃ?ﾃ伉ｵ_窶凖環湘ｭ窶｢窶ｺﾂ」窶堙?窶｢ﾃ披堋ｳ窶堙ｪ窶堋ｽﾂｲﾃ催榲敕?窶堙ｰﾋ?ﾃ遺ｰﾂｺ窶堙娯凖ｨ窶ｹ`窶堙可鞘倪堋ｫﾅ?ﾂｷ窶堋ｦ
+			// D_EVT_NML_SENIOR_A
+			g_Base.Cmn.Pr.EventSub[E_EVENT_SUB_NUMBER_SUB_H] = D_EVT_NML_SENIOR_A;
+		}
+	}
+
+	// 窶｢窶ｺﾂｼﾃ?ﾃ伉ｵ_窶凖環湘ｭ窶｢窶ｺ窶堙娯｢窶ｺﾂｲﾃ催榲敕?窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NM_BIGﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶ]=1?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_BIG_SISA, TRUE))
+	{
+		// [BIGﾅｽﾂｦﾂ債ｴﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlBIGShisaFlg = FALSE;
+		// [BIGﾅｽﾂｦﾂ債ｴ窶楼窶吮ｺﾂ終窶板ｹﾅ津｣ﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlBIGShisaZenchouShuuryouGoFlg = FALSE;
+		// [BIGﾅｽﾂｦﾂ債ｴ]ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlBIGShisaTyp = E_SUBA_NML_BIG_SHISA_NON;
+		// [BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp = E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_NON;
+	}
+
+	// 窶｢窶ｺﾂｼﾃ?ﾃ伉ｵ_窶凖環湘ｭ窶｢窶ｺ窶堙娯｢窶ｺﾂｲﾃ催榲敕?窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NM窶｢窶ｺ窶敖ｭﾂ青ｶ]=1?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_HUKU_SHUTU, TRUE))
+	{
+		// [NM窶｢窶ｺﾂｶﾂｳﾃ敕]+1
+		ADD_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlNMSub, 1, 255);
+	}
+	else
+	{
+		// [NM窶｢窶ｺﾂｶﾂｳﾃ敕]ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlNMSub = 0;
+	}
+
+	// 窶｢窶ｺ_ﾂｱﾂｲﾃε鯛彎窶倪?
+	result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_NML_FUK_ITEM_TRANS);
+	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	SubA_PrjCmn_SetEventSubRange(result);
+
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｱﾂｲﾃε鯛彎窶倪披堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NM_ﾂｱﾂｲﾃε鯛彎窶倪農窶敖ｻ窶凖ｨ]=1?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_JADGE, TRUE))
+	{
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農ﾂ坂壺｢p窶忸ﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlItmTraKouHindoFlg = FALSE;
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農ﾅｽg窶廃ﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlItmTraUseFlg = TRUE;
+	}
+
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｱﾂｲﾃε鯛彎窶倪披堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NM_ﾂｱﾂｲﾃε鯛彎窶倪農3窶佚ｰ窶敖ｭﾂ青ｶ]=1?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_3CHOISE, TRUE))
+	{
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農3窶佚ｰﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶﾂ催湘古猟ｸﾃ枉ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlItmTraSanTakuFlg = TRUE;
+	}
+
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｱﾂｲﾃε鯛彎窶倪披堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NM_ﾂｱﾂｲﾃε鯛彎窶倪農ﾂ静昶凖ｨﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶ]=1?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_SETTEISISA, TRUE))
+	{
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農ﾂ静昶凖ｨﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶﾂ催湘古猟ｸﾃ枉ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlItmTraSetteiFlg = TRUE;
+	}
+
+	// [窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ馨=2?
+	if (g_Base.Stg.Nml.SubANmlZenchouShisaShubetsuTyp == E_SUBA_NML_ZENCHOU_SHISA_SHUBETSU_2)
+	{
+		// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕ЪMNL_窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾂ湘≫ｹﾅｽ]=1? YES
+		// [窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨=0? YES
+		if (SubA_PrjCmn_CheckEvtAttrMain(D_EVT_NML_ZEN_SISA_DELE, TRUE) || (g_Base.Stg.Nml.SubANmlZenTyp == E_SUBA_NML_ZEN_TYP_NON))
+		{
+			// [窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ3
+			g_Base.Stg.Nml.SubANmlZenchouShisaShubetsuTyp = E_SUBA_NML_ZENCHOU_SHISA_SHUBETSU_3;
+		}
+	}
+	else
+	{
+		//	[窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ≫?6ﾅ?ﾅｽ窶堙や楼窶之窶ｹZ_[窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ≫ｦ3?
+		if ((g_Base.Stg.Nml.SubANmlZenTyp >= E_SUBA_NML_ZEN_TYP_CZC) && (g_Base.Stg.Nml.SubANmlZenTyp_Old <= E_SUBA_NML_ZEN_TYP_MEG))
+		{
+			// [ﾂｻﾃ古榲古猟ｸﾃ枉ﾂ≫?8?
+			if (g_Base.Cmn.Pr.SubFlag >= D_SUB_FLAG_J_CHE)
+			{
+				tmp_flag = TRUE;
+			}
+		}
+		// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕ЪNML_窶徨窶吮?窶楼窶吮ｺﾅ?Jﾅｽn]=1?
+		// [ﾂｻﾃ古榲古猟ｸﾃ枉=9or14or15?
+		else if (SubA_PrjCmn_CheckEvtAttrMain(D_EVT_NML_TOTYU_ZEN_ST, TRUE) || (isSubYakuGrpZen()))
+		{
+			tmp_flag = TRUE;
+		}
+		
+		if (tmp_flag)
+		{
+			// [窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ1
+			g_Base.Stg.Nml.SubANmlZenchouShisaShubetsuTyp = E_SUBA_NML_ZENCHOU_SHISA_SHUBETSU_1;
+
+			// 窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾂ色窶卩?窶堋ｹ窶堙ｱ
+			result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_ZENCHOU_SHISA);
+			// [窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾂ色]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubANmlZenchouShisaIroTyp = result;
+
+			// 窶｢窶ｺ_窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾂ出ﾅ陳ｻ
+			result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_NML_FUK_ZENCHOU_SHISA_SHUTSUGEN);
+			// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+			SubA_PrjCmn_SetEventSubRange(result);
+		}
+	}
+
+	// 窶｢窶ｺ_ﾂ静ｦﾃ甘榲?
+	result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_NML_FUKU_SAKI_BARE);
+	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	SubA_PrjCmn_SetEventSubRange(result);
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶凖環湘ｭ窶廃ﾂｼﾃ?ﾃ伉ｵ窶吮?窶堋ｩ窶堙娯敖ｻ窶凖ｨ
+//!	@note		窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ窶堙?ﾅ?ﾃ懌堙溪堋ｽ窶凖環湘ｭ窶吮?窶廃窶堙娯敖ｻ窶凖ｨﾂ祥?窶板?
+//!	@param		窶堙遺堋ｵ
+//!	@return		ﾆ歎ﾆ段ﾆ椎?ﾆ棚窶吮?窶堙遺堙ｧTRUEﾂ、窶堋ｻ窶堙ｪﾋ?ﾃ闇?O窶堙遺堙ｧFALSE
+//--------------------------------------------------------------------------
+u32 SubA_PrjStgNml_IsSenarioRun(void)
+{
+	BOOL ret = TRUE;
+	// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ窶堋ｪﾅｽﾃﾂ行窶堋ｳ窶堙ｪ窶堙?窶堋｢窶堙ｩ
+	if (g_Base.Stg.Nml.SubANmlSceYoy.GameNow != g_Base.Stg.Nml.SubANmlSceYoy.GameNext)
+	{
+		// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ窶堙?ﾅｽQﾂ湘?
+		if (SubA_PrjCmn_IsSenarioRun(&g_Base.Stg.Nml.Snr) == FALSE &&
+			SubA_PrjCmn_IsSenarioRun(&g_Base.Stg.Nml.SubANmlSceYoy) == FALSE)
+		{
+			ret = FALSE;
+		}
+	}
+	// 窶能窶禿ｱﾂｼﾃ?ﾃ伉ｵ窶堋ｪﾅｽﾃﾂ行窶堋ｳ窶堙ｪ窶堙?窶堋｢窶堙遺堋｢
+	else
+	{
+		// 窶凖環湘ｭ窶堙個ｼﾃ?ﾃ伉ｵ窶堋ｾ窶堋ｯﾅｽQﾂ湘?
+		if (SubA_PrjCmn_IsSenarioRun(&g_Base.Stg.Nml.Snr) == FALSE)
+		{
+			ret = FALSE;
+		}
+	}
+	return ret;
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾃ催淌?窶廃_ﾃ堙甘楪ｰ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_PenLev(void)
+{
+	// ﾅｽﾃ･窶ｰ窶ｰﾂ出ﾂ祥?窶板拈ﾃ催淌?
+	SubA_PrjStgNml_PenMain();
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾅｽﾃ･窶ｰ窶ｰﾂ出ﾂ祥?窶板拈ﾃ催淌?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_PenMain(void)
+{
+	u32 result;
+
+	// ﾂｼﾃ?ﾃ伉ｵ窶堋ｪﾅｽc窶堙≫堙?窶堋｢窶堙ｩﾂ湘ｪﾂ坂｡窶堙坂｢ﾃ崘ｽﾂ昶堋ｵ窶堙?窶堋ｨ窶堋ｭ
+	// g_Base.Stg.Nml.Snr窶堙俄堙坂ｰe窶ｹﾂｿ窶堙ｰ窶膿窶堋ｦ窶堙遺堋｢
+
+	// ﾂｼﾃ?ﾃ伉ｵ窶卩?窶堋ｹ窶堙ｱ_窶凖環湘ｭﾂｽﾃダﾃ催淌?
+	SubA_PrjCmn_SetSenario(D_LOT_S_NML_PEN_TIK, &g_Base.Stg.Nml.PenSnr);
+	// ﾆ歎ﾆ段ﾆ椎?ﾆ棚窶堋ｩ窶堙ｧﾆ辰ﾆ遅ﾆ停愴暖窶卩?窶堋ｹ窶堙ｱ
+	result = SubA_PrjCmn_GetEvent(&g_Base.Stg.Nml.PenSnr);
+
+	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰﾅｽﾃ･ﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	SubA_PrjCmn_SetEventMain(result);
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾃ催淌?窶廃_1窶凖｢ﾅｽ~ﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_PenStop1(void)
+{
+	u32 result;
+
+	// 窶佚ｦ1窶凖｢ﾅｽ~窶堋ｪ窶吮?or窶ｰE?
+	if (g_Base.Sys.Stop[0] == E_SUBA_SYS_STOP_REEL_C ||
+		g_Base.Sys.Stop[0] == E_SUBA_SYS_STOP_REEL_R)
+	{
+		// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[窶凖環湘ｭ_ﾃ催淌?ﾂ湘≫ｹﾅｽ窶督ｳ窶堋ｵ]=0?
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_PENA_NON_DELETE) == 0)
+		{
+			// 窶ｰ窶ｰﾂ出窶堙ｰﾂ湘≫ｹﾅｽ
+			g_Base.Cmn.EnsClearFlag = TRUE;
+
+			// ﾋ?ﾃ按降窶堙固ｽﾃ･/窶｢窶ｺﾂｲﾃ催榲敕?窶堙ｰﾂ進窶堙溪堙遺堋｢(ﾅｽﾃ･/窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙ｰﾂ湘≫ｹﾅｽ)
+			SubA_PrjCmn_ClrEventAll();
+		}
+
+		// NM_窶｢窶ｺ_ﾂ債ｶ窶ｰﾅｸ窶堋ｵﾂ絶楪渉ｧ窶｢\ﾅｽﾂｦ
+		result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_NML_FUK_LEF_DSP);
+		// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+		SubA_PrjCmn_SetEventSubRange(result);
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾅ?Jﾅｽnﾅｽﾅｾﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_TrgStart(void)
+{
+	// ﾂ出窶ｹﾃ環湘ｳ窶佚? 窶凖環湘ｭ
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=NML
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=ZEN
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=窶敕ｱ窶猫窶藩?
+	if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_NML ||
+		g_Base.Stg.Mn.State.Now == D_DDM_STATE_ZEN ||
+		g_Base.Stg.Mn.State.Now == D_DDM_STATE_HYR)
+	{
+		// ﾅ停ｹ窶ｰﾃ?
+		u32 result = 0;
+		// NMLﾅ?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾂ祥?窶板?
+		SubA_PrjStgNml_StaIni();
+		// [ﾃﾂｲﾃ?ﾃ吮｢\ﾅｽﾂｦﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlTitDipFlg = TRUE;
+
+		// BIGﾅｽﾂｦﾂ債ｴ窶卩?窶堋ｹ窶堙ｱ
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NM_BIG_SHISA);
+		// [BIGﾅｽﾂｦﾂ債ｴ]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubANmlBIGShisaTyp = (E_SUBA_NML_BIG_SHISA_TYP)result;
+
+		// [BIGﾅｽﾂｦﾂ債ｴ]ﾂ≫?11?
+		if (g_Base.Stg.Nml.SubANmlBIGShisaTyp >= 11)
+		{
+			// [BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ16
+			g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp = E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_16;
+
+			// [BIGﾅｽﾂｦﾂ債ｴ]-10
+			SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubANmlBIGShisaTyp, E_SUBA_NML_BIG_SHISA_10, 0);
+		}
+		else
+{
+    // [BIG示唆]が1以上？
+    if (g_Base.Stg.Nml.SubANmlBIGShisaTyp >= E_SUBA_NML_BIG_SHISA_1)
+    {
+        // BIG示唆ゲーム数設定抽選
+        result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NM_BIG_SHISA_G_SUU_SETTEI);
+
+        // [BIG示唆ゲーム数種別]結果格納
+        g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp =
+            (E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_TYP)result;
+    }
+}
+		
+
+		// [窶卍ｩﾋ?ﾃｪ1G窶禿壺堋ｾ窶堋ｯﾃ古猟ｸﾃ枉 = 1 ? "No"窶堙?ﾂ祥?窶板?
+		if (g_Base.Stg.Nml.SubANmlAsaichi1gFlag == FALSE)
+		{
+			// ﾋ?ﾃｪﾅｽﾅｾ窶｢ﾃ渉絶?
+			BOOL tmp_flag = FALSE;
+			BOOL tmp2_flag = FALSE;
+
+			// 窶楼窶之窶ｹZ_ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】ﾂ≫?6? sakai: 窶楼窶ｰﾃｱATﾋ?ﾃ按湘｣
+			if (g_Base.Stg.Mn.State.Old >= D_DDM_STATE_MBT)
+			{
+				// 窶楼窶之窶ｹZ_ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=7ﾅ?ﾅｽ窶堙や楼窶之窶ｹZ_ﾂ【ﾋ?ﾃｸ窶禿溪堋ｵﾅｽﾃｭ窶｢ﾃ環】=MBTﾅ津｣?
+				if (g_Base.Stg.Mn.State.Old == D_DDM_STATE_BKZ && g_Base.Stg.MnOld.BKZType == D_BKZ_TYPE_MBT)
+				{
+					// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩ[BKZﾂｽﾃδｰﾂｼﾃ枉
+					g_Base.Stg.Nml.SubANmlStgNow = g_Base.Stg.Skr.bkz.BKZ_Stage;
+
+					// [ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G]ﾂ?ﾂｩ[BKZﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G]
+					g_Base.Stg.Nml.SubANmlStgChgLimG = g_Base.Stg.Skr.bkz.BKZ_Stage_Change_Seigen;
+
+					// [ﾂｽﾃδｰﾂｼﾃ樞佚伉催扁]ﾂ?ﾂｩ[BKZﾂｽﾃδｰﾂｼﾃ樞佚伉催扁]
+					g_Base.Stg.Nml.SubANmlStgStyG = g_Base.Stg.Skr.bkz.BKZ_Stage_Taizai;
+
+					// [ﾅｽﾅｸﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩ[ﾂｽﾃδｰﾂｼﾃ枉
+					g_Base.Stg.Nml.SubANmlStgNex = g_Base.Stg.Nml.SubANmlStgNow;
+
+					tmp_flag = TRUE;
+				}
+				else
+				{
+					// [CZﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶﾂ催鞘堙敕古猟ｸﾃ枉ﾂ?ﾂｩ0
+					g_Base.Stg.Nml.SubANmlCZShisaHasseiZumiFuraguTyp = FALSE;
+
+					// [ﾂｱﾂｲﾃε鯛彎窶倪農3窶佚ｰﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶﾂ催湘古猟ｸﾃ枉ﾂ?ﾂｩ0
+					g_Base.Stg.Nml.SubANmlItmTraSanTakuFlg = FALSE;
+
+					// [ﾂｱﾂｲﾃε鯛彎窶倪農ﾂ静昶凖ｨﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶﾂ催湘古猟ｸﾃ枉ﾂ?ﾂｩ0
+					g_Base.Stg.Nml.SubANmlItmTraSetteiFlg = FALSE;
+
+					// [窶愿≫凖ｨﾃﾂｲﾃ静敖ｸﾃ樞愿?窶｢窶敘ｽﾂｦﾂ債ｴﾂｶﾂｳﾃ敕]ﾂ?ﾂｩ50
+					g_Base.Stg.Nml.SubANmlTimingHintCnt = 50;
+
+					// ATﾂ終窶板ｹﾅ津｣_ﾂｽﾃδｰﾂｼﾃ樞卩?窶堋ｹ窶堙ｱ
+					result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_AT_SIP_STG_SEL);
+					// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+					g_Base.Stg.Nml.SubANmlStgNow = (E_SUBA_NML_STG)result;
+
+					// 窶楼窶ｰﾃｱATﾋ?ﾃ按湘｣窶堙娯堙?窶堋ｫ窶堙娯堙昶楼窶之窶ｹZﾂ湘ｮ窶｢ﾃｱ窶堙ｰﾆ椎?ﾆ短ﾆ鍛ﾆ暖ﾂ（窶楼窶吮ｺ窶堙｢GM窶禿溪堙ｨ窶堙?窶堙債鞘ｰﾅ?ﾃｺ窶ｰﾂｻ窶堋ｵ窶堙遺堋｢ﾂ）
+					g_Base.Stg.Nml.SubANmlEventMainOld = 0;
+
+					// [窶卍ｩﾋ?ﾃｪﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+					g_Base.Stg.Nml.SubAGmAsaIchiFlg = FALSE;
+
+					tmp2_flag = TRUE;
+				}
+			}
+			else
+			{
+				tmp_flag = TRUE;
+			}
+
+			// sakai: 窶楼窶ｰﾃｱAT窶督｢窶毒ｾ
+			if(tmp_flag)
+			{
+				// 窶楼窶之窶ｹZ_ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=GMB/CZ?
+				if (g_Base.Stg.Mn.State.Old == D_DDM_STATE_CZ ||
+					g_Base.Stg.Mn.State.Old == D_DDM_STATE_GMB)
+				{
+					// CZﾅｽﾂｸ窶捏ﾅ津｣_ﾂｽﾃδｰﾂｼﾃ樞卩?窶堋ｹ窶堙ｱ
+					result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_CZ_SIP_STG_SEL);
+					// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+					g_Base.Stg.Nml.SubANmlStgNow = (E_SUBA_NML_STG)result;
+
+					tmp2_flag = TRUE;
+				}
+			}
+
+			if (tmp2_flag)
+			{
+				// ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津ﾂ湘ｳ窶佚板静倪佚萌窶卩?窶堋ｹ窶堙ｱ
+				result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_STG_CHG_STT_SWT);
+				// [ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+				g_Base.Stg.Nml.SubANmlStgChgLimG = result;
+				// [ﾅｽﾅｸﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩ[ﾂｽﾃδｰﾂｼﾃ枉
+				g_Base.Stg.Nml.SubANmlStgNex = g_Base.Stg.Nml.SubANmlStgNow;
+			}
+		}
+		else
+		{
+			// [CZﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶﾂ催鞘堙敕古猟ｸﾃ枉ﾂ?ﾂｩ0
+			g_Base.Stg.Nml.SubANmlCZShisaHasseiZumiFuraguTyp = FALSE;
+
+			// [ﾂｱﾂｲﾃε鯛彎窶倪農3窶佚ｰﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶﾂ催湘古猟ｸﾃ枉ﾂ?ﾂｩ0
+			g_Base.Stg.Nml.SubANmlItmTraSanTakuFlg = FALSE;
+
+			// [ﾂｱﾂｲﾃε鯛彎窶倪農ﾂ静昶凖ｨﾅｽﾂｦﾂ債ｴ窶敖ｭﾂ青ｶﾂ催湘古猟ｸﾃ枉ﾂ?ﾂｩ0
+			g_Base.Stg.Nml.SubANmlItmTraSetteiFlg = FALSE;
+		}
+	}
+	// ﾂ出窶ｹﾃ環湘ｳ窶佚? GM
+	else if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMA ||
+		g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMB)
+	{
+		// ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=GMA?
+		if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMA)
+		{
+			// 窶ｹﾂ､窶凖垣levﾂ祥?窶板扁MA
+			SubA_PrjStgGm_ComLevGma();
+		}
+		else
+		{
+			// 窶ｹﾂ､窶凖垣levﾂ祥?窶板扁MB
+			SubA_PrjStgGm_ComLevGmb();
+		}
+	}
+
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂ終窶板ｹﾅｽﾅｾﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_TrgEnd(void)
+{
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶彭ﾅ陳ｹ窶愬?窶愿ｼ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_TrgPowerOn(void)
+{
+	u32 tmp = 0;
+
+	// ﾂ静昶凖ｨ窶｢ﾃ渉更
+	if (g_Base.Sys.RankSet.Now)
+	{
+		// ﾂ静昶凖ｨ窶｢ﾃ渉更ﾅｽﾅｾ窶堙個鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾂ祥?窶板昶堙最?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾂ祥?窶板昶堙?窶佚寂ｰﾅｾ
+
+		// [窶卍ｩﾋ?ﾃｪ1G窶禿壺堋ｾ窶堋ｯﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlAsaichi1gFlag = TRUE;
+		// ﾆ湛ﾆ弾ﾂーﾆ淡ﾂ静昶凖ｨ
+		switch ( g_Base.Stg.Mn.State.Now )
+		{
+		case D_DDM_STATE_HYR:
+		case D_DDM_STATE_NML:
+		case D_DDM_STATE_ZEN:
+			g_Base.Stg.Nml.SubANmlStgNow = E_SUBA_NML_STG_MAT;
+			g_Base.Stg.Nml.SubANmlStgNex = E_SUBA_NML_STG_MAT;
+			break;
+		case D_DDM_STATE_GMA:
+		case D_DDM_STATE_GMB:
+			g_Base.Stg.Nml.SubAGmStgNow  = E_SUBA_NML_STG_MAT;
+			g_Base.Stg.Nml.SubAGmStgNex = E_SUBA_NML_STG_MAT;
+			break;
+		default:
+			ASSERT(FALSE);
+			break;
+		}
+	}
+	// 窶卍ｷﾅ?ﾃｺ窶彭窶冉ﾅｽﾅｾ
+	else if ( g_Base.Sys.PowerOnLongFlag )
+	{
+		// ===>窶卍ｷﾅ?ﾃｺ窶彭窶冉ﾂ祥?窶板?
+		// 窶卍ｷﾅ?ﾃｺ窶彭窶冉ﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾂ祥?窶板?
+		SubA_PrjStgNml_StaIniLongPow();
+		// [窶卍ｩﾋ?ﾃｪ1G窶禿壺堋ｾ窶堋ｯﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubANmlAsaichi1gFlag = TRUE;
+		// ﾆ湛ﾆ弾ﾂーﾆ淡ﾂ静昶凖ｨ
+		switch ( g_Base.Stg.Mn.State.Now )
+		{
+		case D_DDM_STATE_HYR:
+		case D_DDM_STATE_NML:
+		case D_DDM_STATE_ZEN:
+			g_Base.Stg.Nml.SubANmlStgNow = E_SUBA_NML_STG_MAT;
+			g_Base.Stg.Nml.SubANmlStgNex = E_SUBA_NML_STG_MAT;
+			break;
+		case D_DDM_STATE_GMA:
+			g_Base.Stg.Nml.SubAGmGmaZanG.Now = g_Base.Stg.Mn.CmnB_PlayCount;
+			g_Base.Stg.Nml.SubAGmGmaGijiLv.Now = SUBA_GM_GMA_GIJIREN_LEVEL_01;
+			g_Base.Stg.Nml.SubAGmGmaGijiLv.Old = SUBA_GM_GMA_GIJIREN_LEVEL_01;
+			g_Base.Stg.Nml.SubAGmGmaSubGijiType = 1;
+			g_Base.Stg.Nml.SubAGmStgNow = E_SUBA_NML_GM_STG_DEF;
+			g_Base.Stg.Nml.SubAGmStgNex = E_SUBA_NML_GM_STG_DEF;
+			g_Base.Stg.Nml.SubAGmGmaPhase1 = g_Base.Stg.Mn.CmnB_PlayCount;
+			break;
+		case D_DDM_STATE_GMB:
+			g_Base.Stg.Nml.SubAGmStgNow  = E_SUBA_NML_STG_MAT;
+			g_Base.Stg.Nml.SubAGmStgNex = E_SUBA_NML_STG_MAT;
+			g_Base.Stg.Nml.SubAGmGmaSubGijiType = 1;
+			break;
+		default:
+			ASSERT(FALSE);
+			break;
+		}
+		// [窶ｹﾂ､窶凖垣窶凖環湘ｭﾅｽﾅｾ窶｢\ﾅｽﾂｦG]ﾂ?ﾂｩ0
+		// 窶ｹﾂ､窶凖環祥?窶板昶堙?窶佚寂ｰﾅｾ
+	}
+	else
+	{
+		g_Base.Stg.Nml.SubANmlStgNow = (g_Base.Stg.Nml.SubANmlStgNow == E_SUBA_NML_STG_NON) ? E_SUBA_NML_STG_MAT : g_Base.Stg.Nml.SubANmlStgNow;
+		g_Base.Stg.Nml.SubANmlStgNex = g_Base.Stg.Nml.SubANmlStgNow;
+		g_Base.Stg.Nml.SubAGmStgNow = (g_Base.Stg.Nml.SubAGmStgNow == E_SUBA_NML_STG_NON) ? E_SUBA_NML_STG_MAT : g_Base.Stg.Nml.SubAGmStgNow;
+		g_Base.Stg.Nml.SubAGmStgNex = g_Base.Stg.Nml.SubAGmStgNow;
+
+		if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMA)
+		{
+			g_Base.Stg.Nml.SubAGmGmaZanG.Now = g_Base.Stg.Mn.CmnB_PlayCount;
+			g_Base.Stg.Nml.SubAGmGmaGijiLv.Now = SUBA_GM_GMA_GIJIREN_LEVEL_01;
+			g_Base.Stg.Nml.SubAGmGmaGijiLv.Old = SUBA_GM_GMA_GIJIREN_LEVEL_01;
+			g_Base.Stg.Nml.SubAGmGmaSubGijiType = 1;
+			g_Base.Stg.Nml.SubAGmStgNow = E_SUBA_NML_GM_STG_DEF;
+			g_Base.Stg.Nml.SubAGmStgNex = E_SUBA_NML_GM_STG_DEF;
+			g_Base.Stg.Nml.SubAGmGmaPhase1 = g_Base.Stg.Mn.CmnB_PlayCount;
+		}
+		else if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMB)
+		{
+			g_Base.Stg.Nml.SubAGmGmaSubGijiType = 1;
+		}
+	}
+
+	// 窶敕ｱ窶猫窶藩徙r窶凖環湘ｭ
+	if ( g_Base.Stg.Mn.State.Now == D_DDM_STATE_HYR || g_Base.Stg.Mn.State.Now == D_DDM_STATE_NML )
+	{
+		// ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G=20
+		g_Base.Stg.Nml.SubANmlStgChgLimG = 20;
+	}
+
+	// ﾆ湛ﾆ弾ﾂーﾆ淡ﾂ静昶凖ｨ
+	switch ( g_Base.Stg.Mn.State.Now )
+	{
+	case D_DDM_STATE_HYR:
+	case D_DDM_STATE_NML:
+	case D_DDM_STATE_ZEN:
+		SubA_PrjStgNml_TrgSetStage();
+		break;
+	case D_DDM_STATE_GMA:
+	case D_DDM_STATE_GMB:
+		SubA_PrjStgGm_TrgSetStage();
+		break;
+	default:
+		ASSERT(FALSE);
+		break;
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		BET
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_TrgBet(void)
+{
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾆ椎槌弛ﾂー
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_TrgLev(void)
+{
+	BOOL penaFlg = FALSE; // ﾆ馳ﾆ段ﾆ稚ﾆ停ｰﾆ丹
+	// ﾅ停ｹ窶ｰﾃ?
+	u32 result = 0;
+
+	// ﾂ?ﾂｦNML GM 窶ｹﾂ､窶凖? 窶｢窶ｺ窶ｰ窶ｰﾂ出窶堙坂突?ﾃ堙甘楪ｰ窶堙個静ｦ窶慊ｪ窶堙?ﾂｸﾃ伉ｱ
+	g_Base.Stg.Nml.SubANmlYakHch = 0;
+
+	if (g_Base.Cmn.EnsLongPowOnFlag)
+	{
+		SubA_PrjStgNml_TrgStart();
+	}
+
+	// - - - - - - - - - - - - - - - - - - - - - -
+	// 窶ｹﾂ､窶凖垣levﾂ祥?窶板?
+	// - - - - - - - - - - - - - - - - - - - - - -
+	// ﾂ出窶ｹﾃ環湘ｳ窶佚披凖環湘ｭ
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=NML
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=ZEN
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=窶敕ｱ窶猫窶藩?
+	if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_NML ||
+		g_Base.Stg.Mn.State.Now == D_DDM_STATE_ZEN ||
+		g_Base.Stg.Mn.State.Now == D_DDM_STATE_HYR)
+	{
+		// [ﾋ廣窶伉ｱ窶ｰ窶ｰﾂ出窶楼窶吮ｺﾂ終窶板ｹﾅ津｣ﾃ古猟ｸﾃ枉=1? YES
+		if (g_Base.Stg.Nml.SubANmlCntPerfPrmEndFlg == TRUE)
+		{
+			// ﾋ廣窶伉ｱ窶ｰ窶ｰﾂ出ﾅｽﾂｸ窶捏ﾅ津｣_ﾂｽﾃδｰﾂｼﾃ樞卩?窶堋ｹ窶堙ｱ
+			result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_REN_AFTER_STAGE_SET);
+			// [ﾂｽﾃδｰﾂｼﾃ枉 ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubANmlStgNow = result;
+
+			// ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津ﾂ湘ｳ窶佚板静倪佚萌窶卩?窶堋ｹ窶堙ｱ
+			result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_STG_CHG_STT_SWT);
+			// [ﾂｽﾃε?ﾂｪﾃ敖青ｧﾅ津G]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubANmlStgChgLimG = result;
+			// [ﾅｽﾅｸﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩ[ﾂｽﾃδｰﾂｼﾃ枉
+			g_Base.Stg.Nml.SubANmlStgNex = g_Base.Stg.Nml.SubANmlStgNow;
+			// [ﾃﾂｲﾃ?ﾃ吮｢\ﾅｽﾂｦﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+			g_Base.Stg.Nml.SubANmlTitDipFlg = TRUE;
+		}
+		// [ﾋ?ﾃ?窶彎ﾂｽﾃε?ﾂｪﾃ敘津｣ﾃ古猟ｸﾃ枉=1? YES
+		if (g_Base.Stg.Nml.SubANmlDarkTransStagingEndflg == TRUE)
+		{
+			// [ﾋ?ﾃ?窶彎ﾂｽﾃε?ﾂｪﾃ敘?ﾂｮ窶板ｹﾂ催鞘堙敕古猟ｸﾃ枉=1? NO
+			if (g_Base.Stg.Nml.SubANmlDarkTransStagingCompflg != TRUE)
+			{
+				// [ﾃﾂｲﾃ?ﾃ吮｢\ﾅｽﾂｦﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+				g_Base.Stg.Nml.SubANmlTitDipFlg = TRUE;
+			}
+		}
+		else
+		{
+			// [ﾋ?ﾃ?窶彎ﾂｽﾃε?ﾂｪﾃ敘?ﾂｮ窶板ｹﾂ催鞘堙敕古猟ｸﾃ枉ﾂ?ﾂｩ0
+			g_Base.Stg.Nml.SubANmlDarkTransStagingCompflg = FALSE;
+		}
+
+		// [ﾋ廣窶伉ｱ窶ｰ窶ｰﾂ出窶楼窶吮ｺﾂ終窶板ｹﾅ津｣ﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlCntPerfPrmEndFlg = FALSE;
+
+		// [ﾂｽﾃδｰﾂｼﾃ枉=窶督｢ﾂ静昶凖ｨ?
+		if ( g_Base.Stg.Nml.SubANmlStgNow == E_SUBA_NML_STG_NON )
+		{
+			// ﾂｽﾃδｰﾂｼﾃ樞督｢ﾂ静昶凖ｨﾅｽﾅｾﾂ祥?窶板?
+			SubA_PrjStgNml_StgNon();
+		}
+		// NML窶ｹﾂ､窶凖垣ﾅｽ窶凪楼ﾂ祥?窶板?
+		SubA_PrjStgNml_ComPre();
+		// 窶堋ｻ窶堙娯伉ｼﾂ祥?窶板戡_窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+		SubA_PrjStgNml_NmlStgOthA();
+		// ﾅｽﾃ･窶ｰ窶ｰﾂ出ﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+		SubA_PrjStgNml_NmlStgMain();
+		// 窶堋ｻ窶堙娯伉ｼﾂ祥?窶板截_窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+		SubA_PrjStgNml_NmlStgOthB();
+		// 窶｢窶ｺ窶ｰ窶ｰﾂ出ﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+		SubA_PrjStgNml_NmlStgDep();
+		// (NML)ﾆ湛ﾆ弾ﾂーﾆ淡ﾂ静昶凖ｨ
+		SubA_PrjStgNml_TrgSetStage();
+		// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ
+		SubA_PrjStgNml_AssLev();
+#if 0
+		// ﾆ馳ﾆ段窶廃ﾂ祥?窶板?
+		// ﾂ【HMﾃ古猟ｸﾃ楪】=0?
+		if (g_Base.Stg.Mn.HmFlg == 0)
+		{
+			// ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=窶敕ｱ窶猫窶藩??
+			if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_HYR)
+			{
+				// 窶敕ｱ窶猫窶藩懌堙遺堙ｧﾆ馳ﾆ段ﾋ?ﾂｵ窶堋｢窶堙俄堋ｵ窶堙遺堋｢
+				penaFlg = FALSE;
+			}
+			else
+			{
+				penaFlg = TRUE;
+			}
+		}
+
+		// ﾆ馳ﾆ段ﾂ？
+		if (penaFlg)
+		{
+			// ﾃ催淌?窶廃_ﾃ堙甘楪ｰ
+			SubA_PrjStgNml_PenLev();
+		}
+		else
+		{
+			// [ﾂｽﾃδｰﾂｼﾃ枉=窶督｢ﾂ静昶凖ｨ?
+			if (g_Base.Stg.Nml.SubANmlStgNow == E_SUBA_NML_STG_NON)
+			{
+				// ﾂｽﾃδｰﾂｼﾃ樞督｢ﾂ静昶凖ｨﾅｽﾅｾﾂ祥?窶板?
+				SubA_PrjStgNml_StgNon();
+			}
+			// NML窶ｹﾂ､窶凖垣ﾅｽ窶凪楼ﾂ祥?窶板?
+			SubA_PrjStgNml_ComPre();
+			// 窶堋ｻ窶堙娯伉ｼﾂ祥?窶板戡_窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+			SubA_PrjStgNml_NmlStgOthA();
+			// ﾅｽﾃ･窶ｰ窶ｰﾂ出ﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+			SubA_PrjStgNml_NmlStgMain();
+			// 窶堋ｻ窶堙娯伉ｼﾂ祥?窶板截_窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+			SubA_PrjStgNml_NmlStgOthB();
+			// 窶｢窶ｺ窶ｰ窶ｰﾂ出ﾂ祥?窶板拈窶凖環湘ｭﾂｽﾃδｰﾂｼﾃ?
+			SubA_PrjStgNml_NmlStgDep();
+			// (NML)ﾆ湛ﾆ弾ﾂーﾆ淡ﾂ静昶凖ｨ
+			SubA_PrjStgNml_TrgSetStage();
+			// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ
+			SubA_PrjStgNml_AssLev();
+		}
+#endif
+	}
+	// ﾂ出窶ｹﾃ環湘ｳ窶佚? GM
+	else if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMA ||
+		g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMB)
+	{
+		// ﾂ【HMﾃ古猟ｸﾃ楪】=0?
+		if (g_Base.Stg.Mn.HmFlg == 0)
+		{
+			// ﾃ催淌?窶廃_ﾃ堙甘楪ｰ
+			SubA_PrjStgGm_PenLev();
+		}
+		// ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=GMA?
+		else if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMA)
+		{
+			// [ﾂｽﾃδｰﾂｼﾃ枉=窶督｢ﾂ静昶凖ｨ?
+			if (g_Base.Stg.Nml.SubAGmStgNow == E_SUBA_NML_GM_STG_NON)
+			{
+				g_Base.Stg.Nml.SubAGmStgNow = E_SUBA_NML_GM_STG_DEF;
+			}
+
+			// 窶堋ｻ窶堙娯伉ｼﾂ祥?窶板戡_GMA
+			SubA_PrjStgGm_GmaOthA();
+			// ﾅｽﾃ･窶ｰ窶ｰﾂ出ﾂ祥?窶板拈GMA
+			SubA_PrjStgGm_GmaMain();
+			// 窶｢窶ｺ窶ｰ窶ｰﾂ出ﾂ祥?窶板拈GMA
+			SubA_PrjStgGm_GmaDep();
+			// 窶堋ｻ窶堙娯伉ｼﾂ祥?窶板截_GMA
+			SubA_PrjStgGm_GmaOthB();
+			// (GM)ﾆ湛ﾆ弾ﾂーﾆ淡ﾂ静昶凖ｨ
+			SubA_PrjStgGm_TrgSetStage();
+			// ﾂｱﾂｻﾂｰﾃ?ﾃ堙甘楪ｰ_GMA
+			SubA_PrjStgGm_GmaAssLev();
+
+			// [GMAﾅ?Jﾅｽnﾅｽﾅｾﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+			g_Base.Stg.Nml.SubAGmGmaStartFlag = FALSE;
+		}
+		else
+		{
+			// 窶堋ｻ窶堙娯伉ｼﾂ祥?窶板戡_GMB
+			SubA_PrjStgGm_GmbOthA();
+			// ﾅｽﾃ･窶ｰ窶ｰﾂ出ﾂ祥?窶板拈GMB
+			SubA_PrjStgGm_GmbMain();
+			// 窶｢窶ｺ窶ｰ窶ｰﾂ出ﾂ祥?窶板拈GMB
+			SubA_PrjStgGm_GmbDep();
+			// 窶堋ｻ窶堙娯伉ｼﾂ祥?窶板截_GMB
+			SubA_PrjStgGm_GmbOthB();
+			// (GM)ﾆ湛ﾆ弾ﾂーﾆ淡ﾂ静昶凖ｨ
+			SubA_PrjStgGm_TrgSetStage();
+			// ﾂｱﾂｻﾂｰﾃ?ﾃ堙甘楪ｰ_GMB
+			SubA_PrjStgGm_GmbAssLev();
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶ｰﾃｱ窶彎ﾅ?Jﾅｽn
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_TrgReel(void)
+{
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶凖｢ﾅｽ~ﾅｽﾅｾﾂ祥?窶板?1
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_TrgStop1(void)
+{
+	// ﾂ出窶ｹﾃ環湘ｳ窶佚披凖環湘ｭ
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=NML
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=ZEN
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=窶敕ｱ窶猫窶藩?
+	if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_NML ||
+		g_Base.Stg.Mn.State.Now == D_DDM_STATE_ZEN ||
+		g_Base.Stg.Mn.State.Now == D_DDM_STATE_HYR)
+	{
+		// ﾃ催淌?窶廃_1窶凖｢ﾅｽ~ﾂ祥?窶板?
+		SubA_PrjStgNml_PenStop1();
+	}
+	// ﾂ出窶ｹﾃ環湘ｳ窶佚? GM
+	else if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMA ||
+		g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMB)
+	{
+		// ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=GMA?
+		if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMA)
+		{
+			// GMA_ﾃ催淌?窶廃_1窶凖｢ﾅｽ~ﾂ祥?窶板?
+			SubA_PrjStgGm_GmaPenStop1();
+			// GMA_ﾂ色ﾂ債絶冦窶｢ﾃ焦?ﾂｷ_1窶凖｢ﾅｽ~ﾂ祥?窶板?
+			SubA_PrjStgGm_GmaColChgStop1();
+		}
+		else
+		{
+			// GMB_ﾃ催淌?窶廃_1窶凖｢ﾅｽ~ﾂ祥?窶板?
+			SubA_PrjStgGm_GmbPenStop1();
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶凖｢ﾅｽ~ﾅｽﾅｾﾂ祥?窶板?2
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_TrgStop2(void)
+{
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶凖｢ﾅｽ~ﾅｽﾅｾﾂ祥?窶板?3
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_TrgStop3(void)
+{
+	// ﾂ出窶ｹﾃ環湘ｳ窶佚披凖環湘ｭ
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=NML
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=ZEN
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=窶敕ｱ窶猫窶藩? ﾅ?ﾅｽ窶堙?
+	if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_NML ||
+		g_Base.Stg.Mn.State.Now == D_DDM_STATE_ZEN ||
+		g_Base.Stg.Mn.State.Now == D_DDM_STATE_HYR )
+	{
+		// ﾂ色ﾂ債絶冦窶｢ﾃ焦?ﾂｷ_3窶凖｢ﾅｽ~ﾂ祥?窶板?
+		SubA_PrjStgNml_ColChgStop3();
+
+		// [窶卍ｩﾋ?ﾃｪ1G窶禿壺堋ｾ窶堋ｯﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubANmlAsaichi1gFlag = FALSE;
+	}
+	// ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=GMA?
+	else if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMA)
+	{
+		// GMA_ﾂ色ﾂ債絶冦窶｢ﾃ焦?ﾂｷ_3窶凖｢ﾅｽ~ﾂ祥?窶板?
+		SubA_PrjStgGm_GmaColChgStop3();
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂ色ﾂ債絶冦窶｢ﾃ焦?ﾂｷ_3窶凖｢ﾅｽ~ﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_ColChgStop3(void)
+{
+	// 窶佚ｦ1窶凖｢ﾅｽ~窶堋ｪ窶吮?or窶ｰE?
+	if (g_Base.Sys.Stop[0] == E_SUBA_SYS_STOP_REEL_C ||
+		g_Base.Sys.Stop[0] == E_SUBA_SYS_STOP_REEL_R)
+	{
+		// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+	}
+	else
+	{
+		// [ﾂｻﾃ古榲古猟ｸﾃ枉=ﾃ佚古淌堋ｲﾅ?ﾃ麺廣ﾂ?ﾂｦ?
+		if (isSubYakuGrpRep())
+		{
+			// 窶猫ﾅ津ｸﾃ猟ｲﾃ敖湘｣窶堙嘉佚古淌堋ｲﾂ図窶｢ﾂｿ窶堋ｪ1ﾅ津ね?ﾃ按湘｣窶凖｢ﾅｽ~?
+			if (isSubYukoLineRep())
+			{
+				// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+			}
+			// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂ債絶冦ﾂｲﾃ催榲敕?窶｢ﾃ焦?ﾂｷ]=0?
+			else if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_KOKU_EVE_TRANS) == 0)
+			{
+				// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+			}
+			else
+			{
+				// ﾋ?ﾃ卍湘ｭ
+				ASSERT(FALSE);
+			}
+		}
+
+		// [ﾂｻﾃ古榲古猟ｸﾃ枉=窶ｹﾂ､窶凖甘催榲卩?ﾃ麺廣ﾂ?ﾂｦ?
+		if (isSubYakuGrpCmnBell())
+		{
+			// 窶猫ﾅ津ｸﾃ猟ｲﾃ敖湘｣窶堙嘉催榲卍図窶｢ﾂｿ窶堋ｪ1ﾅ津ね?ﾃ按湘｣窶凖｢ﾅｽ~?
+			if (isSubYukoLineBel())
+			{
+				// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+			}
+			// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂ債絶冦ﾂｲﾃ催榲敕?窶｢ﾃ焦?ﾂｷ]=0?
+			else if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_KOKU_EVE_TRANS) == 0)
+			{
+				// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+			}
+			else
+			{
+				// ﾋ?ﾃ卍湘ｭ
+				ASSERT(FALSE);
+			}
+		}
+
+		// [ﾂｻﾃ古榲古猟ｸﾃ枉=ﾃ?ﾂｪﾃ伉ｰﾅ?ﾃ麺廣ﾂ?ﾂｦ?
+		if (isSubYakuGrpChe())
+		{
+			// 窶猫ﾅ津ｸﾃ猟ｲﾃ敖湘｣窶堙嘉?ﾂｪﾃ伉ｰﾂ図窶｢ﾂｿ窶堋ｪ1ﾅ津ね?ﾃ按湘｣窶凖｢ﾅｽ~?
+			if (isSubYukoLineChe())
+			{
+				// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+			}
+			// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂ債絶冦ﾂｲﾃ催榲敕?窶｢ﾃ焦?ﾂｷ]=0?
+			else if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_KOKU_EVE_TRANS) == 0)
+			{
+				// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+			}
+			else
+			{
+				// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙ｰ[ﾂ債絶冦ﾂｲﾃ催榲敕?窶｢ﾃ焦?ﾂｷ]窶堙個ｲﾃ催榲敕?窶堙可鞘倪堋ｫﾅ?ﾂｷ窶堋ｦ
+				SubA_PrjCmn_SetEventMain(D_EVT_KOKU_EVE_TRANS);
+			}
+		}
+		// [ﾂｻﾃ古榲古猟ｸﾃ枉=ﾂｽﾂｲﾂｶﾅ?ﾃ麺廣ﾂ?ﾂｦ?
+		if (isSubYakuGrpSui())
+		{
+			// 窶猫ﾅ津ｸﾃ猟ｲﾃ敖湘｣窶堙可ｽﾂｲﾂｶﾂ図窶｢ﾂｿ窶堋ｪ1ﾅ津ね?ﾃ按湘｣窶凖｢ﾅｽ~?
+			if (isSubYukoLineSui())
+			{
+				// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+			}
+			// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂ債絶冦ﾂｲﾃ催榲敕?窶｢ﾃ焦?ﾂｷ]=0?
+			else if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_KOKU_EVE_TRANS) == 0)
+			{
+				// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+			}
+			else
+			{
+				// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙ｰ[ﾂ債絶冦ﾂｲﾃ催榲敕?窶｢ﾃ焦?ﾂｷ]窶堙個ｲﾃ催榲敕?窶堙可鞘倪堋ｫﾅ?ﾂｷ窶堋ｦ
+				SubA_PrjCmn_SetEventMain(D_EVT_KOKU_EVE_TRANS);
+			}
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶｢窶ｺLevﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_FukLev(void)
+{
+	// ﾅ停ｹ窶ｰﾃ?
+	u32 result = 0;
+	// [窶凖環湘ｭ窶｢窶ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ0
+	g_Base.Stg.Nml.SubANmlFukTyp = E_SUBA_NML_FUK_NON;
+	// 窶凖環湘ｭ窶｢窶ｺ窶卩?窶堋ｹ窶堙ｱ
+	result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_FUK);
+	// [窶凖環湘ｭ窶｢窶ｺﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+	g_Base.Stg.Nml.SubANmlFukTyp = result;
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_AssLev(void)
+{
+	// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_ﾃ陳ｲﾃ?
+	SubA_PrjStgNml_AssLevMain();
+	// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_ﾂｻﾃ古?
+	SubA_PrjStgNml_AssLevSub();
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_ﾃ陳ｲﾃ?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_AssLevMain(void)
+{
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]
+	u32 m_event_attr = GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_KOKU);
+
+	// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】=GMA?
+	if (g_Base.Stg.Mn.State.Next == D_DDM_STATE_GMA)
+	{
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]ﾂ≫咾Z?
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]ﾂ≫壺ｰﾃ･ﾋ弋ﾃ督ｰﾃ?ﾃ??
+		if ((m_event_attr != D_EVT_NM_KOKU_ATTR_CZ) && (m_event_attr != D_EVT_NM_KOKU_ATTR_KIBAOOKAMIMO_DO))
+		{
+			// ﾂ?ﾂｦ窶凪塲?Eﾂ債絶冦ﾂ出窶藩?窶堙?窶堋｢窶堙遺堋｢
+			ASSERT(FALSE);
+		}
+	}
+	// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】=CZ?
+	if (g_Base.Stg.Mn.State.Next == D_DDM_STATE_CZ)
+	{
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]ﾂ≫咾Z?
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]ﾂ≫壺凪塲?E?
+		if ((m_event_attr != D_EVT_NM_KOKU_ATTR_CZ) && (m_event_attr != D_EVT_NM_KOKU_ATTR_MAKAI))
+		{
+			// ﾂ?ﾂｦ窶凪塲?Eﾂ債絶冦ﾂ出窶藩?窶堙?窶堋｢窶堙遺堋｢
+			ASSERT(FALSE);
+		}
+	}
+	// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】=RDY?
+	if (g_Base.Stg.Mn.State.Next == D_DDM_STATE_RDY)
+	{
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]ﾂ≫堙崚敕古??
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]ﾂ≫塲?m窶凖ｨﾂ債絶冦?
+		if ((m_event_attr != D_EVT_NM_KOKU_ATTR_RONFURI) && (m_event_attr != D_EVT_NM_KOKU_ATTR_KAKUTEIKOKUCHI))
+		{
+			// ﾂ?ﾂｦ窶凪塲?Eﾂ債絶冦ﾂ出窶藩?窶堙?窶堋｢窶堙遺堋｢
+			ASSERT(FALSE);
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_ﾂｻﾃ古?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_AssLevSub(void)
+{
+	// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_ﾂｻﾃ古楪債絶冦
+	SubA_PrjStgNml_AssLevSubKok();
+	// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_ﾂｻﾃ古楪ｽﾃδｰﾂｼﾃ?
+	SubA_PrjStgNml_AssLevSubStg();
+	// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_ﾂｻﾃ古楪色
+	SubA_PrjStgNml_AssLevSubCol();
+	// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_窶｢窶ｺ
+	SubA_PrjStgNml_AssLevSubSub();
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_ﾂｻﾃ古楪債絶冦
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_AssLevSubKok(void)
+{
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]
+	u32 m_event_attr = GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_KOKU);
+
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]=ﾃ崚敕古??
+	if (m_event_attr == D_EVT_NM_KOKU_ATTR_RONFURI)
+	{
+		// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】ﾂ≫啌DY?
+		if (g_Base.Stg.Mn.State.Next != D_DDM_STATE_RDY)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]=窶ｰﾃ･ﾋ弋ﾃ督ｰﾃ?ﾃ??
+	if (m_event_attr == D_EVT_NM_KOKU_ATTR_KIBAOOKAMIMO_DO)
+	{
+		// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】ﾂ≫哦MA?
+		if (g_Base.Stg.Mn.State.Next != D_DDM_STATE_GMA)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]=窶凪塲?E?
+	if (m_event_attr == D_EVT_NM_KOKU_ATTR_MAKAI)
+	{
+		// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】ﾂ≫咾Z?
+		if (g_Base.Stg.Mn.State.Next != D_DDM_STATE_CZ)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]=CZ?
+	if (m_event_attr == D_EVT_NM_KOKU_ATTR_CZ)
+	{
+		// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】ﾂ≫哦MA/CZ?
+		if ((g_Base.Stg.Mn.State.Next != D_DDM_STATE_GMA) && (g_Base.Stg.Mn.State.Next != D_DDM_STATE_CZ))
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]=ﾅ?m窶凖ｨﾂ債絶冦?
+	if (m_event_attr == D_EVT_NM_KOKU_ATTR_KAKUTEIKOKUCHI)
+	{
+		// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】ﾂ≫啌DY?
+		if (g_Base.Stg.Mn.State.Next != D_DDM_STATE_RDY)
+		{
+			ASSERT(FALSE);
+		}
+	}
+
+	// 窶牢窶堙?窶堙個ｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]=窶怒窶楼窶吮ｺ?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_KOKU) == D_EVT_NM_KOKU_ATTR_HONZENCHOU ||
+		GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventSubL(E_EVENT_SUB_NUMBER_SUB_A), D_EVT_NM_KOKU) == D_EVT_NM_KOKU_ATTR_HONZENCHOU ||
+		GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventSubL(E_EVENT_SUB_NUMBER_SUB_B), D_EVT_NM_KOKU) == D_EVT_NM_KOKU_ATTR_HONZENCHOU ||
+		GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventSubL(E_EVENT_SUB_NUMBER_SUB_C), D_EVT_NM_KOKU) == D_EVT_NM_KOKU_ATTR_HONZENCHOU ||
+		GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventSubL(E_EVENT_SUB_NUMBER_SUB_D), D_EVT_NM_KOKU) == D_EVT_NM_KOKU_ATTR_HONZENCHOU ||
+		GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventSubL(E_EVENT_SUB_NUMBER_SUB_E), D_EVT_NM_KOKU) == D_EVT_NM_KOKU_ATTR_HONZENCHOU ||
+		GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventSubL(E_EVENT_SUB_NUMBER_SUB_F), D_EVT_NM_KOKU) == D_EVT_NM_KOKU_ATTR_HONZENCHOU ||
+		GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventSubL(E_EVENT_SUB_NUMBER_SUB_G), D_EVT_NM_KOKU) == D_EVT_NM_KOKU_ATTR_HONZENCHOU ||
+		GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventSubL(E_EVENT_SUB_NUMBER_SUB_H), D_EVT_NM_KOKU) == D_EVT_NM_KOKU_ATTR_HONZENCHOU)
+	{
+		// ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】ﾂ≫啝EN?
+		if (g_Base.Stg.Mn.State.Now != D_DDM_STATE_ZEN)
+		{
+			// ﾂ【ZEN窶懌凪敕崚古猟ｸﾃ楪】ﾂ≫?1?
+			if (g_Base.Stg.Mn.ZenHitFlg != 1)
+			{
+				ASSERT(FALSE);
+			}
+		}
+	}
+	// 窶牢窶堙?窶堙個ｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]=窶卍ｼﾅ停壺楼窶吮ｺ?			
+	if (m_event_attr == D_EVT_NM_KOKU_ATTR_CHOKUGEKIZENCHOU)
+	{
+		// ﾂ【窶卍ｼﾅ停堙古猟ｸﾃ楪】ﾂ≫?1?
+		if (g_Base.Stg.Mn.DirectHitFlag != 1)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[窶ｹﾂ､窶凖翰廣窶伉ｱ窶ｰ窶ｰﾂ出1G窶禿咯=1?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_CM_REN_1G) == 1)
+	{
+		// 窶楼窶之窶ｹZ_ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ債絶冦]ﾂ≫壺敖ｭ窶弩?
+		if (GET_EVT_TABLE_ATTR(g_Base.Stg.Nml.SubANmlEventMainOld, D_EVT_NM_KOKU) != D_EVT_NM_KOKU_ATTR_HATTEN)
+		{
+			ASSERT(FALSE);
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_ﾂｻﾃ古楪ｽﾃδｰﾂｼﾃ?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_AssLevSubStg(void)
+{
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂｽﾃδｰﾂｼﾃ樞佚寂ｰﾅｾ]=ﾅ?X?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_STAGE) == D_EVT_NM_STAGE_ATTR_MACHI)
+	{
+		// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ≫塲?X?
+		if (g_Base.Stg.Nml.SubANmlStgNow != E_SUBA_NML_STG_MAT)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂｽﾃδｰﾂｼﾃ樞佚寂ｰﾅｾ]=ﾂｽﾃδｰﾂｷ?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_STAGE) == D_EVT_NM_STAGE_ATTR_SUTE_KI)
+	{
+		// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ≫堋ｽﾃδｰﾂｷ?
+		if (g_Base.Stg.Nml.SubANmlStgNow != E_SUBA_NML_STG_STE)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂｽﾃδｰﾂｼﾃ樞佚寂ｰﾅｾ]=ﾂ坂壺佚､?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_STAGE) == D_EVT_NM_STAGE_ATTR_TAKADAI)
+	{
+		// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ≫堋坂壺佚､?
+		if (g_Base.Stg.Nml.SubANmlStgNow != E_SUBA_NML_STG_TAK)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂｽﾃδｰﾂｼﾃ樞佚寂ｰﾅｾ]=窶｢ﾃｦ窶冢?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_STAGE) == D_EVT_NM_STAGE_ATTR_BOCHI)
+	{
+		// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ≫壺｢ﾃｦ窶冢?
+		if (g_Base.Stg.Nml.SubANmlStgNow != E_SUBA_NML_STG_BOT)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂｽﾃδｰﾂｼﾃ樞佚寂ｰﾅｾ]=ﾂ鞘板神窶佛??
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_STAGE) == D_EVT_NM_STAGE_ATTR_MEGAMIZOU)
+	{
+		// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ≫堋鞘板神窶佛??
+		if (g_Base.Stg.Nml.SubANmlStgNow != E_SUBA_NML_STG_MEG)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂｽﾃδｰﾂｼﾃ樞佚寂ｰﾅｾ]=窶ｰﾃ･ﾋ弋ﾅ停｢?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_STAGE) == D_EVT_NM_STAGE_ATTR_KIBAOOKAMITSURUGI)
+	{
+		ASSERT(FALSE);
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_ﾂｻﾃ古楪色
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_AssLevSubCol(void)
+{
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ色ﾂ債絶冦]=ﾂ静??
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_COLOR) == D_EVT_NM_COLOR_ATTR_AO)
+	{
+		// [ﾂｻﾃ古榲古猟ｸﾃ枉ﾂ≫堙佚古淌堋ｲ12/ﾃ佚古淌堋ｲ3/ﾃ佚古淌堋ｲ4/ﾃ佚古淌堋ｲ5?
+		if (!isSubYakuGrpRep())
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ色ﾂ債絶冦]=窶ｰﾂｩ?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_COLOR) == D_EVT_NM_COLOR_ATTR_KI)
+	{
+		// [ﾂｻﾃ古榲古猟ｸﾃ枉ﾂ≫壺ｹﾂ､窶凖甘催榲??
+		if (!isSubYakuGrpCmnBell())
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ色ﾂ債絶冦]=窶氾??
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_COLOR) == D_EVT_NM_COLOR_ATTR_MIDORI)
+	{
+		// [ﾂｻﾃ古榲古猟ｸﾃ枉ﾂ≫堋ｽﾂｲﾂｶ1/ﾂｽﾂｲﾂｶ2?
+		if (!isSubYakuGrpSui())
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ色ﾂ債絶冦]=ﾂ静??
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_COLOR) == D_EVT_NM_COLOR_ATTR_AKA)
+	{
+		// [ﾂｻﾃ古榲古猟ｸﾃ枉ﾂ≫塲ｽﾃ｣ﾃ?ﾂｪﾃ伉ｰ/窶ｹﾂｭﾃ?ﾂｪﾃ伉ｰ?
+		if (!isSubYakuGrpChe())
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NMﾂ色ﾂ債絶冦]=ﾅｽ窶｡?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_COLOR) == D_EVT_NM_COLOR_ATTR_MURASAKI)
+	{
+		// [ﾂｻﾃ古榲古猟ｸﾃ枉ﾂ≫塲ｽﾃ｣ﾃ?ﾂｬﾃ敖ｽ窶禿?1/ﾅｽﾃ｣ﾃ?ﾂｬﾃ敖ｽ窶禿?2/窶ｹﾂｭﾃ?ﾂｬﾃ敖ｽ窶禿?1/窶ｹﾂｭﾃ?ﾂｬﾃ敖ｽ窶禿?2?
+		if (!isSubYakuGrpCha())
+		{
+			ASSERT(FALSE);
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_窶｢窶ｺ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_AssLevSubSub(void)
+{
+	u32 JikaiMoodoTousenFlg = -1;
+
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NM_窶｢窶ｺﾂ債絶冦]=BIGﾅ?m窶凖ｨ?
+	// ﾂ?ﾂｦ窶｢窶ｺ窶堙?1窶堙や堙?窶堙?窶堋?窶堙ｪ窶堙芝?Y窶懌?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_SUB_KOKU, D_EVT_NM_SUB_KOKU_ATTR_BIGKAKUTEI))
+	{
+		// ﾂ【GBﾅｽﾃｭ窶｢ﾃ環】=0?
+		if (g_Base.Stg.Mn.GBType == D_GB_TYPE_RB)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NM_ﾂ静昶凖ｨ]=6?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_SETTEI, 6))
+	{
+		// ﾂ【ﾂ静昶凖ｨﾂ】ﾂ≫?5?
+		if (g_Base.Stg.Mn.Rank != D_RANK_06)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NM_BIGﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ馨=7?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_BIG_KIND, 7))
+	{
+		// ﾂ【GBﾅｽﾃｭ窶｢ﾃ環】=0?
+		// ﾂ【ﾂ静昶凖ｨﾂ】=0?
+		if ((g_Base.Stg.Mn.GBType == D_GB_TYPE_RB) && (g_Base.Stg.Mn.Rank == D_RANK_01))
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NM_BIGﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ馨=8?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_BIG_KIND, 8))
+	{
+		// ﾂ【GBﾅｽﾃｭ窶｢ﾃ環】=0?
+		// ﾂ【ﾂ静昶凖ｨﾂ】=0/1?
+		if ((g_Base.Stg.Mn.GBType == D_GB_TYPE_RB) 
+			&& ((g_Base.Stg.Mn.Rank == D_RANK_01) || (g_Base.Stg.Mn.Rank == D_RANK_02)))
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NM_BIGﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ馨=9?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_BIG_KIND, 9))
+	{
+		// ﾂ【GBﾅｽﾃｭ窶｢ﾃ環】=0?
+		// ﾂ【ﾂ静昶凖ｨﾂ】=0/1/2?
+		if ((g_Base.Stg.Mn.GBType == D_GB_TYPE_RB)
+			&& (g_Base.Stg.Mn.Rank >= D_RANK_01 && g_Base.Stg.Mn.Rank <= D_RANK_03))
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[NM_BIGﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ馨=10?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_BIG_KIND, 10))
+	{
+		// ﾂ【GBﾅｽﾃｭ窶｢ﾃ環】=0?
+		// ﾂ【ﾂ静昶凖ｨﾂ】=0/1/2/3/4?
+		if ((g_Base.Stg.Mn.GBType == D_GB_TYPE_RB)
+			&& (g_Base.Stg.Mn.Rank >= D_RANK_01 && g_Base.Stg.Mn.Rank <= D_RANK_05))
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｱﾂｲﾃε鯛彎窶倪版ｽﾃｭ窶｢ﾃ馨=8?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_KIND, 8))
+	{
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=0?
+		if (g_Base.Stg.Mn.NmlMode == D_NML_MODE_A)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｱﾂｲﾃε鯛彎窶倪版ｽﾃｭ窶｢ﾃ馨=10?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_KIND, 10))
+	{
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=0/1?
+		if ((g_Base.Stg.Mn.NmlMode == D_NML_MODE_A) || (g_Base.Stg.Mn.NmlMode == D_NML_MODE_B))
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｱﾂｲﾃε鯛彎窶倪版ｽﾃｭ窶｢ﾃ馨=11?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_KIND, 11))
+	{
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=0/1?
+		// ﾂ【ﾂ静昶凖ｨﾂ】=0?
+		if (((g_Base.Stg.Mn.NmlMode == D_NML_MODE_A) || (g_Base.Stg.Mn.NmlMode == D_NML_MODE_B))
+			&& (g_Base.Stg.Mn.Rank == D_RANK_01))
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｱﾂｲﾃε鯛彎窶倪版ｽﾃｭ窶｢ﾃ馨=12?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_KIND, 12))
+	{
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=0?
+		// ﾂ【ﾂ静昶凖ｨﾂ】ﾂ≫?5?
+		if ((g_Base.Stg.Mn.NmlMode == D_NML_MODE_A)
+			&& (g_Base.Stg.Mn.Rank != D_RANK_06))
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｱﾂｲﾃε鯛彎窶倪版ｽﾃｭ窶｢ﾃ馨=14?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_KIND, 14))
+	{
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=0/1/2?
+		if (g_Base.Stg.Mn.NmlMode >= D_NML_MODE_A && g_Base.Stg.Mn.NmlMode <= D_NML_MODE_C)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｱﾂｲﾃε鯛彎窶倪版ｽﾃｭ窶｢ﾃ馨=16?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_KIND, 16))
+	{
+		JikaiMoodoTousenFlg = SubA_PrjStgNml_Get_JikaiMoodoTousenFlg();
+		// [NM_ﾅｽﾅｸ窶ｰﾃｱﾃ督ｰﾃ?ﾃ樞懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ枉=0?
+		// ﾂ【ﾂ静昶凖ｨﾂ】 = 0 ?
+		if ((JikaiMoodoTousenFlg == 0)
+			&& (g_Base.Stg.Mn.Rank == D_RANK_01))
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｱﾂｲﾃε鯛彎窶倪版ｽﾃｭ窶｢ﾃ馨=17?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_KIND, 17))
+	{
+		JikaiMoodoTousenFlg = SubA_PrjStgNml_Get_JikaiMoodoTousenFlg();
+		// [NM_ﾅｽﾅｸ窶ｰﾃｱﾃ督ｰﾃ?ﾃ樞懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ枉=0?
+		// ﾂ【GBﾅｽﾃｭ窶｢ﾃ環】=0?
+		// ﾂ【CZﾅｽﾃｭ窶｢ﾃ環】=0?
+		if ((JikaiMoodoTousenFlg == 0)
+			&& (g_Base.Stg.Mn.GBType == D_GB_TYPE_RB)
+			&& (g_Base.Stg.Mn.CzKind == D_CZ_KIND_GM)
+			&& (g_Base.Stg.Mn.M_ModeKind != 2))
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｱﾂｲﾃε鯛彎窶倪版ｽﾃｭ窶｢ﾃ馨=18?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_KIND, 18))
+	{
+		JikaiMoodoTousenFlg = SubA_PrjStgNml_Get_JikaiMoodoTousenFlg();
+		// [NM_ﾅｽﾅｸ窶ｰﾃｱﾃ督ｰﾃ?ﾃ樞懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ枉=0?
+		if (JikaiMoodoTousenFlg == 0)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｱﾂｲﾃε鯛彎窶倪版ｽﾃｭ窶｢ﾃ馨=19?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_KIND, 19))
+	{
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=0/1
+		if (g_Base.Stg.Mn.NmlMode == D_NML_MODE_A || g_Base.Stg.Mn.NmlMode == D_NML_MODE_B)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｱﾂｲﾃε鯛彎窶倪版ｽﾃｭ窶｢ﾃ馨=20?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_KIND, 20))
+	{
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=0/1/2/3?
+		if (g_Base.Stg.Mn.NmlMode >= D_NML_MODE_A && g_Base.Stg.Mn.NmlMode <= D_NML_MODE_D)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｱﾂｲﾃε鯛彎窶倪版ｽﾃｭ窶｢ﾃ馨=21?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_KIND, 21))
+	{
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=0/1/2?
+		// ﾂ【ﾂ静昶凖ｨﾂ】=0/2/4?
+		if ((g_Base.Stg.Mn.NmlMode >= D_NML_MODE_A && g_Base.Stg.Mn.NmlMode <= D_NML_MODE_C)
+			&& ((g_Base.Stg.Mn.Rank == D_RANK_01) || (g_Base.Stg.Mn.Rank == D_RANK_03) || (g_Base.Stg.Mn.Rank == D_RANK_05)))
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｱﾂｲﾃε鯛彎窶倪版ｽﾃｭ窶｢ﾃ馨=22?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_KIND, 22))
+	{
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=0/1/2/3?
+		// ﾂ【ﾂ静昶凖ｨﾂ】=0/1/2?
+		if ((g_Base.Stg.Mn.NmlMode >= D_NML_MODE_A && g_Base.Stg.Mn.NmlMode <= D_NML_MODE_D)
+			&& ((g_Base.Stg.Mn.Rank >= D_RANK_01) && (g_Base.Stg.Mn.Rank <= D_RANK_03)))
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｱﾂｲﾃε鯛彎窶倪版ｽﾃｭ窶｢ﾃ馨=23?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_NM_ITEM_KIND, 23))
+	{
+		JikaiMoodoTousenFlg = SubA_PrjStgNml_Get_JikaiMoodoTousenFlg();
+		// [NM_ﾅｽﾅｸ窶ｰﾃｱﾃ督ｰﾃ?ﾃ樞懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ枉=0?
+		// ﾂ【ﾂ静昶凖ｨﾂ】=0/1/2/3/4?
+		if ((JikaiMoodoTousenFlg == 0)
+			&&((g_Base.Stg.Mn.Rank >= D_RANK_01) && (g_Base.Stg.Mn.Rank <= D_RANK_05)))
+		{
+			ASSERT(FALSE);
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		GMA_ﾂ色ﾂ債絶冦窶｢ﾃ焦?ﾂｷ_3窶凖｢ﾅｽ~ﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaColChgStop3(void)
+{
+	// 窶凖環湘ｭ窶堙?窶慊ｯ窶堋ｶﾂ祥?窶板?
+	SubA_PrjStgNml_ColChgStop3();
+}
+
+// [ﾂｻﾃ古榲古猟ｸﾃ枉=ﾃ佚古淌堋ｲﾅ?ﾃ麺廣ﾂ?ﾂｦ?
+static BOOL isSubYakuGrpRep(void)
+{
+	return g_Base.Cmn.Pr.SubFlag ==  D_SUB_FLAG_REP12 ||
+			g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_REP_3 ||
+			g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_REP_4 ||
+			g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_REP_5;
+}
+// [ﾂｻﾃ古榲古猟ｸﾃ枉=窶ｹﾂ､窶凖甘催榲卩?ﾃ麺廣ﾂ?ﾂｦ?
+static BOOL isSubYakuGrpCmnBell(void)
+{
+	return g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_C_BEL;
+}
+// [ﾂｻﾃ古榲古猟ｸﾃ枉=ﾃ?ﾂｪﾃ伉ｰﾅ?ﾃ麺廣ﾂ?ﾂｦ?
+static BOOL isSubYakuGrpChe(void)
+{
+	return g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_J_CHE ||
+			g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_K_CHE;
+}
+// [ﾂｻﾃ古榲古猟ｸﾃ枉=ﾂｽﾂｲﾂｶﾅ?ﾃ麺廣ﾂ?ﾂｦ?
+static BOOL isSubYakuGrpSui(void)
+{
+	return g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_SUI_1 ||
+		g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_SUI_2;
+}
+// [ﾂｻﾃ古榲古猟ｸﾃ枉=ﾃ?ﾂｬﾃ敖ｽ窶禿塲?ﾃ麺廣ﾂ?ﾂｦ?
+static BOOL isSubYakuGrpCha(void)
+{
+	return g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_JCHA1 ||
+		g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_JCHA2 ||
+		g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_KCHA1 ||
+		g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_KCHA2;
+}
+// [ﾂｻﾃ古榲古猟ｸﾃ枉=9or14or15?
+static BOOL isSubYakuGrpZen(void)
+{
+	return g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_K_CHE ||
+		g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_KCHA1 ||
+		g_Base.Cmn.Pr.SubFlag == D_SUB_FLAG_KCHA2;
+}
+// 窶猫ﾅ津ｸﾃ猟ｲﾃ敖湘｣窶堙嘉佚古淌堋ｲﾂ図窶｢ﾂｿ窶堋ｪ1ﾅ津ね?ﾃ按湘｣窶凖｢ﾅｽ~?
+static BOOL isSubYukoLineRep(void)
+{
+	return g_Base.Sys.ZgrLU == D_ZGR_REP ||
+		g_Base.Sys.ZgrCC == D_ZGR_REP ||
+		g_Base.Sys.ZgrRD == D_ZGR_REP;
+}
+// 窶猫ﾅ津ｸﾃ猟ｲﾃ敖湘｣窶堙嘉催榲卍図窶｢ﾂｿ窶堋ｪ1ﾅ津ね?ﾃ按湘｣窶凖｢ﾅｽ~?
+static BOOL isSubYukoLineBel(void)
+{
+	return (g_Base.Sys.ZgrLU == D_ZGR_BELR ||
+		g_Base.Sys.ZgrCC == D_ZGR_BELR ||
+		g_Base.Sys.ZgrRD == D_ZGR_BELR) ||
+		(g_Base.Sys.ZgrLU == D_ZGR_BELB ||
+			g_Base.Sys.ZgrCC == D_ZGR_BELB ||
+			g_Base.Sys.ZgrRD == D_ZGR_BELB);
+}
+// 窶猫ﾅ津ｸﾃ猟ｲﾃ敖湘｣窶堙嘉?ﾂｪﾃ伉ｰﾂ図窶｢ﾂｿ窶堋ｪ1ﾅ津ね?ﾃ按湘｣窶凖｢ﾅｽ~?
+static BOOL isSubYukoLineChe(void)
+{
+	return g_Base.Sys.ZgrLU == D_ZGR_CHE ||
+		g_Base.Sys.ZgrCC == D_ZGR_CHE ||
+		g_Base.Sys.ZgrRD == D_ZGR_CHE;
+}
+// 窶猫ﾅ津ｸﾃ猟ｲﾃ敖湘｣窶堙可ｽﾂｲﾂｶﾂ図窶｢ﾂｿ窶堋ｪ1ﾅ津ね?ﾃ按湘｣窶凖｢ﾅｽ~?
+static BOOL isSubYukoLineSui(void)
+{
+	return g_Base.Sys.ZgrLU == D_ZGR_SUIKA ||
+		g_Base.Sys.ZgrCC == D_ZGR_SUIKA ||
+		g_Base.Sys.ZgrRD == D_ZGR_SUIKA;
+}
+
+//--------------------------------------------------------------------------
+// NM_ﾅｽﾅｸ窶ｰﾃｱﾃ督ｰﾃ?ﾃ樞懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ?
+//--------------------------------------------------------------------------
+u32 SubA_PrjStgNml_Get_JikaiMoodoTousenFlg(void)
+{
+	// [NM_ﾅｽﾅｸ窶ｰﾃｱﾃ督ｰﾃ?ﾃ樞懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+	u32 result = 0;
+
+	switch (g_Base.Stg.Mn.NmlMode)
+	{
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=6?
+	case D_NML_MODE_HEVEN:
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=11?
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=1?
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=2?
+		if (g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_KMR || g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_1 || g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_2)
+		{
+			// [NM_ﾅｽﾅｸ窶ｰﾃｱﾃ督ｰﾃ?ﾃ樞懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+			result = 1;
+		}
+		break;
+
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=5?
+	case D_NML_MODE_BACK:
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=3?
+		if (g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_3)
+		{
+			// [NM_ﾅｽﾅｸ窶ｰﾃｱﾃ督ｰﾃ?ﾃ樞懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+			result = 1;
+		}
+		break;
+
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=4?
+	case D_NML_MODE_E:
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=4?
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=5?
+		if (g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_4 || g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_5)
+		{
+			// [NM_ﾅｽﾅｸ窶ｰﾃｱﾃ督ｰﾃ?ﾃ樞懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+			result = 1;
+		}
+		break;
+
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=3?
+	case D_NML_MODE_D:
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=5?
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=6?
+		if (g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_5 || g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_6)
+		{
+			// [NM_ﾅｽﾅｸ窶ｰﾃｱﾃ督ｰﾃ?ﾃ樞懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+			result = 1;
+		}
+		break;
+
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=2?
+	case D_NML_MODE_C:
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=6?
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=7?
+		if (g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_6 || g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_7)
+		{
+			// [NM_ﾅｽﾅｸ窶ｰﾃｱﾃ督ｰﾃ?ﾃ樞懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+			result = 1;
+		}
+		break;
+
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=1?
+	case D_NML_MODE_B:
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=7?
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=8?
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=9?
+		if (g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_7 || g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_8 || g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_9)
+		{
+			// [NM_ﾅｽﾅｸ窶ｰﾃｱﾃ督ｰﾃ?ﾃ樞懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+			result = 1;
+		}
+		break;
+
+		// ﾂ【窶凖環湘ｭﾃ督ｰﾃ?ﾃ槐ｽﾃｭ窶｢ﾃ環】=0?
+	case D_NML_MODE_A:
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=9?
+		// [ﾂｱﾂｲﾃε鯛彎窶倪農Gﾂ絶敘ｽﾃｭ窶｢ﾃ馨=10?
+		if (g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_9 || g_Base.Stg.Nml.SubANmlItmTraGamTyp == E_SUBA_NML_ITMTRA_GAMNUM_10)
+		{
+			// [NM_ﾅｽﾅｸ窶ｰﾃｱﾃ督ｰﾃ?ﾃ樞懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+			result = 1;
+		}
+		break;
+
+	default:
+		// ﾋ?ﾃ卍湘ｭ
+		result = -1;
+		break;
+	}
+	return (result);
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾆ椎?ﾆ椎?ﾂーﾆ湛
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_TrgRelease(void)
+{
+	// ﾂ出窶ｹﾃ環湘ｳ窶佚披凖環湘ｭ
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=NML
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=ZEN
+	// ﾂ・ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=窶敕ｱ窶猫窶藩? ﾅ?ﾅｽ窶堙?
+	if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_NML ||
+		g_Base.Stg.Mn.State.Now == D_DDM_STATE_ZEN ||
+		g_Base.Stg.Mn.State.Now == D_DDM_STATE_HYR)
+	{
+		// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[窶凖環湘ｭ_ﾋ?ﾃ?窶彎ﾂｽﾃε?ﾂｪﾃ拆=1?
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_BLACK_STA) == 1)
+		{
+			// [ﾋ?ﾃ?窶彎ﾂｽﾃε?ﾂｪﾃ敘津｣ﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+			g_Base.Stg.Nml.SubANmlDarkTransStagingEndflg = TRUE;
+		}
+		else
+		{
+			// [ﾋ?ﾃ?窶彎ﾂｽﾃε?ﾂｪﾃ敘津｣ﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+			g_Base.Stg.Nml.SubANmlDarkTransStagingEndflg = FALSE;
+			// [ﾋ?ﾃ?窶彎ﾂｽﾃε?ﾂｪﾃ敘?ﾂｮ窶板ｹﾂ催鞘堙敕古猟ｸﾃ枉ﾂ?ﾂｩ0
+			g_Base.Stg.Nml.SubANmlDarkTransStagingCompflg = FALSE;
+		}
+
+		// [BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨=16?
+		if (g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp == E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_16)
+		{
+			// [BIGﾅｽﾂｦﾂ債ｴﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+			g_Base.Stg.Nml.SubANmlBIGShisaFlg = FALSE;
+			// [BIGﾅｽﾂｦﾂ債ｴ窶楼窶吮ｺﾂ終窶板ｹﾅ津｣ﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+			g_Base.Stg.Nml.SubANmlBIGShisaZenchouShuuryouGoFlg = FALSE;
+			// [BIGﾅｽﾂｦﾂ債ｴ]ﾂ?ﾂｩ0
+			g_Base.Stg.Nml.SubANmlBIGShisaTyp = E_SUBA_NML_BIG_SHISA_NON;
+			// [BIGﾅｽﾂｦﾂ債ｴﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ0
+			g_Base.Stg.Nml.SubANmlBIGShisaGSuuShubetsuTyp = E_SUBA_NML_BIG_SHISA_G_SUU_SHUBETSU_NON;
+		}
+	}
+	// ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=GMA?
+	else if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMA)
+	{
+		// Lvﾅ?窶樞堙ｨﾂ最ｾ窶堙敖祥?窶板?
+		SubA_PrjStgGm_LvWri();
+		// 窶ｹ^ﾅｽ窶披之窶ｹZﾂ静昶凖ｨﾅ津｣ﾂ祥?窶板?
+//		SubA_PrjStgGm_GijAftSet();
+		// 窶｢窶ｺ窶ｰ窶ｰﾂ出ﾂ更ﾂ新ﾂ祥?窶板?
+		SubA_PrjStgGm_GmaSubUpd();
+		// 窶｢ﾃ渉絶敖更ﾂ新ﾂ祥?窶板?
+		SubA_PrjStgGm_GmaVarUpd();
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶｢ﾂ･窶堋｢ﾂ出窶堋ｵﾅｽﾅｾﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_TrgPayout(void)
+{
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶之窶ｹZﾂ終窶板ｹ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgNml_TrgGameEnd(void)
+{
+	// 窶楼窶之窶ｹZ窶堙固ｽﾃ･ﾂｲﾃ催榲敕?ﾅ?i窶拏
+	g_Base.Stg.Nml.SubANmlEventMainOld = g_Base.Cmn.Pr.EventMain;
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		(NML)ﾆ湛ﾆ弾ﾂーﾆ淡ﾂ静昶凖ｨ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+static void SubA_PrjStgNml_TrgSetStage(void)
+{
+	SUBA_STAGE_NML *pNml = &g_Base.Stg.Nml;
+
+	// 窶ｰ窶ｰﾂ出ﾂ湘ｳ窶佚披堙俄堙ｦ窶堙ｨﾆ湛ﾆ弾ﾂーﾆ淡ﾂ静昶凖ｨ窶堙ｰ窶｢ﾃ渉更
+	// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕ЪNMﾋ廣窶伉ｱ窶ｰ窶ｰﾂ出]
+	switch (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_NM_REN_KIND))
+	{
+		case D_EVT_NM_REN_KIND_ATTR_NASHI:			// 窶堙遺堋ｵ
+			switch (pNml->SubANmlStgNow)
+			{
+				case E_SUBA_NML_STG_MAT: // 1:ﾅ?Xﾂｽﾃδｰﾂｼﾃ?
+					g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_NML_TOWN;
+					break;
+				case E_SUBA_NML_STG_STE: // 2:ﾂｽﾃδｰﾂｷﾂｽﾃδｰﾂｼﾃ?
+					g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_NML_STEAK;
+					break;
+				case E_SUBA_NML_STG_TAK: // 3:ﾂ坂壺佚､ﾂｽﾃδｰﾂｼﾃ?
+					g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_NML_HILL;
+					break;
+				case E_SUBA_NML_STG_BOT: // 4:窶｢ﾃｦ窶冢ﾂｽﾃδｰﾂｼﾃ?
+					g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_NML_GRAVE;
+					break;
+				case E_SUBA_NML_STG_MEG: // 5:ﾂ鞘板神窶佛督ｽﾃδｰﾂｼﾃ?
+					g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_NML_STATUE;
+					break;
+				case E_SUBA_NML_STG_GRO: // 6:窶ｰﾃ･ﾋ弋ﾅ停｢ﾂｽﾃδｰﾂｼﾃ?
+					g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_NML_GAROKEN;
+					break;
+				default:
+					ASSERT(FALSE);
+					break;
+			}
+			break;
+		case D_EVT_NM_REN_KIND_ATTR_SHUUGOU:		// ﾂ集ﾂ坂｡
+		case D_EVT_NM_REN_KIND_ATTR_MADOUHI:		// 窶凪壺慊ｱ窶ｰﾃ?
+		case D_EVT_NM_REN_KIND_ATTR_MADOUKOKU:		// 窶凪壺慊ｱﾂ債?
+			g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_NML_REN;
+			break;
+		case D_EVT_NM_REN_KIND_ATTR_KIBAOOKAMISP:	// 窶ｰﾃ･ﾋ弋SP
+			g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_GM_BATTLE;
+			break;
+		default:
+			SUBA_ASSERT(FALSE);
+			break;
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		VFX_ﾋ廣窶佚?ﾅ?Jﾅｽnﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void VFX_Start_Setting(void)
+{
+	// VFX窶廃窶｢ﾃ渉絶敖鞘ｰﾅ?ﾃｺ窶ｰﾂｻ
+	g_Base.Stg.Nml.SubAVfxBreakCount = 0;
+
+	// ﾋ廣窶佚?ﾅ?Jﾅｽnﾂ静昶凖ｨ
+	g_Base.Cmn.renda_evt.StartFlag = TRUE;
+	g_Base.Cmn.renda_evt.WaitTimer = WaitMax;
+	g_Base.Cmn.renda_evt.Push_Cnt = 0;
+	g_Base.Cmn.renda_evt.TrgCancel = E_CMN_PLAY_TRG_LEV;	// ﾆ椎槌弛ﾂーﾆ鱈ﾆ槌槌停愴短ﾆ停ｹﾂ（ﾅ?ﾃやｹﾂｫ窶堋ｪﾂ青ｮ窶堋ｦ窶堙皿AXBET窶堙架?ﾃ壺慊ｮﾂ）
+	g_Base.Cmn.renda_evt._callback = &VFX_Callback;
+	g_Base.Cmn.renda_evt._cancel = &VFX_Cancel;
+	g_Base.Cmn.renda_evt.ManualWait = 0;
+
+	// [GMB_VFXﾋ廣窶佚?ﾅｽﾃｭ窶｢ﾃ馨窶堙ｰﾅｽg窶廃窶堋ｵ窶堙?1窶ｰﾃｱ窶禿壺堙姑坦ﾂーﾆ停ｹﾆ弛ﾆ鍛ﾆ誰窶堙ｰﾅ津?窶堙堕出窶堋ｷﾋ廣窶佚?窶ｰﾃｱﾂ絶昶堙ｰﾂ静昶凖ｨ
+	g_Base.Cmn.Renda_max = CARRAY_GET2D_ERR(T_ACEDATA_VFX_PUSHNUM, g_Base.Stg.Nml.SubAGmGmbVFXRenTyp, g_Base.Stg.Nml.SubAVfxBreakCount, FALSE);
+}
+
+
+//--------------------------------------------------------------------------
+//!	@brief		VFX_ﾋ廣窶佚?ﾆ坦ﾂーﾆ停ｹﾆ弛ﾆ鍛ﾆ誰
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void VFX_Callback(void)
+{
+	u32 command = 0;
+
+	// ﾋ廣窶佚?窶ｰ窶ｰﾂ出ﾆ弾ﾂーﾆ置ﾆ停ｹ窶堋ｩ窶堙ｧﾆ坦ﾆ筑ﾆ停愴檀ﾅｽﾃｦ窶慊ｾ
+	command = CARRAY_GET2D_ERR(T_ACEDATA_VFX_PUSHCMD, g_Base.Stg.Nml.SubAGmGmbVFXRenTyp, g_Base.Stg.Nml.SubAVfxBreakCount, 0);
+
+	// ﾅｽﾃｦ窶慊ｾ窶堋ｵ窶堋ｽﾆ坦ﾆ筑ﾆ停愴檀窶堙ｰ窶倪板信(ﾆ畜ﾆ耽ﾆ停懌ｰﾅｸ窶ｰﾂｺﾅｽﾅｾﾆ辰ﾆ遅ﾆ停愴暖)
+	SubA_FrmMain_CmdAnalyze(0, command, 0);
+
+
+	// ﾋ廣窶佚?窶ｰﾃｱﾂ絶昶堋ｪ窶ｹK窶凖ｨ窶ｰﾃｱﾂ絶昶堙俄愬ｾ窶傳窶堋ｵ窶堋ｽ
+	if (g_Base.Cmn.renda_evt.Push_Cnt == g_Base.Cmn.Renda_max)
+	{
+		// VFX_ﾆ築ﾆ停ｰﾂー窶挧窶ｰﾃｳ窶ｰﾃｱﾂ絶昶堋ｪﾂ湘｣ﾅ津窶堙遺堙ｧﾂ終窶板ｹ
+		if (g_Base.Stg.Nml.SubAVfxBreakCount == SAFE_SUB(E_T_ACEDATA_VFX_PUSHNUM_X_CNT, 1, 0))
+		{
+			// ﾋ廣窶佚?ﾂ祥?窶板敖終窶板ｹ
+			g_Base.Cmn.renda_evt.StartFlag = FALSE;
+		}
+		else
+		{
+			// VFX_ﾆ築ﾆ停ｰﾂー窶挧窶ｰﾃｳ窶ｰﾃｱﾂ絶昶堙ｰ窶ｰﾃ?ﾅｽZ
+			g_Base.Stg.Nml.SubAVfxBreakCount = SAFE_ADD(g_Base.Stg.Nml.SubAVfxBreakCount, 1, 0);
+
+			// ﾅｽﾅｸ窶堙娯ｹK窶凖ｨﾋ廣窶佚?窶ｰﾃｱﾂ絶昶堋ｪ[0]窶堙遺堙ｧﾂ終窶板ｹ
+			if (CARRAY_GET2D_ERR(T_ACEDATA_VFX_PUSHNUM, g_Base.Stg.Nml.SubAGmGmbVFXRenTyp, g_Base.Stg.Nml.SubAVfxBreakCount, FALSE) == 0)
+			{
+				// ﾋ廣窶佚?ﾂ祥?窶板敖終窶板ｹ
+				g_Base.Cmn.renda_evt.StartFlag = FALSE;
+			}
+
+			// ﾅｽﾅｸ窶堙戸廣窶佚?ﾂ祥?窶板昶堙?
+			else
+			{
+				// ﾋ廣窶佚?窶ｰﾃｱﾂ絶敖鞘ｰﾅ?ﾃｺ窶ｰﾂｻ
+				g_Base.Cmn.renda_evt.Push_Cnt = 0;
+
+				// [GMB_VFXﾋ廣窶佚?ﾅｽﾃｭ窶｢ﾃ馨窶堙ｰﾅｽg窶廃窶堋ｵ窶堙?ﾅｽﾅｸ窶堙姑坦ﾂーﾆ停ｹﾆ弛ﾆ鍛ﾆ誰窶堙ｰﾅ津?窶堙堕出窶堋ｷﾋ廣窶佚?窶ｰﾃｱﾂ絶昶堙ｰﾂ静昶凖ｨ
+				g_Base.Cmn.Renda_max = CARRAY_GET2D_ERR(T_ACEDATA_VFX_PUSHNUM, g_Base.Stg.Nml.SubAGmGmbVFXRenTyp, g_Base.Stg.Nml.SubAVfxBreakCount, FALSE);
+
+				// ﾅｽﾃｨ窶慊ｮﾆ脱ﾆ巽ﾆ辰ﾆ暖ﾂ静昶凖ｨ
+				g_Base.Cmn.renda_evt.ManualWait = CARRAY_GET1D_ERR(T_ACEDATA_VFX_COM_NEXTPUSHTIME, E_T_ACEDATA_VFX_COM_NEXTPUSHTIME_PUSHDOUSAKANRYOU, FALSE);
+			}
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		VFX_ﾋ廣窶佚?ﾆ鱈ﾆ槌槌停愴短ﾆ停ｹ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void VFX_Cancel(void)
+{
+	// ﾋ廣窶佚?ﾂ終窶板ｹ
+	g_Base.Cmn.renda_evt.StartFlag = FALSE;
+}
+
+#else
+
+// ﾆ胆ﾆ蓄ﾂーﾅ?ﾃ鳴絶?
+void SubA_PrjStgNml_TrgStart(void) {}
+void SubA_PrjStgNml_TrgEnd(void) {}
+void SubA_PrjStgNml_TrgPowerOn(void) {}
+void SubA_PrjStgNml_TrgBet(void) {}
+void SubA_PrjStgNml_TrgLev(void) {}
+void SubA_PrjStgNml_TrgReel(void) {}
+void SubA_PrjStgNml_TrgStop1(void) {}
+void SubA_PrjStgNml_TrgStop2(void) {}
+void SubA_PrjStgNml_TrgStop3(void) {}
+void SubA_PrjStgNml_TrgRelease(void) {}
+void SubA_PrjStgNml_TrgPayout(void) {}
+void SubA_PrjStgNml_TrgGameEnd(void) {}
+void VFX_Start_Setting(void) {}
+void VFX_Callback(void);
+void VFX_Cancel(void);
+u32 SubA_PrjStgNml_Get_JikaiMoodoTousenFlg(void) { return 0; }
+#endif // defined(_D_PROC_NML_ACTIVE_)
+
+#if defined(_D_PROC_GMA_ACTIVE_)
+//--------------------------------------------------------------------------
+//!	@brief		窶ｹﾂ､窶凖垣levﾂ祥?窶板扁MA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_ComLevGma(void)
+{
+	u32 tmp = 0;
+
+	// GMA窶愿銀愿ｼ1G窶禿?? 窶堙娯敖ｻ窶凖ｨ窶堋ｪ窶堋?窶堙ｩ窶堋ｪﾂ、窶堋ｱ窶堙固?ﾃ鳴絶昶堙固津?窶堙堕出窶堋ｵﾅ陳ｳ窶堋ｪﾂ出窶ｹﾃ環湘ｳ窶佚披堋ｪ窶｢ﾃ鞘堙ｭ窶堙≫堋ｽﾋ?ﾃｪ窶敖ｭ窶禿壺堙娯堙昶藩?窶堙ｩ窶?z窶凖ｨ
+
+	// GMAﾅ?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾂ祥?窶板?
+	SubA_PrjStgGm_GmaStaIni();
+
+	// GMAﾅ?Jﾅｽnﾅｽﾅｾ窶ｰ窶ｰﾂ出ﾂｼﾃ?ﾃ伉ｵﾂ静昶凖ｨ
+	// SubA_PrjStgGm_GmaStaSceSet();
+
+	// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩ窶楼窶之窶ｹZ_NML[ﾂｽﾃδｰﾂｼﾃ枉
+	g_Base.Stg.Nml.SubAGmStgNow = E_SUBA_NML_GM_STG_DEF;
+
+	// NML[窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ0
+	g_Base.Stg.Nml.SubANmlZenchouShisaShubetsuTyp = E_SUBA_NML_ZENCHOU_SHISA_SHUBETSU_NON;
+	// NML[窶楼窶吮ｺﾅｽﾂｦﾂ債ｴﾂ色]ﾂ?ﾂｩ0
+	g_Base.Stg.Nml.SubANmlZenchouShisaIroTyp = E_SUBA_NML_ZENCHOU_SHISA_IRO_NON;
+	// NML[ﾂｹﾃ楪ｰﾃ堕絶敘ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ0
+	g_Base.Stg.Nml.SubANmlGamNumTyp = E_SUBA_NML_GAMNUM_TYP_WHI;
+	g_Base.Stg.Nml.SubANmlGamNumTyp_Old = E_SUBA_NML_GAMNUM_TYP_WHI;
+
+	////ﾂ「ﾂ?ﾂｦ1 GMAﾂ鞘ｰﾅ?ﾃｺGﾂ絶敘ｽQﾂ湘?窶｢\ﾂ」窶堙俄ｰﾋ?窶堙≫堙?窶冤窶堙ｰﾅ塚?窶凖ｨ
+	//// [GMAﾅｽcGﾂ絶拵ow]ﾂ?ﾂｩ窶冤
+	//tmp = g_Base.Stg.Mn.CmnB_PlayCount % 8;
+	//g_Base.Stg.Nml.SubAGmGmaZanG.Now = SAFE_ADD(tmp, 1, 0);
+
+	// [GMAﾅ?Jﾅｽnﾅｽﾅｾﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+	g_Base.Stg.Nml.SubAGmGmaStartFlag = TRUE;
+}
+//--------------------------------------------------------------------------
+//!	@brief		GMAﾅ?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaStaIni(void)
+{
+	// ﾅ弛窶ｰﾃ溪之窶ｹZﾂ絶?
+	g_Base.Stg.Nml.SubAGmPrgG = 0;
+	// 窶敖ｭ窶弩ﾂ債絶冦ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmHatKokFlg = FALSE;
+	// Lvﾂ債絶冦ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmLvKokFlg = FALSE;
+	// // GMAﾅｽcGﾂ絶?
+	// g_Base.Stg.Nml.SubAGmGmaZanG = 0;
+	// // GMBﾅｽcGﾂ絶?
+	// g_Base.Stg.Nml.SubAGmGmbZanG = 0;
+	// GMA窶｢窶ｺﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubAGmGmaSub = 0;
+	// ﾆ湛ﾆ弾ﾂーﾆ淡
+	g_Base.Stg.Nml.SubAGmStgNow = E_SUBA_NML_STG_MAT;
+	// ﾅｽﾅｸﾆ湛ﾆ弾ﾂーﾆ淡
+	g_Base.Stg.Nml.SubAGmStgNex = E_SUBA_NML_STG_MAT;
+	// // ﾆ湛ﾆ弾ﾆ蛋ﾆ巽ﾆ停懌能窶禿ｱ
+	// g_Base.Stg.Nml.SubAGmStgChgYoy = E_SUBA_NML_STG_NON;
+	// 窶ｰﾃ･ﾋ弋ﾃ点窶ｰ窶ｰﾂ出ﾂｶﾃδｺﾃ榲?
+	g_Base.Stg.Nml.SubAGmEnCat = 0;
+	// 窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmZenTyp = E_SUBA_GM_ZEN_TYP_NON;
+	// ﾅ津｣窶敖ｼﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmAtoTyp = E_SUBA_GM_ATO_TYP_NON;
+	// ﾅ津｣窶敖ｼﾃ偲猟ｰﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmAtoHorTyp = E_SUBA_GM_ATO_HOR_TYP_NON;
+	// 窶ｰﾃ･ﾋ弋ﾅ停｢窶禿堋ｻﾃ古槐ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGroKenMeTyp = E_SUBA_GM_GRO_KEN_ME_SUB_TYP_NON;
+	// GMB窶｢ﾅ毒?ﾋ?ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmbReTyp = E_SUBA_GM_GMB_RE_TYP_NON;
+	// 窶楼窶之窶ｹZ_GMB窶｢ﾅ毒?ﾋ?ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmbReTypPre = E_SUBA_GM_GMB_RE_TYP_NON;
+	// 窶ｰ窶ｰﾂ出1G窶禿?
+	g_Base.Stg.Nml.SubAGmGmaSce1GTyp = E_SUBA_GM_GMA_SCE_TYP_NON;
+	// 窶ｰ窶ｰﾂ出2G窶禿?
+	g_Base.Stg.Nml.SubAGmGmaSce2GTyp = E_SUBA_GM_GMA_SCE_TYP_NON;
+	// 窶ｰ窶ｰﾂ出3G窶禿?
+	g_Base.Stg.Nml.SubAGmGmaSce3GTyp = E_SUBA_GM_GMA_SCE_TYP_NON;
+	// 窶ｰ窶ｰﾂ出4G窶禿?
+	g_Base.Stg.Nml.SubAGmGmaSce4GTyp = E_SUBA_GM_GMA_SCE_TYP_NON;
+	// 窶懌毒?Yﾂｼﾃ?ﾃ伉ｵ窶ｰ窶ｰﾂ出
+	g_Base.Stg.Nml.SubAGmGmaSceTouGTyp = E_SUBA_GM_GMA_SCE_TYP_NON;
+	// GMAﾋ?ﾃ｡ﾋ彗ﾅ?ﾂｴﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmGmaIwaFlg = 0;
+	// GMAﾋ?ﾃ｡ﾋ彗ﾅ?ﾂｴﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaIwaTyp = E_SUBA_GM_GMA_IWA_TYP_____NON;
+	// UI窶廃ﾃ堙催榲卩ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmUiLvTyp = E_SUBA_GM_UI_LV_TYP_NON;
+	// GMAﾂｱﾂｲﾃε鯛彎窶倪氾古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmGmaItmTraFlg = FALSE;
+	// 窶凪壺慊ｱ窶ｰﾃ散Iﾃ療敕古淒ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaMadUiLmpTyp = 0;
+	// GMB_VFXﾋ廣窶佚?ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmbVFXRenTyp = 0;
+	// GMA_GGGﾅｽg窶廃ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmGmaGGGUseFlg = FALSE;
+	// GMA_窶｢窶ｺﾂｲﾃ催榲敕?ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaSubEventTyp = FALSE;
+	// GMAﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ
+	g_Base.Stg.Nml.SubAGmGmaAttr = E_SUBA_GM_GMA_ATTR_NON;
+	// 窶ｰﾃ･ﾋ弋ﾃ鏑v(Old/Now)
+	g_Base.Stg.Nml.SubAGmGmaLv.Old = SUBA_GM_GMA_MODE_LEVEL_NON;
+	g_Base.Stg.Nml.SubAGmGmaLv.Now = SUBA_GM_GMA_MODE_LEVEL_NON;
+	// GMA窶ｹ^ﾅｽ窶氾堙催榲?(Old/Now)
+	g_Base.Stg.Nml.SubAGmGmaGijiLv.Old = SUBA_GM_GMA_GIJIREN_NON;
+	g_Base.Stg.Nml.SubAGmGmaGijiLv.Now = SUBA_GM_GMA_GIJIREN_LEVEL_01;
+	// GMAﾂｴﾃ敕古榲堙鯛｢\ﾅｽﾂｦﾃ堙催榲?(Old/Now)
+	g_Base.Stg.Nml.SubAGmGmaEmbLv.Old = SUBA_GM_GMA_EMBLEM_NON;
+	g_Base.Stg.Nml.SubAGmGmaEmbLv.Now = SUBA_GM_GMA_EMBLEM_NON;
+	// GMA窶ｹ[ﾅｽ窶藩廣窶敖ｭﾂ青ｶﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmGmaGijiRenFlag = FALSE;
+	// ﾃ陳ｲﾃ敖渉ｸﾅ?iﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmGmaRankUpFlag = FALSE;
+	// ﾂｾﾂｯﾃ?窶突?窶ｹ^ﾅｽ窶藩廣ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaGijirenSetTyp = E_SUBA_GM_GMA_GIJIREN_SET_TYP_EMBLEM;
+	// GMAﾋ?ﾃ｡ﾋ彗ﾅ?ﾂｴﾂ湘ｳ窶佚?
+	g_Base.Stg.Nml.SubAGmGmaImaState = E_SUBA_GM_GMA_IWA_STATE_NON;
+	// 窶凖｢ﾅｽ~ﾂｴﾃ敕古榲堙打ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaStopEmbTyp = E_SUBA_GM_GMA_STOP_EMB_TYP_NON;
+	// 窶ｹ^ﾅｽ窶藩廣窶ｰﾃ･ﾋ弋ﾃ古?
+	g_Base.Stg.Nml.SubAGmGmaGijiGFlash = E_SUBA_GM_GMA_GIGI_GFLASH_NON;
+	// 窶ｹ^ﾅｽ窶藩廣ﾂｴﾃ敕古榲堙打ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaGijirenEmbTyp = E_SUBA_GM_GMA_GIJIREN_EMB_TYP_NON;
+	// GMAﾂｶﾃδｺﾃ榲佛ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaCatType = 0;
+	// GMA窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaZenType = 0;
+	// GMAﾃﾂｲﾃ?ﾃ吮能ﾂ債税ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaTitleType = 0;
+	// GMAﾅ槌停扨ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmGmaGekiatuFlag = 0;
+	// GMA窶ｰ窶ｰﾂ出ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaEnsType = 0;
+	// 窶ｹ^ﾅｽ窶?2窶ｰﾃ･ﾋ弋ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaGiji2GaroType = 0;
+	// 窶堙凪堙ｨ窶堙?窶堙固ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaHurimonoType = 0;
+	// GMA窶楼窶吮ｺﾃ甘淌ﾂｰﾃ?
+	g_Base.Stg.Nml.SubAGmGmaZenPtn = 0;
+	// GMAﾂｻﾃ古楪催?窶佚･窶ｹ[ﾅｽ窶藩廣ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaSubGijiType = 0;
+	// GMAﾂ債絶冦ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaKokuType = 0;
+	// GMAﾅ?Jﾅｽnﾅｽﾅｾﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmGmaStartFlag = 0;
+
+	// 窶凖環湘ｭﾂｼﾃ?ﾃ伉ｵ窶堙?ﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻ窶堋ｵ窶堙?窶堋ｨ窶堋ｭ
+	SubA_PrjCmn_ClrSenario(&g_Base.Stg.Nml.Snr);
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶堋ｻ窶堙娯伉ｼﾂ祥?窶板戡_GMA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaOthA(void)
+{
+	// ﾅｽ窶凪楼ﾂ祥?窶板拈GMA
+	SubA_PrjStgGm_GmaPre();
+	// ﾃ陳ｲﾃ扠v窶突?ﾂ祥?窶板拈GMA
+	SubA_PrjStgGmMainLv();
+	// ﾂｽﾃδｰﾂｼﾃ楪祥?窶板拈GMA
+	SubA_PrjStgGm_GmaStg();
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾅｽ窶凪楼ﾂ祥?窶板拈GMA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaPre(void)
+{
+	SUBA_STAGE_NML* pNml = &g_Base.Stg.Nml;
+
+	// ﾂ鞘ｰﾅ?ﾃｺﾂ静昶凖ｨﾂ祥?窶板拈GMA
+	SubA_PrjStgGmaInitProc();
+
+	// [GMA窶ｹ[ﾅｽ窶氾堙催榲冩ld]ﾂ?ﾂｩ[GMA窶ｹ[ﾅｽ窶氾堙催榲冢ow]
+	pNml->SubAGmGmaGijiLv.Old = pNml->SubAGmGmaGijiLv.Now;
+
+	// [GMA窶ｹ[ﾅｽ窶氾堙催榲冩ld]=2?
+	if (pNml->SubAGmGmaGijiLv.Old == SUBA_GM_GMA_GIJIREN_LEVEL_02)
+	{
+		// [窶ｹ^ﾅｽ窶?2窶ｰﾃ･ﾋ弋ﾅｽﾃｭ窶｢ﾃ馨ﾂ≫?1?
+		if (pNml->SubAGmGmaGiji2GaroType == 0)
+		{
+			// O)GMA_窶ｹ^ﾅｽ窶?2窶ｰﾃ･ﾋ弋ﾅｽﾃｭ窶｢ﾃ?
+			// [窶ｹ^ﾅｽ窶?2窶ｰﾃ･ﾋ弋ﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			pNml->SubAGmGmaGiji2GaroType = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMA_GIJI2_GARO_TYPE);
+		}
+		// ﾂ祥?窶板昶堙遺堋ｵ
+	}
+
+	// [GMA窶ｹ[ﾅｽ窶氾堙催榲冩ld]ﾂ≫?3?
+	if ( pNml->SubAGmGmaGijiLv.Old >= SUBA_GM_GMA_GIJIREN_LEVEL_03 )
+	{
+		// [窶ｹ^ﾅｽ窶藩廣窶ｰﾃ･ﾋ弋ﾃ古余ﾂ≫?1(窶氾?)?ﾋ?ﾃ闇?O
+		if ( pNml->SubAGmGmaGijiGFlash < E_SUBA_GM_GMA_GIGI_GFLASH_GRN )
+		{
+			// 窶ｹ^ﾅｽ窶?3ﾅｽﾅｾ窶ｰﾃ･ﾋ弋ﾃ古猟色窶卩?窶堋ｹ窶堙ｱ
+			// O)GMA_窶ｹ^ﾅｽ窶?3ﾅｽﾅｾ窶ｰﾃ･ﾋ弋ﾃ古猟色
+			pNml->SubAGmGmaGijiGFlash = SubA_PrjCmn_SubLotFunc_GetEtcLot( D_LOT_O_GMA_GIJI3_GARO_FLASH_COLOR );
+		}
+		// ﾂ祥?窶板昶堙遺堋ｵ
+	}
+	// [GMAﾂｴﾃ敕古榲堙鯛｢\ﾅｽﾂｦﾃ堙催榲冩ld]ﾂ?ﾂｩ[GMAﾂｴﾃ敕古榲堙鯛｢\ﾅｽﾂｦﾃ堙催榲冢ow]
+	pNml->SubAGmGmaEmbLv.Old = pNml->SubAGmGmaEmbLv.Now;
+	// [GMAﾅｽcGﾂ絶拵ow]-1
+	pNml->SubAGmGmaZanG.Now = SAFE_SUB( pNml->SubAGmGmaZanG.Now, 1, 0 );
+	// [GMAﾅｽcGﾂ絶捐ld]ﾂ?ﾂｩ[GMAﾅｽcGﾂ絶拵ow]
+	pNml->SubAGmGmaZanG.Old = pNml->SubAGmGmaZanG.Now;
+
+	// [GMA窶ｹ[ﾅｽ窶氾堙催榲冢ow]=1?
+	if (g_Base.Stg.Nml.SubAGmGmaGijiLv.Now == SUBA_GM_GMA_GIJIREN_LEVEL_01)
+	{
+		// [GMAﾃ個ｪﾂｰﾂｽﾃ?1_ﾅｽcGﾂ絶拆-1
+		g_Base.Stg.Nml.SubAGmGmaPhase1 = SAFE_SUB(g_Base.Stg.Nml.SubAGmGmaPhase1, 1, 0);
+	}
+
+	// [GMA窶ｹ[ﾅｽ窶氾堙催榲冢ow]=2?
+	if (g_Base.Stg.Nml.SubAGmGmaGijiLv.Now == SUBA_GM_GMA_GIJIREN_LEVEL_02)
+	{
+		// [GMAﾃ個ｪﾂｰﾂｽﾃ?2_ﾅｽcGﾂ絶拆-1
+		g_Base.Stg.Nml.SubAGmGmaPhase2 = SAFE_SUB(g_Base.Stg.Nml.SubAGmGmaPhase2, 1, 0);
+	}
+
+	// [GMA窶ｹ[ﾅｽ窶氾堙催榲冢ow]=3?
+	if (g_Base.Stg.Nml.SubAGmGmaGijiLv.Now == SUBA_GM_GMA_GIJIREN_LEVEL_03)
+	{
+		// [GMAﾃ個ｪﾂｰﾂｽﾃ?3_ﾅｽcGﾂ絶拆-1
+		g_Base.Stg.Nml.SubAGmGmaPhase3 = SAFE_SUB(g_Base.Stg.Nml.SubAGmGmaPhase3, 1, 0);
+	}
+
+	// [GMA窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+	if (pNml->SubAGmGmaZenType == SUBA_GM_GMA_ZEN_TYPE_NON)
+	{
+		// O)GMA_窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ?
+		pNml->SubAGmGmaZenType = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMA_ZENTYPE);
+	}
+
+	// [GMA窶ｰ窶ｰﾂ出ﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+	if (pNml->SubAGmGmaEnsType == 0)
+	{
+		// O)GMA_窶ｰ窶ｰﾂ出ﾅｽﾃｭ窶｢ﾃ?
+		pNml->SubAGmGmaEnsType = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMA_ENS_TYPE);
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂ鞘ｰﾅ?ﾃｺﾂ静昶凖ｨﾂ祥?窶板拈GMA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGmaInitProc(void)
+{
+	// [GMAﾅｽcGﾂ絶拵ow]=0?
+	if (g_Base.Stg.Nml.SubAGmGmaZanG.Now == 0)
+	{
+		// [GMAﾅｽcGﾂ絶拵ow]ﾂ?ﾂｩﾂ【窶敕?窶廃窶之窶ｹZﾂ絶敖絶截ﾂｶﾂｳﾃ敕ﾂ】+1
+		g_Base.Stg.Nml.SubAGmGmaZanG.Now = SAFE_ADD(g_Base.Stg.Mn.CmnB_PlayCount, 1, 0);
+	}
+
+	// [GMAﾂｻﾃ古楪催?窶佚･窶ｹ[ﾅｽ窶藩廣ﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+	if (g_Base.Stg.Nml.SubAGmGmaSubGijiType == 0)
+	{
+		// O)GMA_窶ｹ[ﾅｽ窶藩廣ﾂ静昶凖ｨﾅｽﾃｭ窶｢ﾃ?
+		// [GMAﾂｻﾃ古楪催?窶佚･窶ｹ[ﾅｽ窶藩廣ﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubAGmGmaSubGijiType = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_GIJI_SET_TYPE);
+	}
+
+	// [GMA窶楼窶吮ｺﾃ甘淌ﾂｰﾃ拆=窶督｢ﾂ静昶凖ｨ?
+	if (g_Base.Stg.Nml.SubAGmGmaZenPtn == 0)
+	{
+		// O)GMA_窶楼窶吮ｺﾃ甘淌ﾂｰﾃ敘ｽﾃｭ窶｢ﾃ?
+		// [GMA窶楼窶吮ｺﾃ甘淌ﾂｰﾃ拆ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubAGmGmaZenPtn = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_ZEN_PTN_SET);
+
+		// [GMAﾂｻﾃ古楪催?窶佚･窶ｹ[ﾅｽ窶藩廣ﾅｽﾃｭ窶｢ﾃ馨
+		switch (g_Base.Stg.Nml.SubAGmGmaSubGijiType)
+		{
+		case 1:
+			// [GMAﾃ個ｪﾂｰﾂｽﾃ?1_ﾅｽcGﾂ絶拆ﾂ?ﾂｩ[GMAﾅｽcGﾂ絶拵ow]
+			g_Base.Stg.Nml.SubAGmGmaPhase1 = g_Base.Stg.Nml.SubAGmGmaZanG.Now;
+			break;
+
+		case 2:
+			// O)GMA_窶ｹ^ﾅｽ窶?2ﾃ個ｪﾂｰﾂｽﾃ?1ﾅｽcGﾂ絶敘ｽﾃｭ窶｢ﾃ?
+			// [GMAﾃ個ｪﾂｰﾂｽﾃ?1_ﾅｽcGﾂ絶拆ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubAGmGmaPhase1 = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_GIJI2_PHASE1_GAME);
+
+			// [GMAﾃ個ｪﾂｰﾂｽﾃ?2_ﾅｽcGﾂ絶拆ﾂ?ﾂｩ[GMAﾅｽcGﾂ絶拵ow]-ﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubAGmGmaPhase2 = SAFE_SUB(g_Base.Stg.Nml.SubAGmGmaZanG.Now, g_Base.Stg.Nml.SubAGmGmaPhase1, 0);
+			break;
+
+		case 3:
+			// O)GMA_窶ｹ^ﾅｽ窶?3ﾃ個ｪﾂｰﾂｽﾃ?1ﾅｽcGﾂ絶敘ｽﾃｭ窶｢ﾃ?
+			// [GMAﾃ個ｪﾂｰﾂｽﾃ?1_ﾅｽcGﾂ絶拆ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubAGmGmaPhase1 = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_GIJI3_PHASE1_GAME);
+
+			// O)GMA_窶ｹ^ﾅｽ窶?3ﾃ個ｪﾂｰﾂｽﾃ?2ﾅｽcGﾂ絶敘ｽﾃｭ窶｢ﾃ?
+			// [GMAﾃ個ｪﾂｰﾂｽﾃ?2_ﾅｽcGﾂ絶拆ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubAGmGmaPhase2 = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_GIJI3_PHASE2_GAME);
+
+			// [GMAﾃ個ｪﾂｰﾂｽﾃ?3_ﾅｽcGﾂ絶拆ﾂ?ﾂｩ[GMAﾅｽcGﾂ絶拵ow]-[GMAﾃ個ｪﾂｰﾂｽﾃ?1_ﾅｽcGﾂ絶拆-[GMAﾃ個ｪﾂｰﾂｽﾃ?2_ﾅｽcGﾂ絶拆
+			g_Base.Stg.Nml.SubAGmGmaPhase3 = SAFE_SUB(g_Base.Stg.Nml.SubAGmGmaZanG.Now, g_Base.Stg.Nml.SubAGmGmaPhase1, 0);
+			g_Base.Stg.Nml.SubAGmGmaPhase3 = SAFE_SUB(g_Base.Stg.Nml.SubAGmGmaPhase3, g_Base.Stg.Nml.SubAGmGmaPhase2, 0);
+
+			// [GMAﾃ個ｪﾂｰﾂｽﾃ?2_ﾅｽcGﾂ絶拆ﾂ≫ｦ1?
+			if (g_Base.Stg.Nml.SubAGmGmaPhase2 <= 1)
+			{
+				SUBA_ASSERT(FALSE);
+			}
+
+			// [GMAﾃ個ｪﾂｰﾂｽﾃ?3_ﾅｽcGﾂ絶拆ﾂ≫ｦ1?
+			if (g_Base.Stg.Nml.SubAGmGmaPhase3 <= 1)
+			{
+				SUBA_ASSERT(FALSE);
+			}
+			break;
+
+		case 4:
+			// O)GMA_窶ｹ^ﾅｽ窶?4ﾃ個ｪﾂｰﾂｽﾃ?1ﾅｽcGﾂ絶敘ｽﾃｭ窶｢ﾃ?
+			// [GMAﾃ個ｪﾂｰﾂｽﾃ?1_ﾅｽcGﾂ絶拆ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubAGmGmaPhase1 = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_GIJI4_PHASE1_GAME);
+
+			// O)GMA_窶ｹ^ﾅｽ窶?4ﾃ個ｪﾂｰﾂｽﾃ?2ﾅｽcGﾂ絶敘ｽﾃｭ窶｢ﾃ?
+			// [GMAﾃ個ｪﾂｰﾂｽﾃ?2_ﾅｽcGﾂ絶拆ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubAGmGmaPhase2 = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_NML_GIJI4_PHASE2_GAME);
+
+			// [GMAﾃ個ｪﾂｰﾂｽﾃ?3_ﾅｽcGﾂ絶拆ﾂ?ﾂｩ[GMAﾅｽcGﾂ絶拵ow]-[GMAﾃ個ｪﾂｰﾂｽﾃ?1_ﾅｽcGﾂ絶拆-[GMAﾃ個ｪﾂｰﾂｽﾃ?2_ﾅｽcGﾂ絶拆
+			g_Base.Stg.Nml.SubAGmGmaPhase3 = SAFE_SUB(g_Base.Stg.Nml.SubAGmGmaZanG.Now, g_Base.Stg.Nml.SubAGmGmaPhase1, 0);
+			g_Base.Stg.Nml.SubAGmGmaPhase3 = SAFE_SUB(g_Base.Stg.Nml.SubAGmGmaPhase3, g_Base.Stg.Nml.SubAGmGmaPhase2, 0);
+			
+			// [GMAﾃ個ｪﾂｰﾂｽﾃ?2_ﾅｽcGﾂ絶拆ﾂ≫ｦ1?
+			if (g_Base.Stg.Nml.SubAGmGmaPhase2 <= 1)
+			{
+				SUBA_ASSERT(FALSE);
+			}
+
+			// [GMAﾃ個ｪﾂｰﾂｽﾃ?3_ﾅｽcGﾂ絶拆ﾂ≫ｦ1?
+			if (g_Base.Stg.Nml.SubAGmGmaPhase3 <= 1)
+			{
+				SUBA_ASSERT(FALSE);
+			}
+			break;
+
+		default:
+			SUBA_ASSERT(FALSE);
+			break;
+		}
+	}
+
+	// [GMAﾂ債絶冦ﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+	if (g_Base.Stg.Nml.SubAGmGmaKokuType == 0)
+	{
+		// [GMAﾂｻﾃ古楪催?窶佚･窶ｹ[ﾅｽ窶藩廣ﾅｽﾃｭ窶｢ﾃ馨=4?
+		if (g_Base.Stg.Nml.SubAGmGmaSubGijiType == 4)
+		{
+			// [GMAﾂ債絶冦ﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ2(ﾅ恥窶伉ｱ)
+			g_Base.Stg.Nml.SubAGmGmaKokuType = 2;
+		}
+		// [GMA窶ｹ[ﾅｽ窶氾堙催榲冢ow]=[GMAﾂｻﾃ古楪催?窶佚･窶ｹ[ﾅｽ窶藩廣ﾅｽﾃｭ窶｢ﾃ馨?
+		else if (g_Base.Stg.Nml.SubAGmGmaGijiLv.Now == g_Base.Stg.Nml.SubAGmGmaSubGijiType)
+		{
+			// [GMAﾂ債絶冦ﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ1(窶敖ｭ窶弩)
+			g_Base.Stg.Nml.SubAGmGmaKokuType = 1;
+		}
+		else
+		{
+			// [GMAﾂ債絶冦ﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ2(ﾅ恥窶伉ｱ)
+			g_Base.Stg.Nml.SubAGmGmaKokuType = 2;
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾃ陳ｲﾃ扠v窶突?ﾂ祥?窶板拈GMA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGmMainLv(void)
+{
+	SUBA_STAGE_NML* pNml = &g_Base.Stg.Nml;
+
+	//// [ﾃ陳ｲﾃ敖渉ｸﾅ?iﾃ古猟ｸﾃ枉=1?
+	//if ( pNml->SubAGmGmaRankUpFlag )
+	//{
+	//	// ﾂ静ｦﾂｴﾃ敕古榲堙鯛卩?窶堋ｹ窶堙ｱ
+	//	// O)GMA_ﾂ静ｦﾂｴﾃ敕古榲堙?
+	//	pNml->SubAGmGmaGijirenSetTyp = SubA_PrjCmn_SubLotFunc_GetEtcLot( D_LOT_O_GMA_EMBLEM_PRE );
+	//}
+
+	// 窶懌毒?Yﾂ渉ｸﾅ?i窶卩?窶堋ｹ窶堙ｱ
+	// O)GMA_窶敖ｻ窶凖ｨ
+	pNml->SubAGmGmaTougaiKokTyp = SubA_PrjCmn_SubLotFunc_GetEtcLot( D_LOT_O_GMA_RANK_UP_JUGDE );
+
+	// [窶懌毒?Yﾂ債絶冦ﾅｽﾃｭ窶｢ﾃ馨=2?
+	if ( pNml->SubAGmGmaTougaiKokTyp == E_SUBA_GM_GMA_TOUGAI_KOK_TYP_GIJI )
+	{
+		// 窶凖｢ﾅｽ~ﾂｴﾃ敕古榲堙打ｽﾃｭ窶｢ﾃ岩卩?窶堋ｹ窶堙ｱ
+		// O)GMA_窶凖｢ﾅｽ~ﾂｴﾃ敕古榲堙打ｽﾃｭ窶｢ﾃ?
+		pNml->SubAGmGmaStopEmbTyp = SubA_PrjCmn_SubLotFunc_GetEtcLot( D_LOT_O_GMA_STOP_EMBLEM_KIND );
+	}
+	else
+	{
+		// [窶凖｢ﾅｽ~ﾂｴﾃ敕古榲堙打ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ0
+		pNml->SubAGmGmaStopEmbTyp = E_SUBA_GM_GMA_STOP_EMB_TYP_NON;
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｽﾃδｰﾂｼﾃ楪祥?窶板拈GMA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaStg(void)
+{
+	SUBA_STAGE_NML* pNml = &g_Base.Stg.Nml;
+	u32 result = 0;
+
+#if 1
+	// 窶愿銀愿ｼ1G窶禿??
+	if (g_Base.Stg.Mn.State.Now != g_Base.Stg.Mn.State.Old)
+	{
+		// O)GMA_ﾂｶﾃδｺﾃ榲佛ｽﾃｭ窶｢ﾃ?
+		// [GMAﾂｶﾃδｺﾃ榲佛ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubAGmGmaCatType = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMA_CATTYPE);
+
+		// O)GMA_窶堙凪堙ｨ窶堙?窶堙固ｽﾃｭ窶｢ﾃ?
+		// [窶堙凪堙ｨ窶堙?窶堙固ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubAGmGmaHurimonoType = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMA_HURIMONO_TYPE);
+
+		// ﾅ停ｹ窶ｰﾃ?=65535?
+		if (g_Base.Stg.Nml.SubAGmGmaHurimonoType == D_SUBA_NML_LOT_MAX)
+		{
+			// 窶卩?窶堋ｹ窶堙ｱ窶冤ﾋ?ﾃ卍湘ｭ
+			SUBA_ASSERT(FALSE);
+			// ﾅ停ｹ窶ｰﾃ?=0窶堙ｰ窶｢ﾃ披堋ｷ
+			g_Base.Stg.Nml.SubAGmGmaHurimonoType = 0;
+		}
+	}
+
+	// [GMA窶ｹ[ﾅｽ窶藩廣窶敖ｭﾂ青ｶﾃ古猟ｸﾃ枉=0?ﾋ?ﾃ闇?O
+	else if ( pNml->SubAGmGmaGijiRenFlag )
+	{
+		// [GMAﾋ?ﾃ｡ﾋ彗ﾅ?ﾂｴﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubAGmGmaIwaFlg = FALSE;
+
+		// O)GMA_ﾂｶﾃδｺﾃ榲佛ｽﾃｭ窶｢ﾃ?
+		// [GMAﾂｶﾃδｺﾃ榲佛ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubAGmGmaCatType = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMA_CATTYPE);
+
+		// [窶堙凪堙ｨ窶堙?窶堙固ｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+		if (g_Base.Stg.Nml.SubAGmGmaHurimonoType == 0)
+		{
+			// [GMA窶ｹ[ﾅｽ窶氾堙催榲冩ld]ﾂ≫?1?
+			if (g_Base.Stg.Nml.SubAGmGmaGijiLv.Old != 1)
+			{
+				// [窶堙凪堙ｨ窶堙?窶堙固ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ1
+				g_Base.Stg.Nml.SubAGmGmaHurimonoType = 1;
+			}
+		}
+
+		// O)GMA_窶堙凪堙ｨ窶堙?窶堙固ｽﾃｭ窶｢ﾃ?
+		// [窶堙凪堙ｨ窶堙?窶堙固ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubAGmGmaHurimonoType = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMA_HURIMONO_TYPE);
+
+		// ﾅ停ｹ窶ｰﾃ?=65535?
+		if (g_Base.Stg.Nml.SubAGmGmaHurimonoType == D_SUBA_NML_LOT_MAX)
+		{
+			// 窶卩?窶堋ｹ窶堙ｱ窶冤ﾋ?ﾃ卍湘ｭ
+			SUBA_ASSERT(FALSE);
+			// ﾅ停ｹ窶ｰﾃ?=0窶堙ｰ窶｢ﾃ披堋ｷ
+			g_Base.Stg.Nml.SubAGmGmaHurimonoType = 0;
+		}
+
+		// ﾂｽﾃδｰﾂｼﾃ寨?ﾃ堋行窶卩?窶堋ｹ窶堙ｱ
+		// O)GMA_ﾂｽﾃδｰﾂｼﾃ寨?ﾃ堋行
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot( D_LOT_O_GMA_STG_IKO );
+
+		// ﾅ停ｹ窶ｰﾃ?=65535?
+		if ( result == D_SUBA_NML_LOT_MAX )
+		{
+			// 窶卩?窶堋ｹ窶堙ｱ窶冤ﾋ?ﾃ卍湘ｭ
+			SUBA_ASSERT(FALSE);
+			// ﾅ停ｹ窶ｰﾃ?=0(窶ｰﾂｽ窶堙?窶堋ｵ窶堙遺堋｢)窶堙ｰ窶凖岩堋ｷ
+			result = 0;
+		}
+		// ﾅ停ｹ窶ｰﾃ?=0?
+		if ( result == 0 )
+		{
+			// 窶ｰﾂｽ窶堙?窶堋ｵ窶堙遺堋｢
+		}
+		else
+		{
+			// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubAGmStgNow = ( E_SUBA_NML_STG )result;
+		}
+		// [UI窶廃ﾃ堙催榲卩ｽﾃｭ窶｢ﾃ馨=4(ﾂ祝)?
+		if ( g_Base.Stg.Nml.SubAGmUiLvTyp == E_SUBA_GM_UI_LV_TYP_SYK )
+		{
+			// 窶ｰﾂｽ窶堙?窶堋ｵ窶堙遺堋｢
+		}
+		else
+		{
+			// ﾃ堙催榲儷I窶｢\ﾅｽﾂｦ窶卩?窶堋ｹ窶堙ｱ
+			result = SubA_PrjCmn_SubLotFunc_GetEtcLot( D_LOT_O_GMA_LV_UI );
+			// ﾅ停ｹ窶ｰﾃ?=65535?
+			if ( result == D_SUBA_NML_LOT_MAX )
+			{
+				// 窶卩?窶堋ｹ窶堙ｱ窶冤ﾋ?ﾃ卍湘ｭ
+				SUBA_ASSERT(FALSE);
+				// 窶督｢ﾂ静昶凖ｨ窶堙?窶堋ｵ窶堙?ﾂ静昶凖ｨ
+				result = E_SUBA_GM_UI_LV_TYP_NON;
+			}
+			// [UI窶廃ﾃ堙催榲卩ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubAGmUiLvTyp = ( E_SUBA_GM_UI_LV_TYP )result;
+		}
+
+	}
+
+	// [UI窶廃ﾃ堙催榲卩ｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+	if (g_Base.Stg.Nml.SubAGmUiLvTyp == E_SUBA_GM_UI_LV_TYP_NON)
+	{
+		// ﾃ堙催榲儷I窶｢\ﾅｽﾂｦ窶卩?窶堋ｹ窶堙ｱ
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMA_LV_UI);
+		// ﾅ停ｹ窶ｰﾃ?=65535?
+		if (result == D_SUBA_NML_LOT_MAX)
+		{
+			// 窶卩?窶堋ｹ窶堙ｱ窶冤ﾋ?ﾃ卍湘ｭ
+			SUBA_ASSERT(FALSE);
+			// 窶督｢ﾂ静昶凖ｨ窶堙?窶堋ｵ窶堙?ﾂ静昶凖ｨ
+			result = E_SUBA_GM_UI_LV_TYP_NON;
+		}
+		// [UI窶廃ﾃ堙催榲卩ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubAGmUiLvTyp = (E_SUBA_GM_UI_LV_TYP)result;
+	}
+
+	// [GMAﾂｶﾃδｺﾃ榲佛ｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+	if (g_Base.Stg.Nml.SubAGmGmaCatType == 0)
+	{
+		// O)GMA_ﾂｶﾃδｺﾃ榲佛ｽﾃｭ窶｢ﾃ?
+		g_Base.Stg.Nml.SubAGmGmaCatType = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMA_CATTYPE);
+	}
+
+	// [窶堙凪堙ｨ窶堙?窶堙固ｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+	if (g_Base.Stg.Nml.SubAGmGmaHurimonoType == 0)
+	{
+		// [GMA窶ｹ[ﾅｽ窶氾堙催榲冩ld]ﾂ≫?1?
+		if (g_Base.Stg.Nml.SubAGmGmaGijiLv.Old != 1)
+		{
+			// [窶堙凪堙ｨ窶堙?窶堙固ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ1
+			g_Base.Stg.Nml.SubAGmGmaHurimonoType = 1;
+		}
+
+		// O)GMA_窶堙凪堙ｨ窶堙?窶堙固ｽﾃｭ窶｢ﾃ?
+		// [窶堙凪堙ｨ窶堙?窶堙固ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+		g_Base.Stg.Nml.SubAGmGmaHurimonoType = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMA_HURIMONO_TYPE);
+	}
+
+#else
+	// [ﾅ弛窶ｰﾃ溪之窶ｹZﾂ絶拆ﾂ≫?1?
+	if (g_Base.Stg.Nml.SubAGmPrgG != 1)
+	{
+		// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+	}
+	else
+	{
+		// ﾂｽﾃδｰﾂｼﾃ寨?ﾃ堋行窶卩?窶堋ｹ窶堙ｱ
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMA_STG_IKO);
+		// ﾅ停ｹ窶ｰﾃ?=65535?
+		if (result == D_SUBA_NML_LOT_MAX)
+		{
+			// 窶卩?窶堋ｹ窶堙ｱ窶冤ﾋ?ﾃ卍湘ｭ
+			SUBA_ASSERT(FALSE);
+			result = 0;
+		}
+		// ﾅ停ｹ窶ｰﾃ?=0?
+		if (result == 0)
+		{
+			// 窶ｰﾂｽ窶堙?窶堋ｵ窶堙遺堋｢
+		}
+		else
+		{
+			// [ﾂｽﾃδｰﾂｼﾃ枉ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubAGmStgNow = (E_SUBA_NML_STG)result;
+		}
+		// [UI窶廃ﾃ堙催榲卩ｽﾃｭ窶｢ﾃ馨=8?
+		if (g_Base.Stg.Nml.SubAGmUiLvTyp == E_SUBA_GM_UI_LV_TYP_SYK)
+		{
+			// 窶ｰﾂｽ窶堙?窶堋ｵ窶堙遺堋｢
+		}
+		else
+		{
+			// ﾃ堙催榲儷I窶｢\ﾅｽﾂｦ窶卩?窶堋ｹ窶堙ｱ
+			result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMA_LV_UI);
+			// ﾅ停ｹ窶ｰﾃ?=65535?
+			if (result == D_SUBA_NML_LOT_MAX)
+			{
+				// 窶卩?窶堋ｹ窶堙ｱ窶冤ﾋ?ﾃ卍湘ｭ
+				SUBA_ASSERT(FALSE);
+				result = E_SUBA_GM_UI_LV_TYP_NON;
+			}
+			// [UI窶廃ﾃ堙催榲卩ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubAGmUiLvTyp = (E_SUBA_GM_UI_LV_TYP)result;
+		}
+	}
+#endif
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾅｽﾃ･窶ｰ窶ｰﾂ出ﾂ祥?窶板拈GMA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaMain(void)
+{
+	u32 result = 0;
+	// ﾂｼﾃ?ﾃ伉ｵ窶吮?窶堙?窶堙坂堙遺堋｢ﾂ？
+	if ( SubA_PrjCmn_IsSenarioRun(&g_Base.Stg.Nml.Snr) == FALSE )
+	{
+		// S)GMA_ﾂｼﾃ?ﾃ伉ｵ窶卩?窶堋ｹ窶堙ｱ_ﾂ鞘ｰ窶ｰﾃｱ
+		if ( g_Base.Stg.Nml.SubAGmGmaStartFlag == TRUE && g_Base.Stg.Nml.SubAGmGmaGijiLv.Old == SUBA_GM_GMA_GIJIREN_LEVEL_01)
+		{
+			SubA_PrjCmn_SetSenario( D_LOT_S_GMA_LOT_SCENARIO_FIRST, &g_Base.Stg.Nml.Snr );
+		}
+		// S)GMA_ﾂｼﾃ?ﾃ伉ｵ窶卩?窶堋ｹ窶堙ｱ_窶ｹ^ﾅｽ窶藩廣ﾅ津｣
+		else if ( g_Base.Stg.Nml.SubAGmGmaGijiRenFlag && g_Base.Stg.Nml.SubAGmGmaGijiLv.Old >= SUBA_GM_GMA_MODE_LEVEL_02 )
+		{
+			SubA_PrjCmn_SetSenario( D_LOT_S_GMA_LOT_SCENARIO_GIJIRENGO, &g_Base.Stg.Nml.Snr );
+		}
+		// S)GMA_ﾂｼﾃ?ﾃ伉ｵ窶卩?窶堋ｹ窶堙ｱ
+		else
+		{
+			SubA_PrjCmn_SetSenario( D_LOT_S_GMA_SCE_LOT, &g_Base.Stg.Nml.Snr );
+		}
+	}
+	// ﾆ歎ﾆ段ﾆ椎?ﾆ棚窶堋ｩ窶堙ｧﾆ辰ﾆ遅ﾆ停愴暖窶卩?窶堋ｹ窶堙ｱ
+	result = SubA_PrjCmn_GetEvent( &g_Base.Stg.Nml.Snr );
+	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰﾅｽﾃ･ﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	SubA_PrjCmn_SetEventMain(result);
+	// [GMAﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ]ﾂ?ﾂｩ窶懌毒?Yﾂｼﾃ?ﾃ伉ｵ窶堙啓ﾂｴﾃ敕古榲堙堕静ｸ窶堙ｨ窶廃_ﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ]
+	g_Base.Stg.Nml.SubAGmGmaAttr = SubA_PrjCmn_GetAttrData(g_Base.Stg.Nml.Snr.OyaSenarioDataGlobal, D_SNR_EN_AORI_SINA_ZOKU);
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶｢窶ｺ窶ｰ窶ｰﾂ出ﾂ祥?窶板拈GMA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaDep(void)
+{
+	u32 result = 0;
+	// 窶｢窶ｺ_ﾃ堙催榲卍ｱﾂｯﾃ古歙GMAﾆ稚ﾆ停ｰﾆ丹
+	BOOL chk = FALSE;
+	// 窶｢窶ｺ_窶禿ｰ窶｢ﾃｱ窶冦_GMA
+	result = SubA_PrjCmn_SubLotFunc_GetEvent( D_LOT_E_GMA_FUK_EN_YAK_HCH );
+	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	SubA_PrjCmn_SetEventSubL(E_EVENT_SUB_NUMBER_CHANCE, result);
+	// [窶｢窶ｺ_窶禿ｰ窶｢ﾃｱ窶冦]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+	g_Base.Stg.Nml.SubANmlYakHch = result;
+	
+	// GM窶｢窶ｺ窶堙個ｼﾃ?ﾃ伉ｵ窶吮??
+	if ( SubA_PrjCmn_IsSenarioRun( &g_Base.Stg.Nml.SubSnr ) == FALSE )
+	{
+		// 窶｢窶ｺﾂｼﾃ?ﾃ伉ｵ_GMA窶｢窶ｺ
+		SubA_PrjCmn_SetSenario( D_LOT_S_GMA_FUK_GMAFUK, &g_Base.Stg.Nml.SubSnr );
+	}
+	// ﾆ歎ﾆ段ﾆ椎?ﾆ棚窶堋ｩ窶堙ｧ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶卩?窶堋ｹ窶堙ｱ
+	result = SubA_PrjCmn_GetEvent( &g_Base.Stg.Nml.SubSnr );
+	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	SubA_PrjCmn_SetEventSubL( E_EVENT_SUB_NUMBER_SUB_A, result );
+	
+	// 窶｢窶ｺﾂｼﾃ?ﾃ伉ｵ_GMA窶｢窶ｺ窶堙娯｢窶ｺﾂｲﾃ催榲敕?窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMA窶｢窶ｺ窶敖ｭﾂ青ｶ]=1?
+	if ( SubA_PrjCmn_CheckEvtAttrSub( D_EVT_GMA_HUKU_SHUTU, TRUE ) )
+	{
+		// [GMA窶｢窶ｺﾂｶﾂｳﾃ敕]+1
+		ADD_LIMITCHK_ERR_S( g_Base.Stg.Nml.SubAGmGmaSub, 1, 255 );
+	}
+	else
+	{
+		// [GMA窶｢窶ｺﾂｶﾂｳﾃ敕]ﾂ?ﾂｩ0
+		g_Base.Stg.Nml.SubAGmGmaSub = 0;
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶堋ｻ窶堙娯伉ｼﾂ祥?窶板截_GMA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaOthB(void)
+{
+	// GMBﾋ?ﾃ堋行ﾂ祥?窶板拈GMA
+	SubA_PrjStgGm_GmaGmbIko();
+	// ﾅ恥窶伉ｱﾅｽﾂｦﾂ債ｴ_GMA
+	SubA_PrjStgGm_GmaNextEns();
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		GMBﾋ?ﾃ堋行ﾂ祥?窶板拈GMA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaGmbIko(void)
+{
+	// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[窶ｰﾃ･ﾋ弋SP]ﾅｽﾃｦ窶慊ｾ
+	const u32 main_event_attr = GET_EVT_TABLE_ATTR( SubA_PrjCmn_GetEventMain(), D_EVT_GM_GAROSP );
+
+	// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕Ъ窶ｰﾃ･ﾋ弋SP]=窶堙遺堋ｵ? 窶堙?窶堙坂堙遺堋｢ﾂ？
+	if ( main_event_attr != D_EVT_GM_GAROSP_ATTR_NASHI )
+	{
+		// [ﾅ津｣窶敖ｼﾃ偲猟ｰﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+		if ( g_Base.Stg.Nml.SubAGmAtoHorTyp == E_SUBA_GM_ATO_HOR_TYP_NON )
+		{
+			// [ﾅ津｣窶敖ｼﾃ偲猟ｰﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕Ъ窶ｰﾃ･ﾋ弋SP]
+			g_Base.Stg.Nml.SubAGmAtoHorTyp = main_event_attr;
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶ｹ^ﾅｽ窶披之窶ｹZﾂ祥?窶板拈GMA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaGijYgi(void)
+{
+	// [窶ｰﾃ･ﾋ弋ﾅ停｢窶禿堋ｻﾃ古槐ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ0
+	g_Base.Stg.Nml.SubAGmGroKenMeTyp = E_SUBA_GM_GRO_KEN_ME_SUB_TYP_NON;
+	// ﾂ【窶能窶禿ｱ窶ｹ^ﾅｽ窶披之窶ｹZﾅｽﾃｭ窶｢ﾃ環】=1? ﾂ?ﾂｦ1窶凖｢ﾅｽ~GKM
+	if (g_Base.Stg.Mn.RsvGijiType == D_GIZI_TYPE_GKM_1ST)
+	{
+		// [ﾅ弛窶ｰﾃ溪之窶ｹZﾂ絶拆>5?
+		if (g_Base.Stg.Nml.SubAGmPrgG > D_SUBA_GMA_G_MAX)
+		{
+			// ﾋ?ﾃ卍湘ｭ
+			SUBA_ASSERT(FALSE);
+		}
+		else
+		{
+			// [ﾅ弛窶ｰﾃ溪之窶ｹZﾂ絶拆=5?
+			if (g_Base.Stg.Nml.SubAGmPrgG == D_SUBA_GMA_G_MAX)
+			{
+				// [窶ｰﾃ･ﾋ弋ﾅ停｢窶禿堋ｻﾃ古槐ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ2
+				g_Base.Stg.Nml.SubAGmGroKenMeTyp = E_SUBA_GM_GRO_KEN_ME_SUB_TYP_KOU;
+			}
+			else
+			{
+				// [窶ｰﾃ･ﾋ弋ﾅ停｢窶禿堋ｻﾃ古槐ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ1
+				g_Base.Stg.Nml.SubAGmGroKenMeTyp = E_SUBA_GM_GRO_KEN_ME_SUB_TYP_ZEN;
+			}
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾅ恥窶伉ｱﾅｽﾂｦﾂ債ｴ_GMA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaNextEns(void)
+{
+	u32 result = 0;
+
+	// 窶｢窶ｺ_ﾅ恥窶伉ｱﾅｽﾂｦﾂ債ｴ_GMA
+	result = SubA_PrjCmn_SubLotFunc_GetEvent( D_LOT_E_GMA_SUB_NEXT );
+	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	SubA_PrjCmn_SetEventSubL( E_EVENT_SUB_NUMBER_SUB_E, result );
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶伉ｮﾂ青ｫﾅｽﾃｦ窶慊ｾ_GMA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaGetAttr(void)
+{
+	// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕Ъﾃﾂｲﾃ?ﾃ吮能ﾂ債税ｽﾃｭ窶｢ﾃ馨ﾂ≫?1?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_TAI_YOKOKU_KIND) >= 1)
+	{
+		// [GMAﾃﾂｲﾃ?ﾃ吮能ﾂ債税ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕Ъﾃﾂｲﾃ?ﾃ吮能ﾂ債絶能ﾂ債税ｽﾃｭ窶｢ﾃ馨
+		g_Base.Stg.Nml.SubAGmGmaTitleType = GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_TAI_YOKOKU_KIND);
+	}
+
+	// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕ЪGMAﾅ槌停扨ﾂ債絶冦]=1?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMA_GEKI_KOKU) == 1)
+	{
+		// [GMAﾅ槌停扨ﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubAGmGmaGekiatuFlag = TRUE;
+	}
+
+	// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕ЪGMA_ﾋ?ﾃ｡ﾋ彗ﾅ?ﾂｴ]=1?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMA_IWAKAN) == 1)
+	{
+		// [GMAﾋ?ﾃ｡ﾋ彗ﾅ?ﾂｴﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+		g_Base.Stg.Nml.SubAGmGmaIwaFlg = TRUE;
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		Lvﾅ?窶樞堙ｨﾂ最ｾ窶堙敖祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_LvWri(void)
+{
+	SUBA_STAGE_NML* pNml = &g_Base.Stg.Nml;
+
+	// [GMA窶ｹ[ﾅｽ窶藩廣窶敖ｭﾂ青ｶﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+	pNml->SubAGmGmaGijiRenFlag = FALSE;
+	// [窶懌毒?Yﾂ債絶冦ﾅｽﾃｭ窶｢ﾃ馨=2?
+	if ( pNml->SubAGmGmaTougaiKokTyp == E_SUBA_GM_GMA_TOUGAI_KOK_TYP_GIJI )
+	{
+		// [GMA窶ｹ[ﾅｽ窶藩廣窶敖ｭﾂ青ｶﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+		pNml->SubAGmGmaGijiRenFlag = TRUE;
+		// [GMAﾋ?ﾃ｡ﾋ彗ﾅ?ﾂｴﾂ湘ｳ窶佚脳ﾂ?ﾂｩ0
+		pNml->SubAGmGmaImaState = E_SUBA_GM_GMA_IWA_STATE_NON;
+		// [GMA窶ｹ[ﾅｽ窶氾堙催榲冢ow]+1
+		ADD_LIMITCHK_S( pNml->SubAGmGmaGijiLv.Now, 1, SUBA_GM_GMA_GIJIREN_LEVEL_04 );
+		// [GMAﾂｴﾃ敕古榲堙鯛｢\ﾅｽﾂｦﾃ堙催榲冢ow]ﾂ?ﾂｩ0
+		pNml->SubAGmGmaEmbLv.Now = 0;
+		// [GMAﾂ債絶冦ﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ窶督｢ﾂ静昶凖ｨ
+		pNml->SubAGmGmaKokuType = 0;
+	}
+
+	//// [窶ｰﾃ･ﾋ弋ﾃ鏑v_now]ﾂ?ﾂｩﾂ【窶佚伉催敕堙催榲卍】+1
+	//pNml->SubAGmGmaLv.Now = g_Base.Stg.Mn.GmStayLevel + 1;
+
+	//// [窶ｰﾃ･ﾋ弋ﾃ鏑v_now]ﾂ≫喙窶ｰﾃ･ﾋ弋ﾃ鏑v_old]
+	//if ( pNml->SubAGmGmaLv.Now != pNml->SubAGmGmaLv.Old )
+	//{
+	//	// [窶ｰﾃ･ﾋ弋ﾃ鏑v_now]-[窶ｰﾃ･ﾋ弋ﾃ鏑v_old]=1?
+	//	if ( pNml->SubAGmGmaLv.Now - pNml->SubAGmGmaLv.Old == 1 )
+	//	{
+	//		// [ﾃ陳ｲﾃ敖渉ｸﾅ?iﾃ古猟ｸﾃ枉ﾂ?ﾂｩ1
+	//		pNml->SubAGmGmaRankUpFlag = TRUE;
+	//		// [GMAﾅｽcGﾂ絶拵ow]ﾂ?ﾂｩ5
+	//		pNml->SubAGmGmaZanG.Now = 5;
+	//	}
+	//	// 窶堋ｻ窶堙ｪﾋ?ﾃ闇?O
+	//	else
+	//	{
+	//		ASSERT(FALSE);
+	//	}
+	//}
+	//else
+	//{
+	//	// [ﾃ陳ｲﾃ敖渉ｸﾅ?iﾃ古猟ｸﾃ枉ﾂ?ﾂｩ0
+	//	pNml->SubAGmGmaRankUpFlag = FALSE;
+	//}
+
+	// [窶凖｢ﾅｽ~ﾂｴﾃ敕古榲堙打ｽﾃｭ窶｢ﾃ馨ﾂ≫?1?
+	if ( pNml->SubAGmGmaStopEmbTyp >= E_SUBA_GM_GMA_STOP_EMB_TYP_DEF )
+	{
+		// [窶ｹ^ﾅｽ窶藩廣ﾂｴﾃ敕古榲堙打ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ[窶凖｢ﾅｽ~ﾂｴﾃ敕古榲堙打ｽﾃｭ窶｢ﾃ馨
+		pNml->SubAGmGmaGijirenEmbTyp = (E_SUBA_GM_GMA_GIJIREN_EMB_TYP)(pNml->SubAGmGmaStopEmbTyp);
+	}
+	else
+	{
+		// [窶ｹ^ﾅｽ窶藩廣ﾂｴﾃ敕古榲堙打ｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ0
+		pNml->SubAGmGmaGijirenEmbTyp = 0;
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶ｹ^ﾅｽ窶披之窶ｹZﾂ静昶凖ｨﾅ津｣ﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GijAftSet(void)
+{
+	// [窶ｰﾃ･ﾋ弋ﾅ停｢窶禿堋ｻﾃ古槐ｽﾃｭ窶｢ﾃ馨ﾂ≫?1?
+	if (g_Base.Stg.Nml.SubAGmGroKenMeTyp >= E_SUBA_GM_GRO_KEN_ME_SUB_TYP_ZEN)
+	{
+		// ﾂｼﾃ?ﾃ伉ｵﾂ湘≫ｹﾅｽﾂ祥?窶板?
+		// ﾅ陳ｻﾂ催昶堙固ｽﾃ･ﾂｲﾃ催榲敕Юﾂｼﾃ?ﾃ伉ｵ窶堙ｰ窶牢窶堙?ﾂ湘≫ｹﾅｽ
+		SubA_PrjCmn_ClrSenario(&g_Base.Stg.Nml.Snr);
+		// ﾅ陳ｻﾂ催昶堙娯｢窶ｺﾂｲﾃ催榲敕Юﾂｼﾃ?ﾃ伉ｵ窶堙ｰ窶牢窶堙?ﾂ湘≫ｹﾅｽ
+		SubA_PrjCmn_ClrSenario(&g_Base.Stg.Nml.SubSnr);
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		GMA_ﾃ催淌?窶廃_1窶凖｢ﾅｽ~ﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaPenStop1(void)
+{
+	u32 result;
+	// 窶佚ｦ1窶凖｢ﾅｽ~窶堋ｪ窶吮?or窶ｰE?
+	if (g_Base.Sys.Stop[0] == E_SUBA_SYS_STOP_REEL_C ||
+		g_Base.Sys.Stop[0] == E_SUBA_SYS_STOP_REEL_R)
+	{
+		// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[窶凖環湘ｭ_ﾃ催淌?ﾂ湘≫ｹﾅｽ窶督ｳ窶堋ｵ]=0?
+		if (SubA_PrjCmn_GetAttrData(g_Base.Cmn.Pr.EventMain, D_EVT_NM_PENA_NON_DELETE) == 0)
+		{
+			// 窶ｰ窶ｰﾂ出窶堙ｰﾂ湘≫ｹﾅｽ
+			g_Base.Cmn.EnsClearFlag = TRUE;
+
+			// ﾋ?ﾃ按降窶堙固ｽﾃ･/窶｢窶ｺﾂｲﾃ催榲敕?窶堙ｰﾂ進窶堙溪堙遺堋｢(ﾅｽﾃ･/窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙ｰﾂ湘≫ｹﾅｽ)
+			SubA_PrjCmn_ClrEventAll();
+		}
+
+		// GMA_窶｢窶ｺ_ﾂ債ｶ窶ｰﾅｸ窶堋ｵﾂ絶楪渉ｧ窶｢\ﾅｽﾂｦ
+		result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_GMA_FUK_LEF_DSP);
+		// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+		SubA_PrjCmn_SetEventSubRange(result);
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		GMA_ﾂ色ﾂ債絶冦窶｢ﾃ焦?ﾂｷ_1窶凖｢ﾅｽ~ﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaColChgStop1(void)
+{
+	// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂ債絶冦ﾂｲﾃ催榲敕?窶｢ﾃ焦?ﾂｷ]=0?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_KOKU_EVE_TRANS) == 0)
+	{
+		// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+	}
+	else
+	{
+		// ﾅｽﾃ･窶ｰ窶ｰﾂ出窶堙ｰ[ﾂ債絶冦ﾂｲﾃ催榲敕?窶｢ﾃ焦?ﾂｷ]窶堙個ｲﾃ催榲敕?窶堙可鞘倪堋ｫﾅ?ﾂｷ窶堋ｦ
+		SubA_PrjCmn_SetEventMain(D_EVT_KOKU_EVE_TRANS);
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶ｹﾂ､窶凖垣levﾂ祥?窶板扁MA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaStaSceSet(void)
+{
+	//// [ﾂｻﾃ古榲古猟ｸﾃ枉 = 8ﾂ～15 ? 
+	//switch ( g_Base.Cmn.Pr.SubFlag )
+	//{
+	//case D_SUB_FLAG_J_CHE:
+	//case D_SUB_FLAG_K_CHE:
+	//case D_SUB_FLAG_SUI_1:
+	//case D_SUB_FLAG_SUI_2:
+	//case D_SUB_FLAG_JCHA1:
+	//case D_SUB_FLAG_JCHA2:
+	//case D_SUB_FLAG_KCHA1:
+	//case D_SUB_FLAG_KCHA2:
+	//	{
+	//		// 窶抂窶堙娯堋ｽ窶堙溪｢ﾃ岩｢ﾃ渉絶昶堙俄｢ﾃ崘?ﾃ?
+	//		u32 cnt = g_Base.Stg.Mn.GmStayLevel;
+	//		// [GMAﾅｽcGﾂ絶拵ow]ﾂ?ﾂｩ5
+	//		g_Base.Stg.Nml.SubAGmGmaZanG.Now = 5;
+	//		// [窶ｰﾃ･ﾋ弋ﾃ鏑v_now]ﾂ?ﾂｩﾂ【窶佚伉催扁Mﾃ堙催榲卍】
+	//		g_Base.Stg.Nml.SubAGmGmaLv.Now = g_Base.Stg.Mn.GmStayLevel;
+	//	}
+	//	break;
+	//// 窶堋ｻ窶堙娯伉ｼ
+	//case D_SUB_FLAG_OTHER:
+	//case D_SUB_FLAG_REP12:
+	//case D_SUB_FLAG_REP_3:
+	//case D_SUB_FLAG_REP_4:
+	//case D_SUB_FLAG_REP_5:
+	//case D_SUB_FLAG_T_BEL:
+	//case D_SUB_FLAG_O_BEL:
+	//case D_SUB_FLAG_C_BEL:
+	//	// [GMAﾅｽcGﾂ絶拵ow]ﾂ?ﾂｩﾂ【窶敕?窶廃窶之窶ｹZﾂ絶截ﾂｶﾂｳﾃ敕ﾂ】+ 1
+	//	g_Base.Stg.Nml.SubAGmGmaZanG.Now = g_Base.Stg.Mn.CmnB_PlayCount + 1;
+	//	// [窶ｰﾃ･ﾋ弋ﾃ鏑v_now]ﾂ?ﾂｩﾂ【窶佚伉催扁Mﾃ堙催榲卍】+1
+	//	g_Base.Stg.Nml.SubAGmGmaLv.Now = g_Base.Stg.Mn.GmStayLevel + 1;
+	//	break;
+	//default:
+	//	ASSERT(FALSE);
+	//	break;
+	//}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶｢窶ｺ窶ｰ窶ｰﾂ出ﾂ更ﾂ新ﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaSubUpd(void)
+{
+	// [GMAﾂｱﾂｲﾃε鯛彎窶倪氾古猟ｸﾃ枉=0?
+	if (g_Base.Stg.Nml.SubAGmGmaItmTraFlg == FALSE)
+	{
+		// 窶｢窶ｺﾂｲﾃ催榲敕?窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMA_ﾂｱﾂｲﾃε鯛彎窶倪披敖ｭﾂ青ｶ]=1?
+		if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_GMA_ITEM, TRUE))
+		{
+			// [GMAﾂｱﾂｲﾃε鯛彎窶倪氾古猟ｸﾃ枉ﾂ?ﾂｩ1
+			g_Base.Stg.Nml.SubAGmGmaItmTraFlg = TRUE;
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃ?ﾃ堙甘楪ｰ_GMA
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaAssLev(void)
+{
+	// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMA_ﾃ陳ｲﾃ?
+	SubA_PrjStgGm_GmaAssLevMain();
+	// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMA_ﾂｻﾃ古?
+	SubA_PrjStgGm_GmaAssLevSub();
+	// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMA_ﾂｻﾃ古樞｢窶ｺ
+	SubA_PrjStgGm_GmaAssLevSubFuk();
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMA_ﾃ陳ｲﾃ?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaAssLevMain(void)
+{
+	// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】=GMB?
+	if ( g_Base.Stg.Mn.State.Next == D_DDM_STATE_GMB )
+	{
+		// ﾂ【ﾂ債絶冦GMﾃ堙催榲卍】=3?
+		if ( g_Base.Stg.Mn.GmKokLevel == 3 )
+		{
+			// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMAﾂ債絶冦]ﾂ≫塲恥窶伉ｱ?
+			if ( SubA_PrjCmn_CheckEvtAttrMain( D_EVT_GMA_KOKU, D_EVT_GMA_KOKU_ATTR_KEIZOKU ) == FALSE )
+			{
+				ASSERT(FALSE);
+			}
+		}
+		else
+		{
+			// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMAﾂ債絶冦]ﾂ≫壺敖ｭ窶弩?
+			if ( SubA_PrjCmn_CheckEvtAttrMain( D_EVT_GMA_KOKU, D_EVT_GMA_KOKU_ATTR_HATTEN ) == FALSE )
+			{
+				ASSERT(FALSE);
+			}
+		
+		}
+	}
+	//ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】=GMA?
+	if (g_Base.Stg.Mn.State.Next == D_DDM_STATE_GMA)
+	{
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMAﾂ債絶冦]=窶敖ｭ窶弩?
+		if (SubA_PrjCmn_CheckEvtAttrMain(D_EVT_GMA_KOKU, D_EVT_GMA_KOKU_ATTR_HATTEN) == TRUE)
+		{
+			ASSERT(FALSE);
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMA_ﾂｻﾃ古?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaAssLevSub(void)
+{
+	// 窶彭窶冉ﾅｽﾅｾ窶堙坂督ｳ窶堋ｵ
+	if (g_Base.Sys.PowerOn.Now == FALSE)
+	{
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMAﾂ債絶冦]=ﾅ恥窶伉ｱ?
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMA_KOKU) == D_EVT_GMA_KOKU_ATTR_KEIZOKU)
+		{
+			// ﾂｱﾂｻﾂｰﾃЮ窶ｹﾂ､窶凖看恥窶伉ｱ
+			SubA_PrjStgGm_GmaAssLevSubComNex();
+		}
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMAﾂ債絶冦]=窶敖ｭ窶弩?
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMA_KOKU) == D_EVT_GMA_KOKU_ATTR_HATTEN)
+		{
+			// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】ﾂ≫哦MB?
+			if (g_Base.Stg.Mn.State.Next != D_DDM_STATE_GMB)
+			{
+				ASSERT(FALSE);
+			}
+		}
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMAﾂ債絶冦]=ﾅ?m窶凖ｨ?
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMA_KOKU) == D_EVT_GMA_KOKU_ATTR_KAKUTEI)
+		{
+			// ﾂ【GB窶懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ楪】=0ﾅ?ﾅｽ窶堙つ【ﾂ焦ｸ窶藩愿古猟ｸﾃ楪】=0?
+			if (g_Base.Stg.Mn.GbHitFlg == 0 && g_Base.Stg.Mn.WinFlg == 0)
+			{
+				// ﾂ【ﾂ債絶冦GMﾃ堙催榲卍】=3?
+				if (g_Base.Stg.Mn.GmKokLevel == 3)
+				{
+					// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+				}
+				else
+				{
+					ASSERT(FALSE);
+				}
+			}
+		}
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GM窶ｹ^ﾅｽ窶藩廣]=1?
+		if (SubA_PrjCmn_CheckEvtAttrMain(D_EVT_GM_GIJI, 1))
+		{
+			// 窶楼窶之窶ｹZ_ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMAﾂ債絶冦]ﾂ≫塲恥窶伉ｱ?
+			if (GET_EVT_TABLE_ATTR(g_Base.Stg.Nml.SubANmlEventMainOld, D_EVT_GMA_KOKU) != D_EVT_GMA_KOKU_ATTR_KEIZOKU)
+			{
+				ASSERT(FALSE);
+			}
+		}
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｴﾃ敕古榲堙曽=ﾂｴﾃ敕古榲堙??
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMA_EMBLEM) == D_EVT_GMA_EMBLEM_ATTR_ENBUREMU)
+		{
+			// ﾂｱﾂｻﾂｰﾃЮ窶ｹﾂ､窶凖看恥窶伉ｱ
+			SubA_PrjStgGm_GmaAssLevSubComNex();
+		}
+
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[ﾂｴﾃ敕古榲堙曽=窶ｹtﾂｴﾃ敕古榲堙??
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMA_EMBLEM) == D_EVT_GMA_EMBLEM_ATTR_GYAKUENBUREMU)
+		{
+			// ﾂ【GB窶懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ楪】=0ﾅ?ﾅｽ窶堙つ【ﾂ焦ｸ窶藩愿古猟ｸﾃ楪】=0?
+			if (g_Base.Stg.Mn.GbHitFlg == 0 && g_Base.Stg.Mn.WinFlg == 0)
+			{
+				ASSERT(FALSE);
+			}
+			else
+			{
+				// ﾂｱﾂｻﾂｰﾃЮ窶ｹﾂ､窶凖看恥窶伉ｱ
+				SubA_PrjStgGm_GmaAssLevSubComNex();
+			}
+		}
+		// [GMAﾋ?ﾃ｡ﾋ彗ﾅ?ﾂｴﾅｽﾃｭ窶｢ﾃ馨ﾂ≫?1?
+		if (g_Base.Stg.Nml.SubAGmGmaIwaTyp >= E_SUBA_GM_GMA_IWA_TYP_ENS_KND)
+		{
+			//ﾂ【ﾂ債絶冦GMﾃ堙催榲卍】+1-[GMA窶ｹ[ﾅｽ窶氾堙催榲冩ld]=0
+			if (SAFE_ADD(g_Base.Stg.Mn.GmKokLevel, 1, 0) == g_Base.Stg.Nml.SubAGmGmaGijiLv.Old)
+			{
+				ASSERT(FALSE);
+			}
+
+		}
+		// [ﾂｽﾃδｰﾂｼﾃ枉=2(窶ｰﾃ･ﾋ弋ﾅ停｢)?
+		if (g_Base.Stg.Nml.SubAGmStgNow == E_SUBA_NML_GM_STG_GRO)
+		{
+			//ﾂ【ﾂ債絶冦GMﾃ堙催榲卍】ﾂ≫ｦ1?
+			if (g_Base.Stg.Mn.GmKokLevel <= 1)
+			{
+				ASSERT(FALSE);
+			}
+		}
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMA_ﾅ恥窶伉ｱ窶抻ﾅ津ｺ]=ﾅ恥窶伉ｱ窶抻ﾅ津ｺ?
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMA_KEI_KAKU) == D_EVT_GMA_KEI_KAKU_ATTR_KEIZOKUNOUKOU)
+		{
+			//ﾂ【ﾂ債絶冦GMﾃ堙催榲卍】+1-[GMA窶ｹ[ﾅｽ窶氾堙催榲冩ld]=0
+			if (SAFE_ADD(g_Base.Stg.Mn.GmKokLevel, 1, 0) == g_Base.Stg.Nml.SubAGmGmaGijiLv.Old)
+			{
+				ASSERT(FALSE);
+			}
+		}
+
+		// [窶ｹ^ﾅｽ窶藩廣ﾂｴﾃ敕古榲堙打ｽﾃｭ窶｢ﾃ馨=2?
+		if (g_Base.Stg.Nml.SubAGmGmaGijirenEmbTyp == E_SUBA_GM_GMA_GIJIREN_EMB_TYP_REV)
+		{
+			// ﾂ【GB窶懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ楪】=0ﾅ?ﾅｽ窶堙つ【ﾂ焦ｸ窶藩愿古猟ｸﾃ楪】=0?
+			if (g_Base.Stg.Mn.GbHitFlg == 0 && g_Base.Stg.Mn.WinFlg == 0)
+			{
+				ASSERT(FALSE);
+			}
+		}
+
+		// [窶凖｢ﾅｽ~ﾂｴﾃ敕古榲堙打ｽﾃｭ窶｢ﾃ馨=2?
+		if (g_Base.Stg.Nml.SubAGmGmaStopEmbTyp == E_SUBA_GM_GMA_STOP_EMB_TYP_REV)
+		{
+			// ﾂ【GB窶懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ楪】=0ﾅ?ﾅｽ窶堙つ【ﾂ焦ｸ窶藩愿古猟ｸﾃ楪】=0?
+			if (g_Base.Stg.Mn.GbHitFlg == 0 && g_Base.Stg.Mn.WinFlg == 0)
+			{
+				ASSERT(FALSE);
+			}
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮ窶ｹﾂ､窶凖看恥窶伉ｱ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaAssLevSubComNex(void)
+{
+	// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】=GMB?
+	if (g_Base.Stg.Mn.State.Next == D_DDM_STATE_GMB)
+	{
+		// ﾂ【窶敕?窶廃窶之窶ｹZﾂ絶敖ｶﾂｳﾃ敕Aﾂ】ﾂ≫?1?
+		if (g_Base.Stg.Mn.CmnA_PlayCount != 1)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	else
+	{
+		// ﾂ【窶敕?窶廃窶之窶ｹZﾂ絶敖ｶﾂｳﾃ敕Bﾂ】ﾂ≫ｦ1?
+		if (g_Base.Stg.Mn.CmnB_PlayCount <= 1)
+		{
+			ASSERT(FALSE);
+		}
+		else
+		{
+			// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】ﾂ≫哦MA?
+			if (g_Base.Stg.Mn.State.Next != D_DDM_STATE_GMA)
+			{
+				ASSERT(FALSE);
+			}
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMA_ﾂｻﾃ古樞｢窶ｺ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaAssLevSubFuk(void)
+{
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMA_ﾅ恥窶伉ｱ窶抻ﾅ津ｺ]=ﾅ恥窶伉ｱ窶抻ﾅ津ｺ?
+	if(SubA_PrjCmn_CheckEvtAttrSub(D_EVT_GMA_KEI_KAKU, D_EVT_GMA_KEI_KAKU_ATTR_KEIZOKUNOUKOU))
+	{
+		//ﾂ【ﾂ債絶冦GMﾃ堙催榲卍】+1-[GMA窶ｹ[ﾅｽ窶氾堙催榲冩ld]=0
+		if (SAFE_ADD(g_Base.Stg.Mn.GmKokLevel, 1, 0) == g_Base.Stg.Nml.SubAGmGmaGijiLv.Old)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMAﾂ債絶冦]=ﾅ?m窶凖ｨ?
+	if( SubA_PrjCmn_CheckEvtAttrSub( D_EVT_GMA_KOKU, D_EVT_GMA_KOKU_ATTR_KAKUTEI ) )
+	{
+		// ﾂ【GB窶懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ楪】=0ﾅ?ﾅｽ窶堙つ【ﾂ焦ｸ窶藩愿古猟ｸﾃ楪】=0?
+		if (g_Base.Stg.Mn.GbHitFlg == 0 && g_Base.Stg.Mn.WinFlg == 0)
+		{
+			// ﾂ【ﾂ債絶冦GMﾃ堙催榲卍】=3?
+			if (g_Base.Stg.Mn.GmKokLevel == 3)
+			{
+				// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+			}
+			else
+			{
+				ASSERT(FALSE);
+			}
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶｢ﾃ渉絶敖更ﾂ新ﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmaVarUpd(void)
+{
+	// [GMAﾋ?ﾃ｡ﾋ彗ﾅ?ﾂｴﾅｽﾃｭ窶｢ﾃ馨=5?
+	if(g_Base.Stg.Nml.SubAGmGmaIwaTyp == E_SUBA_GM_GMA_IWA_TYP_MDO_LMP)
+	{
+		// [窶凪壺慊ｱ窶ｰﾃ散Iﾃ療敕古淒ｽﾃｭ窶｢ﾃ馨+=1
+		ADD_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubAGmGmaMadUiLmpTyp, 1, D_SUBA_GMA_MAD_UI_LMP_TYP_MAX);
+	}
+}
+
+#else
+// 窶ｹﾂ､窶凖垣levﾂ祥?窶板扁MA
+void SubA_PrjStgGm_ComLevGma(void) {}
+// GMAﾅ?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾂ祥?窶板?
+void SubA_PrjStgGm_GmaStaIni(void) {}
+// 窶堋ｻ窶堙娯伉ｼﾂ祥?窶板戡_GMA
+void SubA_PrjStgGm_GmaOthA(void) {}
+// ﾅｽ窶凪楼ﾂ祥?窶板拈GMA
+void SubA_PrjStgGm_GmaPre(void) {}
+// ﾂｽﾃδｰﾂｼﾃ楪祥?窶板拈GMA
+void SubA_PrjStgGm_GmaStg(void) {}
+// ﾅｽﾃ･窶ｰ窶ｰﾂ出ﾂ祥?窶板拈GMA
+void SubA_PrjStgGm_GmaMain(void) {}
+// 窶｢窶ｺ窶ｰ窶ｰﾂ出ﾂ祥?窶板拈GMA
+void SubA_PrjStgGm_GmaDep(void) {}
+// 窶堋ｻ窶堙娯伉ｼﾂ祥?窶板截_GMA
+void SubA_PrjStgGm_GmaOthB(void) {}
+// ﾂｱﾂｻﾂｰﾃ?ﾃ堙甘楪ｰ_GMA
+void SubA_PrjStgGm_GmaAssLev(void) {}
+// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMA_ﾃ陳ｲﾃ?
+void SubA_PrjStgGm_GmaAssLevMain(void) {}
+// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMA_ﾂｻﾃ古?
+void SubA_PrjStgGm_GmaAssLevSub(void) {}
+// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMA_ﾂｻﾃ古樞｢窶ｺ
+void SubA_PrjStgGm_GmaAssLevSubFuk(void) {}
+// ﾂｱﾂｻﾂｰﾃЮ窶ｹﾂ､窶凖看恥窶伉ｱ
+void SubA_PrjStgGm_GmaAssLevSubComNex(void) {}
+// 窶｢ﾃ渉絶敖更ﾂ新ﾂ祥?窶板?
+void SubA_PrjStgGm_GmaVarUpd(void) {}
+// Lvﾅ?窶樞堙ｨﾂ最ｾ窶堙敖祥?窶板?
+void SubA_PrjStgGm_LvWri(void) {}
+// 窶ｹ^ﾅｽ窶披之窶ｹZﾂ静昶凖ｨﾅ津｣ﾂ祥?窶板?
+void SubA_PrjStgGm_GijAftSet(void) {}
+// GMA_ﾂ色ﾂ債絶冦窶｢ﾃ焦?ﾂｷ_1窶凖｢ﾅｽ~ﾂ祥?窶板?
+void SubA_PrjStgGm_GmaColChgStop1(void) {}
+// 窶｢窶ｺ窶ｰ窶ｰﾂ出ﾂ更ﾂ新ﾂ祥?窶板?
+void SubA_PrjStgGm_GmaSubUpd(void) {}
+// GMA_ﾃ催淌?窶廃_1窶凖｢ﾅｽ~ﾂ祥?窶板?
+void SubA_PrjStgGm_GmaPenStop1(void) {}
+#endif
+
+#if defined(_D_PROC_GMB_ACTIVE_ )
+//--------------------------------------------------------------------------
+//!	@brief		窶ｹﾂ､窶凖垣levﾂ祥?窶板扁MB
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_ComLevGmb(void)
+{
+	// 窶楼窶之窶ｹZ_ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=GMA?
+	if (g_Base.Stg.Mn.State.Old == D_DDM_STATE_GMA)
+	{
+		SubA_PrjStgGm_GmbStaIni();
+	}
+}
+//--------------------------------------------------------------------------
+//!	@brief		GMBﾅ?Jﾅｽnﾅｽﾅｾﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmbStaIni(void)
+{
+	// ﾅ弛窶ｰﾃ溪之窶ｹZﾂ絶?
+	g_Base.Stg.Nml.SubAGmPrgG = 0;
+	// // 窶ｰﾃ･ﾋ弋ﾃ鏑v
+	// g_Base.Stg.Nml.SubAGmLv = 0;
+	// // ﾅｽﾅｸ窶ｰﾃ･ﾋ弋ﾃ鏑v
+	// g_Base.Stg.Nml.SubAGmNexLv = 0;
+	// // 窶敖ｭ窶弩ﾂ債絶冦ﾃ古猟ｸﾃ?
+	// g_Base.Stg.Nml.SubAGmHatKokFlg = FALSE;
+	// // Lvﾂ債絶冦ﾃ古猟ｸﾃ?
+	// g_Base.Stg.Nml.SubAGmLvKokFlg = FALSE;
+	// // GMAﾅｽcGﾂ絶?
+	// g_Base.Stg.Nml.SubAGmGmaZanG = 0;
+	// GMBﾅｽcGﾂ絶?
+	g_Base.Stg.Nml.SubAGmGmbZanG = 0;
+	// GMA窶｢窶ｺﾂｶﾂｳﾃ敕
+	g_Base.Stg.Nml.SubAGmGmaSub = 0;
+	// // ﾆ湛ﾆ弾ﾂーﾆ淡
+	// g_Base.Stg.Nml.SubAGmStgNow = E_SUBA_NML_STG_NON;
+	// // ﾅｽﾅｸﾆ湛ﾆ弾ﾂーﾆ淡
+	// g_Base.Stg.Nml.SubAGmStgNex = E_SUBA_NML_STG_NON;
+	// // ﾆ湛ﾆ弾ﾆ蛋ﾆ巽ﾆ停懌能窶禿ｱ
+	// g_Base.Stg.Nml.SubAGmStgChgYoy = E_SUBA_NML_STG_NON;
+	// 窶ｰﾃ･ﾋ弋ﾃ点窶ｰ窶ｰﾂ出ﾂｶﾃδｺﾃ榲?
+	g_Base.Stg.Nml.SubAGmEnCat = 0;
+	// // 窶楼窶吮ｺﾅｽﾃｭ窶｢ﾃ?
+	// g_Base.Stg.Nml.SubAGmZenTyp = E_SUBA_GM_ZEN_TYP_NON;
+	// ﾅ津｣窶敖ｼﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmAtoTyp = E_SUBA_GM_ATO_TYP_NON;
+	// // ﾅ津｣窶敖ｼﾃ偲猟ｰﾅｽﾃｭ窶｢ﾃ?
+	// g_Base.Stg.Nml.SubAGmAtoHorTyp = E_SUBA_GM_ATO_HOR_TYP_NON;
+	// // 窶ｰﾃ･ﾋ弋ﾅ停｢窶禿堋ｻﾃ古槐ｽﾃｭ窶｢ﾃ?
+	// g_Base.Stg.Nml.SubAGmGroKenMeTyp = E_SUBA_GM_GRO_KEN_ME_SUB_TYP_NON;
+	// GMB窶｢ﾅ毒?ﾋ?ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmbReTyp = E_SUBA_GM_GMB_RE_TYP_NON;
+	// 窶楼窶之窶ｹZ_GMB窶｢ﾅ毒?ﾋ?ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmbReTypPre = E_SUBA_GM_GMB_RE_TYP_NON;
+	// 窶ｰ窶ｰﾂ出1G窶禿?
+	g_Base.Stg.Nml.SubAGmGmaSce1GTyp = E_SUBA_GM_GMA_SCE_TYP_NON;
+	// 窶ｰ窶ｰﾂ出2G窶禿?
+	g_Base.Stg.Nml.SubAGmGmaSce2GTyp = E_SUBA_GM_GMA_SCE_TYP_NON;
+	// 窶ｰ窶ｰﾂ出3G窶禿?
+	g_Base.Stg.Nml.SubAGmGmaSce3GTyp = E_SUBA_GM_GMA_SCE_TYP_NON;
+	// 窶ｰ窶ｰﾂ出4G窶禿?
+	g_Base.Stg.Nml.SubAGmGmaSce4GTyp = E_SUBA_GM_GMA_SCE_TYP_NON;
+	// 窶懌毒?Yﾂｼﾃ?ﾃ伉ｵ窶ｰ窶ｰﾂ出
+	g_Base.Stg.Nml.SubAGmGmaSceTouGTyp = E_SUBA_GM_GMA_SCE_TYP_NON;
+	// GMAﾋ?ﾃ｡ﾋ彗ﾅ?ﾂｴﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmGmaIwaFlg = 0;
+	// GMAﾋ?ﾃ｡ﾋ彗ﾅ?ﾂｴﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaIwaTyp = E_SUBA_GM_GMA_IWA_TYP_____NON;
+	// // UI窶廃ﾃ堙催榲卩ｽﾃｭ窶｢ﾃ?
+	// g_Base.Stg.Nml.SubAGmUiLvTyp = E_SUBA_GM_UI_LV_TYP_NON;
+	// GMAﾂｱﾂｲﾃε鯛彎窶倪氾古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmGmaItmTraFlg = FALSE;
+	// // 窶凪壺慊ｱ窶ｰﾃ散Iﾃ療敕古淒ｽﾃｭ窶｢ﾃ?
+	// g_Base.Stg.Nml.SubAGmGmaMadUiLmpTyp = 0;
+	// GMB_VFXﾋ廣窶佚?ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmbVFXRenTyp = 0;
+	// GMA_GGGﾅｽg窶廃ﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmGmaGGGUseFlg = FALSE;
+	// GMA_窶｢窶ｺﾂｲﾃ催榲敕?ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaSubEventTyp = FALSE;
+	// GMAﾂｼﾃ?ﾃ伉ｵ窶伉ｮﾂ青ｫ
+	g_Base.Stg.Nml.SubAGmGmaAttr = E_SUBA_GM_GMA_ATTR_NON;
+	// 窶ｰﾃ･ﾋ弋ﾃ鏑v(Old/Now)
+//	g_Base.Stg.Nml.SubAGmGmaLv.Old = SUBA_GM_GMA_MODE_LEVEL_NON;
+//	g_Base.Stg.Nml.SubAGmGmaLv.Now = SUBA_GM_GMA_MODE_LEVEL_NON;
+	// GMA窶ｹ^ﾅｽ窶氾堙催榲?(Old/Now)
+//	g_Base.Stg.Nml.SubAGmGmaGijiLv.Old = SUBA_GM_GMA_GIJIREN_NON;
+//	g_Base.Stg.Nml.SubAGmGmaGijiLv.Now = SUBA_GM_GMA_GIJIREN_LEVEL_01;
+	// GMAﾂｴﾃ敕古榲堙鯛｢\ﾅｽﾂｦﾃ堙催榲?(Old/Now)
+	g_Base.Stg.Nml.SubAGmGmaEmbLv.Old = SUBA_GM_GMA_EMBLEM_NON;
+	g_Base.Stg.Nml.SubAGmGmaEmbLv.Now = SUBA_GM_GMA_EMBLEM_NON;
+	// GMA窶ｹ[ﾅｽ窶藩廣窶敖ｭﾂ青ｶﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmGmaGijiRenFlag = FALSE;
+	// ﾃ陳ｲﾃ敖渉ｸﾅ?iﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmGmaRankUpFlag = FALSE;
+	// ﾂｾﾂｯﾃ?窶突?窶ｹ^ﾅｽ窶藩廣ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaGijirenSetTyp = E_SUBA_GM_GMA_GIJIREN_SET_TYP_EMBLEM;
+	// GMAﾋ?ﾃ｡ﾋ彗ﾅ?ﾂｴﾂ湘ｳ窶佚?
+	g_Base.Stg.Nml.SubAGmGmaImaState = E_SUBA_GM_GMA_IWA_STATE_NON;
+	// 窶凖｢ﾅｽ~ﾂｴﾃ敕古榲堙打ｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaStopEmbTyp = E_SUBA_GM_GMA_STOP_EMB_TYP_NON;
+	// 窶ｹ^ﾅｽ窶藩廣窶ｰﾃ･ﾋ弋ﾃ古?
+//	g_Base.Stg.Nml.SubAGmGmaGijiGFlash = E_SUBA_GM_GMA_GIGI_GFLASH_NON;
+	// 窶ｹ^ﾅｽ窶藩廣ﾂｴﾃ敕古榲堙打ｽﾃｭ窶｢ﾃ?
+//	g_Base.Stg.Nml.SubAGmGmaGijirenEmbTyp = E_SUBA_GM_GMA_GIJIREN_EMB_TYP_NON;
+	// GMA窶楼窶吮ｺﾃ甘淌ﾂｰﾃ?
+	g_Base.Stg.Nml.SubAGmGmaZenPtn = 0;
+	// GMAﾂ債絶冦ﾅｽﾃｭ窶｢ﾃ?
+	g_Base.Stg.Nml.SubAGmGmaKokuType = 0;
+	// GMAﾅ?Jﾅｽnﾅｽﾅｾﾃ古猟ｸﾃ?
+	g_Base.Stg.Nml.SubAGmGmaStartFlag = 0;
+
+	// 窶凖環湘ｭﾂｼﾃ?ﾃ伉ｵ窶堙?ﾂ鞘ｰﾅ?ﾃｺ窶ｰﾂｻ窶堋ｵ窶堙?窶堋ｨ窶堋ｭ
+	SubA_PrjCmn_ClrSenario(&g_Base.Stg.Nml.Snr);
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶堋ｻ窶堙娯伉ｼﾂ祥?窶板戡_GMB
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmbOthA(void)
+{
+	// ﾅｽ窶凪楼ﾂ祥?窶板拈GMB
+	SubA_PrjStgGm_GmbPre();
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾅｽ窶凪楼ﾂ祥?窶板拈GMB
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmbPre(void)
+{
+	u32 result = 0;
+	u32 tmp = 0;
+
+	//ﾂ【ﾂ債絶冦GMﾃ堙催榲卍】=3?
+	if (g_Base.Stg.Mn.GmKokLevel == D_GM_KOK_LV3)
+	{
+		// [窶ｹ^ﾅｽ窶?2窶ｰﾃ･ﾋ弋ﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+		if (g_Base.Stg.Nml.SubAGmGmaGiji2GaroType == 0)
+		{
+			// [窶ｹ^ﾅｽ窶?2窶ｰﾃ･ﾋ弋ﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ1
+			g_Base.Stg.Nml.SubAGmGmaGiji2GaroType = 1;
+		}
+	}
+
+	// [ﾅ津｣窶敖ｼﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+	if (g_Base.Stg.Nml.SubAGmAtoTyp == E_SUBA_GM_ATO_TYP_NON)
+	{
+		// [GMBﾅｽcGﾂ絶拆ﾂ?ﾂｩﾂ【窶敕?窶廃窶之窶ｹZﾂ絶戡ﾂｶﾂｳﾃ敕ﾂ】+1
+		tmp = g_Base.Stg.Mn.CmnA_PlayCount;
+		ADD_LIMITCHK_ERR_S(tmp, 1, D_SUBA_GMB_G_MAX);
+		g_Base.Stg.Nml.SubAGmGmbZanG = tmp;
+		// ﾅ津｣窶敖ｼﾅｽﾃｭ窶｢ﾃ岩卩?窶堋ｹ窶堙ｱ
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMB_ATO_TYP);
+		// ﾅ停ｹ窶ｰﾃ?=0?
+		if (result == 0)
+		{
+			// 窶卩?窶堋ｹ窶堙ｱ窶冤ﾋ?ﾃ卍湘ｭ
+			SUBA_ASSERT(FALSE);
+		}
+		else
+		{
+			// [ﾅ津｣窶敖ｼﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+			g_Base.Stg.Nml.SubAGmAtoTyp = (E_SUBA_GM_ATO_TYP)result;
+			// [ﾅ津｣窶敖ｼﾅｽﾃｭ窶｢ﾃ馨= 3 or 4 or 5?
+			if (g_Base.Stg.Nml.SubAGmAtoTyp == E_SUBA_GM_ATO_TYP_GSP ||
+				g_Base.Stg.Nml.SubAGmAtoTyp == E_SUBA_GM_ATO_TYP_JMG ||
+				g_Base.Stg.Nml.SubAGmAtoTyp == E_SUBA_GM_ATO_TYP_CMG)
+			{
+				// [ﾅ津｣窶敖ｼﾃ偲猟ｰﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+				if (g_Base.Stg.Nml.SubAGmAtoHorTyp == E_SUBA_GM_ATO_HOR_TYP_NON)
+				{
+					// ﾅ津｣窶敖ｼﾃ偲猟ｰﾅｽﾃｭ窶｢ﾃ岩卩?窶堋ｹ窶堙ｱ
+					result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMB_HOR_TYP);
+					// [ﾅ津｣窶敖ｼﾃ偲猟ｰﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+					g_Base.Stg.Nml.SubAGmAtoHorTyp = (E_SUBA_GM_ATO_HOR_TYP)result;
+				}
+			}
+			else
+			{
+				// [ﾅ津｣窶敖ｼﾃ偲猟ｰﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+				if (g_Base.Stg.Nml.SubAGmAtoHorTyp == E_SUBA_GM_ATO_HOR_TYP_NON)
+				{
+					// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+				}
+				// ﾂｶﾃ榲婀P窶堙可行窶堋ｩ窶堙遺堋｢窶堙娯堙可、ﾅ津｣窶敖ｼﾃ偲猟ｰﾅｽﾃｭ窶｢ﾃ岩板ｧ窶堙≫堙?窶堙ｩ窶堙娯堙哉但ﾆ谷ﾆ停?
+				else
+				{
+					// ﾂ【ﾂ債絶冦GMﾃ堙催榲卍】 = 3 ?
+					if (g_Base.Stg.Mn.GmKokLevel == 3)
+					{
+						// [ﾅ津｣窶敖ｼﾃ偲猟ｰﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ
+						g_Base.Stg.Nml.SubAGmAtoHorTyp = E_SUBA_GM_ATO_HOR_TYP_NON;
+					}
+					else
+					{
+						SUBA_ASSERT(FALSE);
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		// [GMBﾅｽcGﾂ絶拆>0?
+		if (g_Base.Stg.Nml.SubAGmGmbZanG > 0)
+		{
+			// [GMBﾅｽcGﾂ絶拆-1
+			SUB_LIMITCHK_ERR_S(g_Base.Stg.Nml.SubAGmGmbZanG, 1, 0);
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾅｽﾃ･窶ｰ窶ｰﾂ出ﾂ祥?窶板拈GMB
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmbMain(void)
+{
+	u32 result = 0;
+	// ﾂｼﾃ?ﾃ伉ｵ窶吮?窶堙?窶堙坂堙遺堋｢ﾂ？
+	if (SubA_PrjCmn_IsSenarioRun(&g_Base.Stg.Nml.Snr) == FALSE)
+	{
+		// ﾂｼﾃ?ﾃ伉ｵ窶卩?窶堋ｹ窶堙ｱ_GMB
+		SubA_PrjCmn_SetSenario(D_LOT_S_GMB_SCE_LOT, &g_Base.Stg.Nml.Snr);
+	}
+	// ﾆ歎ﾆ段ﾆ椎?ﾆ棚窶堋ｩ窶堙ｧﾆ辰ﾆ遅ﾆ停愴暖窶卩?窶堋ｹ窶堙ｱ
+	result = SubA_PrjCmn_GetEvent(&g_Base.Stg.Nml.Snr);
+	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰﾅｽﾃ･ﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	SubA_PrjCmn_SetEventMain(result);
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶｢窶ｺ窶ｰ窶ｰﾂ出ﾂ祥?窶板拈GMB
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmbDep(void)
+{
+	u32 result = 0;
+
+	// 窶｢窶ｺ_窶禿ｰ窶｢ﾃｱ窶冦_GMB
+	result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_GMB_FUK_EN_YAK_HCH);
+	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	SubA_PrjCmn_SetEventSubL(E_EVENT_SUB_NUMBER_CHANCE, result);
+	// [窶｢窶ｺ_窶禿ｰ窶｢ﾃｱ窶冦]ﾂ?ﾂｩﾅ停ｹ窶ｰﾃ?
+	g_Base.Stg.Nml.SubANmlYakHch = result;
+	// [GMB窶｢ﾅ毒?ﾋ?ﾅｽﾃｭ窶｢ﾃ馨=2?
+	if (g_Base.Stg.Nml.SubAGmGmbReTyp == E_SUBA_GM_GMB_RE_TYP_NML)
+	{
+		// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕?窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[窶｢窶ｺ窶ｹﾃ滅ｽ~]=1?
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_HUKU_KIN) == 1)
+		{
+			// 窶堙遺堙俄堙?窶堋ｵ窶堙遺堋｢
+		}
+		else
+		{
+			// 窶｢窶ｺ_GMB窶｢ﾅ毒?ﾋ?窶｢窶ｺ
+			result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_GMB_FUK_FKT_FUK);
+			// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+			SubA_PrjCmn_SetEventSubL(E_EVENT_SUB_NUMBER_SUB_A, result);
+		}
+	}
+	else
+	{
+		// [ﾅ津｣窶敖ｼﾅｽﾃｭ窶｢ﾃ馨=6(Lv7)?
+		if (g_Base.Stg.Nml.SubAGmAtoTyp == E_SUBA_GM_ATO_TYP_LV7)
+		{
+			// 窶｢窶ｺ_GMB_Lv7窶｢窶ｺ
+			result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_GMB_SUB_LV7SUB);
+			// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+			SubA_PrjCmn_SetEventSubL(E_EVENT_SUB_NUMBER_SUB_A, result);
+		}
+		else
+		{
+			// E)GMB_窶｢窶ｺ_窶ｰﾃ･ﾋ弋ﾃ督ｰﾃ?ﾃ樞廃
+			result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_GMB_SUB_GM);
+			// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+			SubA_PrjCmn_SetEventSubL(E_EVENT_SUB_NUMBER_SUB_A, result);
+		}
+	}
+	// GMB_GAROﾃ療敕古淞債絶冦窶｢窶ｺ窶堙個ｼﾃ?ﾃ伉ｵ窶吮??
+	if ( SubA_PrjCmn_IsSenarioRun(&g_Base.Stg.Nml.SubGlSnr) == FALSE )
+	{
+		// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕?窶堙個ｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMB_窶ｰﾃ･ﾋ弋SP窶慊ｱ窶愿ｼ]=1?
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMB_GSP_DOUNYU) == 1)
+		{
+			// 窶｢窶ｺﾂｼﾃ?ﾃ伉ｵ_GMB_GAROﾃ療敕古溪｢窶ｺ
+			SubA_PrjCmn_SetSenario(D_LOT_S_GMB_SUB_GAROLMP_GMBSUB, &g_Base.Stg.Nml.SubGlSnr);
+		}
+	}
+	// GMB_GAROﾃ療敕古淞債絶冦窶｢窶ｺ窶堙個ｼﾃ?ﾃ伉ｵ窶吮??
+	if (SubA_PrjCmn_IsSenarioRun(&g_Base.Stg.Nml.SubGlSnr) == TRUE)
+	{
+		// ﾆ歎ﾆ段ﾆ椎?ﾆ棚窶堋ｩ窶堙ｧ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶卩?窶堋ｹ窶堙ｱ
+		result = SubA_PrjCmn_GetEvent(&g_Base.Stg.Nml.SubGlSnr);
+		// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+		SubA_PrjCmn_SetEventSubL(E_EVENT_SUB_NUMBER_SUB_C, result);
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		窶堋ｻ窶堙娯伉ｼﾂ祥?窶板截_GMB
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmbOthB(void)
+{
+	u32 result = 0;
+
+	// 窶楼窶之窶ｹZ_[GMB窶｢ﾅ毒?ﾋ?ﾅｽﾃｭ窶｢ﾃ馨窶堙俄懌毒?Y[GMB窶｢ﾅ毒?ﾋ?ﾅｽﾃｭ窶｢ﾃ馨窶堙ｰﾂ静昶凖ｨ
+	g_Base.Stg.Nml.SubAGmGmbReTypPre = g_Base.Stg.Nml.SubAGmGmbReTyp;
+
+	// [GMB窶｢ﾅ毒?ﾋ?ﾅｽﾃｭ窶｢ﾃ馨=窶督｢ﾂ静昶凖ｨ?
+	if (g_Base.Stg.Nml.SubAGmGmbReTyp == E_SUBA_GM_GMB_RE_TYP_NON)
+	{
+		// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕ЪGMB窶｢ﾅ毒?ﾋ?]=ﾋ廣窶伉ｱ or 窶凖環湘ｭ?
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMB_RE) == D_EVT_GMB_RE_ATTR_RENZOKU ||
+			GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMB_RE) == D_EVT_GMB_RE_ATTR_NML)
+		{
+			// [GMB窶｢ﾅ毒?ﾋ?ﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕ЪGMB窶｢ﾅ毒?ﾋ?]
+			g_Base.Stg.Nml.SubAGmGmbReTyp = (E_SUBA_GM_GMB_RE_TYP)GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMB_RE);
+		}
+	}
+	// [GMB_VFXﾋ廣窶佚?ﾅｽﾃｭ窶｢ﾃ馨ﾂ?ﾂｩ0
+	g_Base.Stg.Nml.SubAGmGmbVFXRenTyp = 0;
+	// 窶懌毒?Y窶堙固ｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMB_VFXﾂ債絶冦]=1?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMB_VFX_KOKU) == 1)
+	{
+		// VFXﾋ廣窶佚?窶卩?窶堋ｹ窶堙ｱ
+		result = SubA_PrjCmn_SubLotFunc_GetEtcLot(D_LOT_O_GMB_VFX_TYP);
+
+		// ﾅ停ｹ窶ｰﾃ?-1(0ﾆ棚ﾆ椎?ﾆ淡ﾆ停懌堙戸?ﾃ?)
+		g_Base.Stg.Nml.SubAGmGmbVFXRenTyp = SAFE_SUB(result, 1, 0);
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		GMB_ﾃ催淌?窶廃_1窶凖｢ﾅｽ~ﾂ祥?窶板?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmbPenStop1(void)
+{
+	u32 result;
+
+	// 窶佚ｦ1窶凖｢ﾅｽ~窶堋ｪ窶吮?or窶ｰE?
+	if (g_Base.Sys.Stop[0] == E_SUBA_SYS_STOP_REEL_C ||
+		g_Base.Sys.Stop[0] == E_SUBA_SYS_STOP_REEL_R)
+	{
+		// GMB_窶｢窶ｺ_ﾂ債ｶ窶ｰﾅｸ窶堋ｵﾂ絶楪渉ｧ窶｢\ﾅｽﾂｦ
+		result = SubA_PrjCmn_SubLotFunc_GetEvent(D_LOT_E_GMB_FUK_LEF_DSP);
+		// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰ窶｢窶ｺﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+		SubA_PrjCmn_SetEventSubRange(result);
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃ?ﾃ堙甘楪ｰ_GMB
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmbAssLev(void)
+{
+	// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMB_ﾃ陳ｲﾃ?
+	SubA_PrjStgGm_GmbAssLevMain();
+	// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMB_ﾂｻﾃ古?
+	SubA_PrjStgGm_GmbAssLevSub();
+	// ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMB_ﾂｻﾃ古樞｢窶ｺ
+	SubA_PrjStgGm_GmbAssLevSubFuk();
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMB_ﾃ陳ｲﾃ?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmbAssLevMain(void)
+{
+	// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】=GB?
+	if (g_Base.Stg.Mn.State.Next == D_DDM_STATE_GB)
+	{
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMBﾂ債絶冦]ﾂ≫哦B窶懌凪堋ｹ窶堙ｱ?
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMB_KOKU) != D_EVT_GMB_KOKU_ATTR_GBTOUSEN)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】=NML?
+	if (g_Base.Stg.Mn.State.Next == D_DDM_STATE_NML)
+	{
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMBﾂ債絶冦]ﾂ≫塲ｽﾂｸ窶捏?
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMB_KOKU) != D_EVT_GMB_KOKU_ATTR_SHIPPAI)
+		{
+			ASSERT(FALSE);
+		}
+	}
+
+	// ﾂ【ﾂ債絶冦GMﾃ堙催榲卍】=3?
+	if ( g_Base.Stg.Mn.GmKokLevel == 3 )
+	{
+		// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GM窶愿?ﾅｽﾃｪﾂ債絶冦]ﾂ≫壺ｹ^ﾅｽ窶?4?
+		if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GM_SPE_KOKUTI) != D_EVT_GM_SPE_KOKUTI_ATTR_GIJI4)
+		{
+			ASSERT(FALSE);
+		}
+	}
+
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMB_ﾂｻﾃ古?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmbAssLevSub(void)
+{
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMBﾂ債絶冦]=ﾂ焦ｸ窶藩愬?m窶凖ｨ?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMB_KOKU) == D_EVT_GMB_KOKU_ATTR_SHOURIKAKUTEI)
+	{
+		// ﾂ【GB窶懌凪堋ｹ窶堙ｱﾃ古猟ｸﾃ楪】=0ﾅ?ﾅｽ窶堙つ【ﾂ焦ｸ窶藩愿古猟ｸﾃ楪】=0?
+		if (g_Base.Stg.Mn.GbHitFlg == 0 && g_Base.Stg.Mn.WinFlg == 0)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMBﾂ債絶冦]=ﾅｽﾂｸ窶捏?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMB_KOKU) == D_EVT_GMB_KOKU_ATTR_SHIPPAI)
+	{
+		// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】ﾂ≫哢ML?
+		if (g_Base.Stg.Mn.State.Next != D_DDM_STATE_NML)
+		{
+			ASSERT(FALSE);
+		}
+	}
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMBﾂ債絶冦]=GB窶懌凪堋ｹ窶堙ｱ?
+	if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMB_KOKU) == D_EVT_GMB_KOKU_ATTR_GBTOUSEN)
+	{
+		// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】ﾂ≫啌DY?
+		if (g_Base.Stg.Mn.State.Next != D_DDM_STATE_RDY)
+		{
+			ASSERT(FALSE);
+		}
+	}
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾂｱﾂｻﾂｰﾃЮﾃ堙甘楪ｰ_GMB_ﾂｻﾃ古樞｢窶ｺ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_GmbAssLevSubFuk(void)
+{
+	// ﾅｽﾃ･ﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GM窶ｹ^ﾅｽ窶藩廣]=1?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_GM_GIJI, 1))
+	{
+		// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】=RDY?
+		if (g_Base.Stg.Mn.State.Next == D_DDM_STATE_RDY)
+		{
+			// ﾂ祥?窶板昶督ｳ窶堋ｵ
+		}
+		else
+		{
+			ASSERT(FALSE);
+		}
+	}
+
+	// 窶｢窶ｺﾂｲﾃ催榲敕Юﾂｲﾃ催榲敕?窶伉ｮﾂ青ｫ[GMBﾂ債絶冦]=GB窶懌凪堋ｹ窶堙ｱ?
+	if (SubA_PrjCmn_CheckEvtAttrSub(D_EVT_GMB_KOKU, D_EVT_GMB_KOKU_ATTR_GBTOUSEN))
+	{
+		// ﾂ【ﾅｽﾅｸ窶ｰﾃｱﾂ出窶ｹﾃ環湘ｳ窶佚板】=RDY?
+		if (g_Base.Stg.Mn.State.Next != D_DDM_STATE_RDY)
+		{
+			ASSERT(FALSE);
+		}
+	}
+}
+#else
+void SubA_PrjStgGm_ComLevGmb(void) {}
+void SubA_PrjStgGm_GmbStaIni(void) {}
+void SubA_PrjStgGm_GmbOthA(void) {}
+void SubA_PrjStgGm_GmbPre(void) {}
+void SubA_PrjStgGm_GmbMain(void) {}
+void SubA_PrjStgGm_GmbDep(void) {}
+void SubA_PrjStgGm_GmbOthB(void) {}
+void SubA_PrjStgGm_GmbPenStop1(void) {}
+void SubA_PrjStgGm_GmbAssLev(void) {}
+void SubA_PrjStgGm_GmbAssLevMain(void) {}
+void SubA_PrjStgGm_GmbAssLevSub(void) {}
+void SubA_PrjStgGm_GmbAssLevSubFuk(void) {}
+#endif
+
+#if defined(_D_PROC_GMA_ACTIVE_) || defined(_D_PROC_GMB_ACTIVE_)
+//--------------------------------------------------------------------------
+//!	@brief		ﾃ催淌?窶廃_ﾃ堙甘楪ｰ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_PenLev(void)
+{
+	// ﾅｽﾃ･窶ｰ窶ｰﾂ出ﾂ祥?窶板拈ﾃ催淌?
+	SubA_PrjStgGm_PenMain();
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		ﾅｽﾃ･窶ｰ窶ｰﾂ出ﾂ祥?窶板拈ﾃ催淌?
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+void SubA_PrjStgGm_PenMain(void)
+{
+	u32 result;
+
+	// ﾂｼﾃ?ﾃ伉ｵ窶堋ｪﾅｽc窶堙≫堙?窶堋｢窶堙ｩﾂ湘ｪﾂ坂｡窶堙坂｢ﾃ崘ｽﾂ昶堋ｵ窶堙?窶堋ｨ窶堋ｭ
+	// g_Base.Stg.Nml.Snr窶堙俄堙坂ｰe窶ｹﾂｿ窶堙ｰ窶膿窶堋ｦ窶堙遺堋｢
+
+	// ﾂｼﾃ?ﾃ伉ｵ窶卩?窶堋ｹ窶堙ｱ_窶凖環湘ｭﾂｽﾃダﾃ催淌?
+	SubA_PrjCmn_SetSenario(D_LOT_S_GMB_PEN_TIK, &g_Base.Stg.Nml.PenSnr);
+	// ﾆ歎ﾆ段ﾆ椎?ﾆ棚窶堋ｩ窶堙ｧﾆ辰ﾆ遅ﾆ停愴暖窶卩?窶堋ｹ窶堙ｱ
+	result = SubA_PrjCmn_GetEvent(&g_Base.Stg.Nml.PenSnr);
+
+	// 窶卩?窶堋ｹ窶堙ｱﾅ停ｹ窶ｰﾃ岩堙ｰﾅｽﾃ･ﾆ辰ﾆ遅ﾆ停愴暖窶堙可静昶凖ｨ
+	SubA_PrjCmn_SetEventMain(result);
+}
+
+//--------------------------------------------------------------------------
+//!	@brief		(GM)ﾆ湛ﾆ弾ﾂーﾆ淡ﾂ静昶凖ｨ
+//!	@note
+//!	@param		窶堙遺堋ｵ
+//!	@return		窶堙遺堋ｵ
+//--------------------------------------------------------------------------
+static void SubA_PrjStgGm_TrgSetStage(void)
+{
+	SUBA_STAGE_NML *pNml = &g_Base.Stg.Nml;
+	// ﾂ【窶懌毒?Yﾂ出窶ｹﾃ環湘ｳ窶佚板】=GMA?
+	if (g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMA)
+	{
+		// 窶ｰ窶ｰﾂ出ﾂ湘ｳ窶佚披堙俄堙ｦ窶堙ｨﾆ湛ﾆ弾ﾂーﾆ淡ﾂ静昶凖ｨ窶堙ｰ窶｢ﾃ渉更
+		switch (pNml->SubAGmStgNow)
+		{
+		case E_SUBA_NML_GM_STG_DEF:
+			g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_GM_STATUE;
+			break;
+		case E_SUBA_NML_GM_STG_GRO:
+			g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_GM_GAROKEN;
+			break;
+		default:
+			ASSERT(FALSE);
+			break;
+		}
+	}
+	// GMB
+	else
+	{
+		ASSERT(g_Base.Stg.Mn.State.Now == D_DDM_STATE_GMB);
+
+		// ﾂ【ﾂ債絶冦ﾃ堙催榲卍】=3
+		if (g_Base.Stg.Mn.GmKokLevel == 3)
+		{
+			// 窶ｰ窶ｰﾂ出ﾂ湘ｳ窶佚披堙俄堙ｦ窶堙ｨﾆ湛ﾆ弾ﾂーﾆ淡ﾂ静昶凖ｨ窶堙ｰ窶｢ﾃ渉更
+			switch (pNml->SubAGmStgNow)
+			{
+			case E_SUBA_NML_GM_STG_DEF: // ﾃε榲個ｫﾃ凖?
+				g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_GM_STATUE;
+				break;
+			case E_SUBA_NML_GM_STG_GRO: // 窶ｰﾃ･ﾋ弋ﾅ停｢ﾂｽﾃδｰﾂｼﾃ?
+				g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_GM_GAROKEN;
+				break;
+			default:
+				ASSERT(FALSE);
+				break;
+			}
+		}
+		// 窶堋ｻ窶堙ｪﾋ?ﾃ闇?O
+		else
+		{
+			// 窶楼窶之窶ｹZ_[GMB窶｢ﾅ毒?ﾋ?ﾅｽﾃｭ窶｢ﾃ馨=2
+			if (g_Base.Stg.Nml.SubAGmGmbReTypPre == E_SUBA_GM_GMB_RE_TYP_NML)
+			{
+				g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_NML_HILL;
+			}
+			// 窶堋ｻ窶堙ｪﾋ?ﾃ闇?O(窶楼窶之窶ｹZ_[GMB窶｢ﾅ毒?ﾋ?ﾅｽﾃｭ窶｢ﾃ馨 0 or 1)
+			else
+			{
+				// 窶懌毒?Yﾅｽﾃ･ﾂｲﾃ催榲敕ЪGMBﾋ廣窶伉ｱ窶ｰ窶ｰﾂ出]
+				if (GET_EVT_TABLE_ATTR(SubA_PrjCmn_GetEventMain(), D_EVT_GMB_REN) == 1)
+				{
+					g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_GM_BATTLE;
+				}
+				else
+				{
+					// 窶ｰ窶ｰﾂ出ﾂ湘ｳ窶佚披堙俄堙ｦ窶堙ｨﾆ湛ﾆ弾ﾂーﾆ淡ﾂ静昶凖ｨ窶堙ｰ窶｢ﾃ渉更
+					switch (pNml->SubAGmStgNow)
+					{
+					case E_SUBA_NML_GM_STG_DEF: // ﾃε榲個ｫﾃ凖?
+						g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_GM_STATUE;
+						break;
+					case E_SUBA_NML_GM_STG_GRO: // 窶ｰﾃ･ﾋ弋ﾅ停｢ﾂｽﾃδｰﾂｼﾃ?
+						g_Base.Cmn.Pr.Ui.Ui = E_T_ACEDATA_ETC_UI_X_GM_GAROKEN;
+						break;
+					default:
+						ASSERT(FALSE);
+						break;
+					}
+				}
+			}
+		}
+	}
+}
+#else
+void SubA_PrjStgGm_PenLev(void) {}
+void SubA_PrjStgGm_PenMain(void) {}
+static void SubA_PrjStgGm_TrgSetStage(void) {}
+
+#endif // defined(_D_PROC_GMA_ACTIVE_) || defined(_D_PROC_GMB_ACTIVE_)
